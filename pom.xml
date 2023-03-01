@@ -37,8 +37,8 @@
             <artifactId>hsqldb</artifactId>
             <scope>runtime</scope>
         </dependency>
-
-        <!-- SECURITY
+        <!-- SECURITY -->
+        <!--
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
@@ -48,7 +48,8 @@
             <artifactId>thymeleaf-extras-springsecurity4</artifactId>
             <version>3.0.4.RELEASE</version>
         </dependency>
--->
+        -->
+
         <!-- TESTING -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

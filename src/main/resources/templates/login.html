@@ -1,33 +1,32 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
-<!--<head th:replace="fragments/head"/>-->
+<head th:replace="fragments/head"/>
 <body>
-<!-- <nav th:replace="fragments/nav"/> -->
-<div class="container">
-  <h2>Identifícate</h2>
-  <form class="form-horizontal" method="post" action="/login">
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="username">DNI:</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="username" name="username"
-               placeholder="Ejemplo: xxxxxx@uniovi.es" required="true" />
+  <nav th:replace="fragments/nav"/>
+  <div class="container">
+    <h2>Iniciar Sesión</h2>
+    <form class="form-horizontal" method="post" action="/login">
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="email">Email</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="email" name="email"
+                 placeholder="example@example.com" required="true" />
+        </div>
       </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="username">Password:</label>
-      <div class="col-sm-10">
-        <input type="password" class="form-control" id="password" name="password"
-               placeholder="Entre el Password" required="true" />
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="password">Contraseña</label>
+        <div class="col-sm-10">
+          <input type="password" class="form-control" id="password" name="password"
+                 placeholder="Contraseña" required="true" />
+        </div>
       </div>
-    </div>
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary">Login</button>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-primary">Entrar</button>
+        </div>
       </div>
-    </div>
-
-  </form>
-</div>
-<!--<footer th:replace="fragments/footer"/> -->
+    </form>
+  </div>
+  <footer th:replace="fragments/footer"/>
 </body>
 </html>

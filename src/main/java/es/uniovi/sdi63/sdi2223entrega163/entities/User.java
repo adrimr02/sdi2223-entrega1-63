@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "usersList")
 public class User extends BaseEntity {
 
     @Column(unique = true)
@@ -52,6 +52,7 @@ public class User extends BaseEntity {
         this.role = role;
         this.wallet = 100f;
     }
+
 
     public String getEmail() {
         return email;

@@ -14,8 +14,22 @@ public class Offer extends BaseEntity {
 
     public enum OfferState {
 
-        AVAILABLE,
-        BOUGHT
+        AVAILABLE("offer.state.available"),
+
+        //RESERVED("offer.state.reserved"),
+
+        SOLD("offer.state.sold");
+
+        private String str;
+
+        OfferState(String str) {
+            this.str = str;
+        }
+
+        @Override
+        public String toString() {
+            return str;
+        }
 
     }
 
@@ -56,7 +70,7 @@ public class Offer extends BaseEntity {
             throw new IllegalStateException("Offer is no available");
 
         Associations.BuyOffer.link( buyer, this );
-        this.state = OfferState.BOUGHT;
+        this.state = OfferState.SOLD;
     }
 
     public String getTitle() {
@@ -121,6 +135,18 @@ public class Offer extends BaseEntity {
 
     public void setConversations(Set<Conversation> conversations) {
         this.conversations = conversations;
+    }
+
+    @Override
+    public String toString() {
+        return "Offer{" +
+                "title='" + title + '\'' +
+                ", details='" + details + '\'' +
+                ", date=" + date +
+                ", price=" + price +
+                ", state=" + state +
+                ", seller=" + seller.getFullName() +
+                '}';
     }
 
     @Override

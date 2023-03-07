@@ -7,8 +7,4 @@ import javax.annotation.PostConstruct;
 @Service
 public class UsersService {
 
-
-    @PostConstruct
-    public void init() {
-    }
 }

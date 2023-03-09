@@ -142,6 +142,10 @@ public class User extends BaseEntity {
         this.messages = messages;
     }
 
+    public String getFullName() {
+        return name + " " + lastname;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

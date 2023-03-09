@@ -41,6 +41,8 @@ public class Offer extends BaseEntity {
 
     private double price;
 
+    private String imgPath;
+
     @Enumerated(EnumType.STRING)
     private OfferState state;
 
@@ -68,6 +70,9 @@ public class Offer extends BaseEntity {
     public void buy(User buyer) throws IllegalStateException {
         if (this.state != OfferState.AVAILABLE)
             throw new IllegalStateException("Offer is no available");
+
+        if (buyer.equals( this.seller ))
+            throw new IllegalStateException("You cannot buy your own offer");
 
         Associations.BuyOffer.link( buyer, this );
         this.state = OfferState.SOLD;
@@ -111,6 +116,14 @@ public class Offer extends BaseEntity {
 
     public void setState(OfferState state) {
         this.state = state;
+    }
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
     }
 
     public User getSeller() {

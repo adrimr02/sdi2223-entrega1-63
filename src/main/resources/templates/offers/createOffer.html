@@ -4,9 +4,10 @@
 <body>
   <nav th:replace="fragments/nav"/>
 
+  <script defer src="/script/newOfferForm.js"></script>
   <div class="container">
     <h2>Crear nueva oferta</h2>
-    <form action="/offer/new" method="post" th:object="${offer}">
+    <form action="/offer/new" method="post" th:object="${offer}" enctype="multipart/form-data">
       <div class="form-group">
         <label class="control-label col-sm-2" for="title">Titulo</label>
         <div class="col-sm-10">
@@ -26,10 +27,22 @@
       <div class="form-group">
         <label class="control-label col-sm-2" for="details">Descripción</label>
         <div class="col-sm-10">
-          <textarea class="form-control" id="details" name="details" rows="3" th:value="${offer.details}"></textarea>
+          <textarea class="form-control" id="details" name="details" rows="3" th:text="${offer.details}"></textarea>
         </div>
       </div>
-      <button type="submit" class="btn btn-primary">Crear Oferta</button>
+      <div class="form-group">
+        <div class="col-sm-10">
+          <div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
+            <input type="file" class="form-control border-0" id="upload" onchange="readURL(this);" name="image" accept="image/jpeg, image/png, image/jpg" />
+            <label id="upload-label" for="upload" class="font-weight-light text-muted">Escoge una imagen</label>
+            <div class="input-group-append">
+              <label for="upload" class="btn btn-light m-0 rounded-pill px-4"><small class="text-uppercase font-weight-bold text-muted">Escoge una foto para tu oferta</small></label>
+            </div>
+          </div>
+          <div class="image-area mt-4"><img id="imageResult" src="#" alt="" class="img-fluid rounded shadow-sm mx-auto d-block"></div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary m-2">Crear Oferta</button>
     </form>
   </div>
 

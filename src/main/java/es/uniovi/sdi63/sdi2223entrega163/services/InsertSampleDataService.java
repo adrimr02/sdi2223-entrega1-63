@@ -38,6 +38,36 @@ public class InsertSampleDataService {
         User user6 = new User("user05@rmail.com", "User05", "05");
         user6.setPassword("user05");
         user6.setRole(rolesService.getRoles()[1]);
+        User user7 = new User("user06@rmail.com", "User06", "06");
+        user7.setPassword("user06");
+        user7.setRole(rolesService.getRoles()[1]);
+        User user8 = new User("user07@rmail.com", "User07", "07");
+        user8.setPassword("user07");
+        user8.setRole(rolesService.getRoles()[1]);
+        User user9 = new User("user08@rmail.com", "User08", "08");
+        user9.setPassword("user08");
+        user9.setRole(rolesService.getRoles()[1]);
+        User user10 = new User("user09@rmail.com", "User09", "09");
+        user10.setPassword("user09");
+        user10.setRole(rolesService.getRoles()[1]);
+        User user11 = new User("user10@rmail.com", "User10", "10");
+        user11.setPassword("user10");
+        user11.setRole(rolesService.getRoles()[1]);
+        User user12 = new User("user11@rmail.com", "User11", "11");
+        user12.setPassword("user11");
+        user12.setRole(rolesService.getRoles()[1]);
+        User user13 = new User("user12@rmail.com", "User12", "12");
+        user13.setPassword("user12");
+        user13.setRole(rolesService.getRoles()[1]);
+        User user14 = new User("user13@rmail.com", "User13", "13");
+        user14.setPassword("user13");
+        user14.setRole(rolesService.getRoles()[1]);
+        User user15 = new User("user14@rmail.com", "User14", "14");
+        user15.setPassword("user14");
+        user15.setRole(rolesService.getRoles()[1]);
+        User user16 = new User("user15@rmail.com", "User15", "15");
+        user16.setPassword("user15");
+        user16.setRole(rolesService.getRoles()[1]);
         /*Set user1Offers = new HashSet<Offer>() {
             {
                 add(new Offer("Nota A1", 10.0, user1));
@@ -79,6 +109,16 @@ public class InsertSampleDataService {
         usersService.addUser(user4);
         usersService.addUser(user5);
         usersService.addUser(user6);
+        usersService.addUser(user7);
+        usersService.addUser(user8);
+        usersService.addUser(user9);
+        usersService.addUser(user10);
+        usersService.addUser(user11);
+        usersService.addUser(user12);
+        usersService.addUser(user13);
+        usersService.addUser(user14);
+        usersService.addUser(user15);
+        usersService.addUser(user16);
     }
 
 

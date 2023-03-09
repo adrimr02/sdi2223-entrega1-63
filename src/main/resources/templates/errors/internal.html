@@ -7,11 +7,9 @@
   <div class="d-flex align-items-center justify-content-center">
     <div class="text-center">
       <h1 class="display-1 fw-bold">500</h1>
-      <p class="fs-3"> <span class="text-danger">Vaya!</span> Fallo nuestro.</p>
-      <p class="lead">
-        Ha ocurrido un error. Pero no te preocupes, ha sido culpa nuestra.
-      </p>
-      <a href="/" class="btn btn-primary">Vuelve al inicio</a>
+      <p class="fs-3" th:text="#{error.internal.subtitle}"><span class="text-danger" th:text="#{error.internal.title}"></span></p>
+      <p class="lead" th:text="#{error.internal.text}"></p>
+      <a href="/" class="btn btn-primary" th:text="#{error.common.back}"></a>
     </div>
   </div>
 

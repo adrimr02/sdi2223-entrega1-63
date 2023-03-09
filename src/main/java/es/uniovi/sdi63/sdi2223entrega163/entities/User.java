@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "usersList")
 public class User extends BaseEntity {
 
     @Column(unique = true)
@@ -27,16 +27,16 @@ public class User extends BaseEntity {
     @Transient
     private String passwordConfirm;
 
-    @OneToMany(mappedBy = "seller")
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
     private Set<Offer> createdOffers = new HashSet<>();
 
-    @OneToMany(mappedBy = "buyer")
+    @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
     private Set<Offer> buyedOffers = new HashSet<>();
 
-    @OneToMany(mappedBy = "buyer")
+    @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
     private Set<Conversation> conversations = new HashSet<>();
 
-    @OneToMany(mappedBy = "sender")
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
     private Set<Message> messages = new HashSet<>();
 
     public User(){}
@@ -52,6 +52,7 @@ public class User extends BaseEntity {
         this.role = role;
         this.wallet = 100f;
     }
+
 
     public String getEmail() {
         return email;

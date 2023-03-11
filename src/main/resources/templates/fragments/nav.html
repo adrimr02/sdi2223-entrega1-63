@@ -1,4 +1,6 @@
 <!-- nav.html -->
+<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <a class="navbar-brand" href="/">
     <img th:src="@{/images/mywallapop_logo.png}" height="50" alt="Logo MyWallapop">
@@ -13,13 +15,13 @@
       <!-- Aqui van los menus -->
     </ul>
     <ul class="navbar-nav ml-auto justify-content-end">
-      <li class="nav-item">
+      <li sec:authorize="!isAuthenticated()" class="nav-item">
         <a class="nav-link" href="/register">
           <i class='fas fa-user-alt' style='font-size:16px'></i>
           <span>Registrate</span>
         </a>
       </li>
-      <li class="nav-item"><a class="nav-link" href="/login">
+      <li sec:authorize="!isAuthenticated()" class="nav-item"><a class="nav-link" href="/login">
         <i class='fas fa-sign-in-alt' style='font-size:16px'></i>
         Inicia Sesión</a></li>
       <li class="nav-item dropdown">
@@ -37,6 +39,12 @@
             <span>Español</span>
           </a>
         </div>
+      </li>
+      <li sec:authorize="isAuthenticated()" class="nav-item">
+        <a class="nav-link" href="/logout">
+          <i class='fas fa-sign-out-alt' style='font-size:16px'></i>
+          <span>Desconectar</span>
+        </a>
       </li>
     </ul>
   </div>

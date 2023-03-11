@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:replace="fragments/head">
 <body>
   <nav th:replace="fragments/nav"/>
   <div class="container">
-    <h1>Pagina principal</h1>
+    <h1>Página principal</h1>
+
+    <nav sec:authorize="hasRole('ROLE_USER')" th:replace="fragments/offersTable"/>
+    <nav sec:authorize="hasRole('ROLE_ADMIN')" th:replace="fragments/usersTable"/>
+
   </div>
   <footer th:replace="fragments/footer"/>
 </body>

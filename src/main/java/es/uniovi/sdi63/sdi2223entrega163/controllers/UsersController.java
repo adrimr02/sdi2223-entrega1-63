@@ -1,9 +1,13 @@
 package es.uniovi.sdi63.sdi2223entrega163.controllers;
 
 
+import es.uniovi.sdi63.sdi2223entrega163.entities.User;
+import es.uniovi.sdi63.sdi2223entrega163.services.RolesService;
 import es.uniovi.sdi63.sdi2223entrega163.services.SecurityService;
 import es.uniovi.sdi63.sdi2223entrega163.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +18,9 @@ public class UsersController {
 
     @Autowired
     private UsersService usersService;
+
+    @Autowired
+    private RolesService rolesService;
 
     @Autowired
     private SecurityService securityService;
@@ -29,4 +36,15 @@ public class UsersController {
     public String login() {
         return "login";
     }
+
+    @RequestMapping(value = { "/home" }, method = RequestMethod.GET)
+    public String home(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        User activeUser = usersService.getUserByEmail(email);
+        model.addAttribute("offerList", activeUser.getCreatedOffers());
+        model.addAttribute("usersList", usersService.getUsers());
+        return "home";
+    }
+
 }

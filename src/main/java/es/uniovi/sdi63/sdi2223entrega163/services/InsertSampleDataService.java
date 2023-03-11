@@ -18,35 +18,81 @@ public class InsertSampleDataService {
     @Autowired
     private RolesService rolesService;
 
-    //@PostConstruct
+    @PostConstruct
     public void init() {
-        User user1 = new User("admin@email.com", "Admin", "Admin");
-        user1.setPassword("admin");
+        User user1 = new User("user01@email.com", "User01", "01");
+        user1.setPassword("user01");
         user1.setRole(rolesService.getRoles()[1]);
-        User user2 = new User("user01@email.com", "User01", "01");
-        user2.setPassword("user01");
-        user2.setRole(rolesService.getRoles()[0]);
-        User user3 = new User("user02@email.com", "User02", "02");
-        user3.setPassword("user02");
-        user3.setRole(rolesService.getRoles()[0]);
-        User user4 = new User("user03@email.com", "User03", "03");
-        user4.setPassword("user03");
-        user4.setRole(rolesService.getRoles()[0]);
-        User user5 = new User("user04@email.com", "User04", "04");
-        user5.setPassword("user04");
-        user5.setRole(rolesService.getRoles()[0]);
-        User user6 = new User("user05@rmail.com", "User05", "05");
-        user6.setPassword("user05");
-        user6.setRole(rolesService.getRoles()[0]);
-        /*Set user1Offers = new HashSet<Offer>() {
+        user1.setWallet(100);
+        User user2 = new User("user02@email.com", "User02", "02");
+        user2.setPassword("user02");
+        user2.setRole(rolesService.getRoles()[1]);
+        user2.setWallet(200);
+        User user3 = new User("user03@email.com", "User03", "03");
+        user3.setPassword("user03");
+        user3.setRole(rolesService.getRoles()[1]);
+        user3.setWallet(300);
+        User user4 = new User("user04@email.com", "User04", "04");
+        user4.setPassword("user04");
+        user4.setRole(rolesService.getRoles()[1]);
+        user4.setWallet(50);
+        User user5 = new User("user05@rmail.com", "User05", "05");
+        user5.setPassword("user05");
+        user5.setRole(rolesService.getRoles()[1]);
+        user5.setWallet(15);
+        User user6 = new User("user06@rmail.com", "User06", "06");
+        user6.setPassword("user06");
+        user6.setRole(rolesService.getRoles()[1]);
+        user6.setWallet(500);
+        User user7 = new User("user07@rmail.com", "User07", "07");
+        user7.setPassword("user07");
+        user7.setRole(rolesService.getRoles()[1]);
+        user7.setWallet(0);
+        User user8 = new User("user08@rmail.com", "User08", "08");
+        user8.setPassword("user08");
+        user8.setRole(rolesService.getRoles()[1]);
+        user8.setWallet(10);
+        User user9 = new User("user09@rmail.com", "User09", "09");
+        user9.setPassword("user09");
+        user9.setRole(rolesService.getRoles()[1]);
+        user9.setWallet(100);
+        User user10 = new User("user10@rmail.com", "User10", "10");
+        user10.setPassword("user10");
+        user10.setRole(rolesService.getRoles()[1]);
+        user10.setWallet(70);
+        User user11 = new User("user11@rmail.com", "User11", "11");
+        user11.setPassword("user11");
+        user11.setRole(rolesService.getRoles()[1]);
+        user11.setWallet(1000);
+        User user12 = new User("user12@rmail.com", "User12", "12");
+        user12.setPassword("user12");
+        user12.setRole(rolesService.getRoles()[1]);
+        user12.setWallet(700);
+        User user13 = new User("user13@rmail.com", "User13", "13");
+        user13.setPassword("user13");
+        user13.setRole(rolesService.getRoles()[1]);
+        user13.setWallet(75);
+        User user14 = new User("user14@rmail.com", "User14", "14");
+        user14.setPassword("user14");
+        user14.setRole(rolesService.getRoles()[1]);
+        user14.setWallet(150);
+        User user15 = new User("user15@rmail.com", "User15", "15");
+        user15.setPassword("user15");
+        user15.setRole(rolesService.getRoles()[1]);
+        user15.setWallet(350);
+        User user16 = new User("admin@email.com", "Admin", "Admin");
+        user16.setPassword("admin");
+        user16.setRole(rolesService.getRoles()[0]);
+        Set user1Offers = new HashSet<Offer>() {
             {
-                add(new Offer("Nota A1", 10.0, user1));
-                add(new Offer("Nota A2", 9.0, user1));
-                add(new Offer("Nota A3", 7.0, user1));
-                add(new Offer("Nota A4", 6.5, user1));
+                add(new Offer("Mesa","Mesa grande",30.9, user1));
+                add(new Offer("Silla","Silla grande",15.5, user1));
+                add(new Offer("Sofá","Sofá pequeño",95, user1));
+                add(new Offer("Mueble","Mueble pequeño",75.5, user1));
             }
         };
         user1.setCreatedOffers(user1Offers);
+        /*
         Set user2Offers = new HashSet<Offer>() {
             {
                 add(new Offer("Nota B1", 5.0, user2));
@@ -79,6 +125,16 @@ public class InsertSampleDataService {
         usersService.addUser(user4);
         usersService.addUser(user5);
         usersService.addUser(user6);
+        usersService.addUser(user7);
+        usersService.addUser(user8);
+        usersService.addUser(user9);
+        usersService.addUser(user10);
+        usersService.addUser(user11);
+        usersService.addUser(user12);
+        usersService.addUser(user13);
+        usersService.addUser(user14);
+        usersService.addUser(user15);
+        usersService.addUser(user16);
     }
 
 

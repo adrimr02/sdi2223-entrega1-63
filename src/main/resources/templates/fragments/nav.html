@@ -1,5 +1,5 @@
 <!-- nav.html -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extrasspringsecurity4">
   <a class="navbar-brand" href="/">
     <img th:src="@{/images/mywallapop_logo.png}" height="50" alt="Logo MyWallapop">
     <span>MyWallapop</span>
@@ -9,20 +9,41 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="myNavbar">
-    <ul class="navbar-nav mr-auto">
-      <!-- Aqui van los menus -->
+    <ul class="navbar-nav mr-auto" sec:authorize="isAuthenticated()">
+      <li class="nav-item dropdown active">
+        <a class="nav-link dropdown-toggle" href="#" id="marksDropdown" role="button" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false" th:text="#{nav.offers}"></a>
+        <div class="dropdown-menu" aria-labelledby="marksDropdown">
+          <a class="dropdown-item" href="/offer/bought" th:text="#{nav.offers.bought}"></a>
+          <a class="dropdown-item" href="/offer/my-offers" th:text="#{nav.offers.list}"></a>
+          <a class="dropdown-item" href="/offer/new" th:text="#{nav.offers.new}">></a>
+        </div>
+      </li>
+      <li class="nav-item dropdown active" sec:authorize="hasRole('ROLE_ADMIN')">
+        <a class="nav-link dropdown-toggle" href="#" id="usersDropdown" role="button" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false" th:text="#{nav.users}"></a>
+        <div class="dropdown-menu" aria-labelledby="usersDropdown">
+          <a class="dropdown-item" href="/user/list" th:text="#{nav.users.list}"></a>
+        </div>
+      </li>
     </ul>
     <ul class="navbar-nav ml-auto justify-content-end">
-      <li class="nav-item">
-        <a class="nav-link" href="/register">
+      <li class="nav-item" sec:authorize="!isAuthenticated()" >
+        <a class="nav-link" href="/login">
+          <i class='fas fa-sign-in-alt' style='font-size:16px'></i>
+          <span th:text="#{nav.login}"></span>
+        </a>
+      </li>
+      <li class="nav-item" sec:authorize="!isAuthenticated()">
+        <a class="nav-link" href="/signup" >
           <i class='fas fa-user-alt' style='font-size:16px'></i>
           <span th:text="#{nav.register}"></span>
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/login">
-          <i class='fas fa-sign-in-alt' style='font-size:16px'></i>
-          <span th:text="#{nav.login}"></span>
+      <li sec:authorize="isAuthenticated()" class="nav-item">
+        <a class="nav-link" href="/logout">
+          <i class='fas fa-sign-out-alt' style='font-size:16px'></i>
+          <span th:text="#{nav.logout}"></span>
         </a>
       </li>
       <li class="nav-item dropdown">

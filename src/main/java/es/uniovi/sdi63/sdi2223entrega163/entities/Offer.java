@@ -74,6 +74,9 @@ public class Offer extends BaseEntity {
         if (buyer.equals( this.seller ))
             throw new IllegalStateException("You cannot buy your own offer");
 
+        if (buyer.getWallet() < this.price)
+            throw new IllegalStateException("You don't have enough money");
+
         Associations.BuyOffer.link( buyer, this );
         this.state = OfferState.SOLD;
     }

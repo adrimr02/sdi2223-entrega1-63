@@ -7,6 +7,7 @@ import es.uniovi.sdi63.sdi2223entrega163.services.UsersService;
 import es.uniovi.sdi63.sdi2223entrega163.util.FileUploadUtil;
 import es.uniovi.sdi63.sdi2223entrega163.validators.OfferFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,7 +15,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.websocket.server.PathParam;
 import java.io.IOException;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -35,9 +38,10 @@ public class OfferController {
         return "offers/createOffer";
     }
     @RequestMapping(value = "/offer/new", method = RequestMethod.POST)
-    public String createOfferForm(@RequestParam(name="image", required = false) MultipartFile image, @Validated @ModelAttribute Offer offer, Model model, BindingResult result ) throws IOException {
-        //TODO Sustituir findFirst por el usuario logueado
-        offer.setSeller( usersService.findFirst() );
+    public String createOfferForm(@RequestParam(name="image", required = false) MultipartFile image, @Validated @ModelAttribute Offer offer, Principal principal, Model model, BindingResult result ) throws IOException {
+        String email = principal.getName();
+        var user = usersService.getUserByEmail( email );
+        offer.setSeller( user );
 
         offerFormValidator.validate( offer, result );
         if (result.hasErrors()) {
@@ -46,41 +50,47 @@ public class OfferController {
             return "offers/createOffer";
         }
 
-        if (image != null) {
+        if (image != null && !image.isEmpty()) {
             String imgPath = "user-photos/" + offer.getSeller().getId();
             String originalName = image.getOriginalFilename();
-            String imgName = UUID.randomUUID() + originalName.substring( originalName.lastIndexOf( '.' ) );
+            String imgName;
+
+            if (originalName != null)
+                imgName = UUID.randomUUID() + originalName.substring( originalName.lastIndexOf( '.' ) );
+            else
+                imgName = UUID.randomUUID().toString();
+
             System.out.println(imgName);
             FileUploadUtil.saveFile( imgPath, imgName, image );
             offer.setImgPath( imgPath + "/" + imgName );
+        } else {
+            offer.setImgPath( "images/defaultImg.jpg" );
         }
 
-        offer.setState( OfferState.AVAILABLE );
-        offer.setDate( LocalDateTime.now() );
         offerService.addOffer( offer );
         return "redirect:/offer/my-offers";
     }
 
     @RequestMapping("/offer/my-offers")
-    public String userOffersView(Model model) {
-        //TODO Sustituir findFirst por el usuario logueado
-        model.addAttribute( "offerList", offerService.getAllOffersFrom( usersService.findFirst() ) );
-        return "offers/list";
+    public String userOffersView(Model model, Principal principal) {
+        String email = principal.getName();
+        var user = usersService.getUserByEmail( email );
+        model.addAttribute( "offerList", offerService.getAllOffersFrom( user ) );
+        return "offers/ownList";
     }
 
     @RequestMapping("/offer/delete/{id}")
-    public String deleteOffer(@PathVariable String id) {
-        //TODO Comprobar que la oferta pertenece al usuario logueado
-        offerService.deleteOffer(id);
+    public String deleteOffer(@PathVariable String id, Principal principal) throws IOException {
+        String email = principal.getName();
+        var user = usersService.getUserByEmail( email );
+        offerService.deleteOffer(id, user);
         return "redirect:/offer/my-offers";
     }
 
-    @RequestMapping("/offer/{id}")
-    public String offerDetailsView(@PathVariable String id, Model model) {
-        var offer = offerService.getOfferById(id);
-        model.addAttribute( "offer", offer );
-        System.out.println(offer);
-        return "offers/details";
+    @RequestMapping("/offers")
+    public String offerListView(Model model, Pageable pageable, @RequestParam(name = "search", required = false) String query) {
+        model.addAttribute( "offerList",    offerService.getAllOffers(pageable, query) );
+        return "offers/list";
     }
 
 }

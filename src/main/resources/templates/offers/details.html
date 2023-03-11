@@ -9,7 +9,7 @@
       <!-- Imagenes -->
       <div class="col">
         <div class="card">
-          <img th:src="@{'/' + ${offer.imgPath != null ? offer.imgPath : '/images/defaultImg.jpg'}}" class="d-block w-100" alt="...">
+          <img th:src="@{'/' + ${offer.imgPath != null ? offer.imgPath : 'images/defaultImg.jpg'}}" class="d-block w-100" alt="...">
           <div class="card-body">
             <pre class="card-text" th:text="${offer.details}"></pre>
           </div>
@@ -25,8 +25,8 @@
             <p class="card-text" th:text="#{${offer.state}}"></p>
           </div>
           <div class="card-body" th:if="${offer.state.name() == 'AVAILABLE'}">
-            <a class="card-link btn btn-primary" href="#">Hablar con el vendedor</a>
-            <a class="card-link btn btn-primary " href="#">Comprar</a>
+            <a class="card-link btn btn-primary" href="#" th:text="#{offer.talk_to_seller}"></a>
+            <a class="card-link btn btn-primary " href="#" th:text="#{offer.buy}"></a>
           </div>
         </div>
       </div>

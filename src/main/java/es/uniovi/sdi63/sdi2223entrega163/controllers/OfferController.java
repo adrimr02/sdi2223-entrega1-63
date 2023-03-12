@@ -87,10 +87,21 @@ public class OfferController {
         return "redirect:/offer/my-offers";
     }
 
-    @RequestMapping("/offers")
-    public String offerListView(Model model, Pageable pageable, @RequestParam(name = "search", required = false) String query) {
-        model.addAttribute( "offerList",    offerService.getAllOffers(pageable, query) );
-        return "offers/list";
+    @RequestMapping("/offer/buy/{id}")
+    public String offerListView(@PathVariable String id) {
+        var errors = offerService.buyOffer( id );
+
+        if (errors != null) {
+            return switch (errors) {
+                case USER_NOT_ALLOWED -> "redirect:/?error=1";
+                case OFFER_DOES_NOT_EXISTS -> "redirect:/?error=2";
+                case OFFER_NOT_AVAILABLE -> "redirect:/?error=3";
+                case OWN_OFFER -> "redirect:/?error=4";
+                case NOT_ENOUGH_MONEY -> "redirect:/?error=5";
+            };
+        }
+
+        return "redirect:/";
     }
 
 }

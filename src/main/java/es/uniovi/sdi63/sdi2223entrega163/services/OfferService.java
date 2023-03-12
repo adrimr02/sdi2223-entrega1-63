@@ -8,6 +8,7 @@ import es.uniovi.sdi63.sdi2223entrega163.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException.MethodNotAllowed;
@@ -23,8 +24,20 @@ import java.util.stream.Collectors;
 @Service
 public class OfferService {
 
+    public enum OfferServiceErrors {
+        USER_NOT_ALLOWED,
+        OFFER_DOES_NOT_EXISTS,
+        OFFER_NOT_AVAILABLE,
+        OWN_OFFER,
+        NOT_ENOUGH_MONEY
+
+    }
+
     @Autowired
     private OfferRepository offerRepository;
+
+    @Autowired
+    private UsersService usersService;
 
     public void addOffer(Offer offer) {
         offer.setState( OfferState.AVAILABLE );
@@ -63,10 +76,32 @@ public class OfferService {
         return offerRepository.findById( id ).orElse( null );
     }
 
+    public OfferServiceErrors buyOffer(String id) {
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        var user = usersService.getUserByEmail( email );
+        if (user == null) return OfferServiceErrors.USER_NOT_ALLOWED;
+
+        var offer = offerRepository.findById( id );
+        if (offer.isEmpty()) return OfferServiceErrors.OFFER_DOES_NOT_EXISTS;
+
+        return buyOffer( offer.get(), user );
+    }
+
     @Transactional
-    public void buyOffer(Offer offer, User buyer) {
+    public OfferServiceErrors buyOffer(Offer offer, User buyer) throws IllegalStateException {
+        if (buyer.equals( offer.getSeller() ))
+            return OfferServiceErrors.OWN_OFFER;
+
+        if (offer.getState() != OfferState.AVAILABLE)
+            return OfferServiceErrors.OFFER_NOT_AVAILABLE;
+
+        if (buyer.getWallet() < offer.getPrice())
+            return OfferServiceErrors.NOT_ENOUGH_MONEY;
+
         offer.buy( buyer );
         offerRepository.save( offer );
+        return null;
     }
 
 }

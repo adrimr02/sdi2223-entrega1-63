@@ -70,11 +70,11 @@ public class Offer extends BaseEntity {
     }
 
     public void buy(User buyer) throws IllegalStateException {
-        if (this.state != OfferState.AVAILABLE)
-            throw new IllegalStateException("Offer is no available");
-
         if (buyer.equals( this.seller ))
             throw new IllegalStateException("You cannot buy your own offer");
+
+        if (this.state != OfferState.AVAILABLE)
+            throw new IllegalStateException("Offer is no available");
 
         if (buyer.getWallet() < this.price)
             throw new IllegalStateException("You don't have enough money");

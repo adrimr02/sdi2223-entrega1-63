@@ -29,7 +29,7 @@
             <div class="col-md-2">
                 <div class="card-body">
                     <span th:if="${offer.state == T(es.uniovi.sdi63.sdi2223entrega163.entities.Offer.OfferState).SOLD}" class="card-text text-secondary" th:text="#{home.user.offer.sold}"></span>
-                    <a th:unless="${offer.state == T(es.uniovi.sdi63.sdi2223entrega163.entities.Offer.OfferState).SOLD}" class="card-link font-weight-bold" href="#" th:text="#{home.user.offer.buy}"></a>
+                    <a th:unless="${offer.state == T(es.uniovi.sdi63.sdi2223entrega163.entities.Offer.OfferState).SOLD}" class="card-link font-weight-bold" th:href="@{'/offer/buy/' + ${offer.id}}" th:text="#{home.user.offer.buy}"></a>
                 </div>
             </div>
         </div>

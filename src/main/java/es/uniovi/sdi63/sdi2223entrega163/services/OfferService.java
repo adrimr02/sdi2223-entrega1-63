@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException.MethodNotAllowed;
 
 import java.io.IOException;
@@ -37,6 +38,7 @@ public class OfferService {
             query = "%" + query + "%";
             return offerRepository.searchByTitle( pageable, query );
         } else {
+            offerRepository.findAll(pageable).getContent().forEach( System.out::println );
             return offerRepository.findAll(pageable);
         }
     }
@@ -59,6 +61,12 @@ public class OfferService {
 
     public Offer getOfferById(String id) {
         return offerRepository.findById( id ).orElse( null );
+    }
+
+    @Transactional
+    public void buyOffer(Offer offer, User buyer) {
+        offer.buy( buyer );
+        offerRepository.save( offer );
     }
 
 }

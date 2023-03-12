@@ -1,6 +1,7 @@
 package es.uniovi.sdi63.sdi2223entrega163.entities;
 
 import es.uniovi.sdi63.sdi2223entrega163.entities.base.BaseEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -64,6 +65,7 @@ public class Offer extends BaseEntity {
         this.details = details;
         this.price = price;
         this.state = OfferState.AVAILABLE;
+        this.imgPath = "images/defaultImg.jpg";
         Associations.CreateOffer.link( seller, this );
     }
 
@@ -78,6 +80,7 @@ public class Offer extends BaseEntity {
             throw new IllegalStateException("You don't have enough money");
 
         Associations.BuyOffer.link( buyer, this );
+        buyer.setWallet( buyer.getWallet() - this.price );
         this.state = OfferState.SOLD;
     }
 

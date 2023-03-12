@@ -4,13 +4,12 @@
 <head th:replace="fragments/head">
 <body>
   <nav th:replace="fragments/nav"/>
-  <div class="container">
-    <h1>Página principal</h1>
-
-    <nav sec:authorize="hasRole('ROLE_USER')" th:replace="fragments/offersTable"/>
-    <nav sec:authorize="hasRole('ROLE_ADMIN')" th:replace="fragments/usersTable"/>
-
+  <div class="container" sec:authorize="!isAuthenticated()">
+      <h2 th:text="#{home.common.welcome}"></h2>
+      <p th:text="#{home.common.subtitle}"></p>
   </div>
+  <div sec:authorize="hasRole('ROLE_USER')" th:replace="fragments/offersTable" />
+  <div sec:authorize="hasRole('ROLE_ADMIN')" th:replace="fragments/usersTable" />
   <footer th:replace="fragments/footer"/>
 </body>
 </html>

@@ -11,26 +11,26 @@
   </script>
   <script defer src="/script/newOfferForm.js"></script>
   <div class="container">
-    <h2>Crear nueva oferta</h2>
+    <h2 th:text="#{offer.new.title}"></h2>
     <form action="/offer/new" method="post" th:object="${offer}" enctype="multipart/form-data">
       <div class="form-group">
-        <label class="control-label col-sm-2" for="title">Nombre</label>
+        <label class="control-label col-sm-2" for="title" th:text="#{offer.new.name.label}"></label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="title" name="title"
-                 placeholder="Nombre de la oferta" required="true" th:value="${offer.title}" />
+                 th:placeholder="#{offer.new.name.placeholder}" th:value="${offer.title}" />
           <span class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
         </div>
       </div>
       <div class="form-group">
-        <label class="control-label col-sm-2" for="price">Precio</label>
+        <label class="control-label col-sm-2" for="price" th:text="#{offer.new.price.label}"></label>
         <div class="col-sm-10">
-          <input type="number" class="form-control" id="price" name="price" min="0" step="0.01"
-                 placeholder="Precio" required="true" th:value="${offer.price}" />
+          <input type="number" class="form-control" id="price" name="price"
+                 th:placeholder="#{offer.new.price.placeholder}" th:value="${offer.price}" />
           <span class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
         </div>
       </div>
       <div class="form-group">
-        <label class="control-label col-sm-2" for="details">Descripción</label>
+        <label class="control-label col-sm-2" for="details" th:text="#{offer.new.description.label}"></label>
         <div class="col-sm-10">
           <textarea class="form-control" id="details" name="details" rows="3" th:text="${offer.details}"></textarea>
         </div>
@@ -39,15 +39,15 @@
         <div class="col-sm-10">
           <div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
             <input type="file" class="form-control border-0" id="upload" onchange="readURL(this);" name="image" accept="image/jpeg, image/png, image/jpg" />
-            <label id="upload-label" for="upload" class="font-weight-light text-muted">Escoge una imagen</label>
+            <label id="upload-label" for="upload" class="font-weight-light text-muted" th:text="#{offer.new.image.button}"></label>
             <div class="input-group-append">
-              <label for="upload" class="btn btn-light m-0 rounded-pill px-4"><small class="text-uppercase font-weight-bold text-muted">Escoge una foto para tu oferta</small></label>
+              <label for="upload" class="btn btn-light m-0 rounded-pill px-4"><small class="text-uppercase font-weight-bold text-muted" th:text="#{offer.new.image.label}"></small></label>
             </div>
           </div>
           <div class="image-area mt-4"><img id="imageResult" src="#" alt="" class="img-fluid rounded shadow-sm mx-auto d-block"></div>
         </div>
       </div>
-      <button type="submit" class="btn btn-primary m-2">Crear Oferta</button>
+      <button type="submit" class="btn btn-primary m-2" th:text="#{offer.new.create}"></button>
     </form>
   </div>
 

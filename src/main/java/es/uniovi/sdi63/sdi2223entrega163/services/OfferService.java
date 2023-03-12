@@ -38,7 +38,6 @@ public class OfferService {
             query = "%" + query + "%";
             return offerRepository.searchByTitle( pageable, query );
         } else {
-            offerRepository.findAll(pageable).getContent().forEach( System.out::println );
             return offerRepository.findAll(pageable);
         }
     }

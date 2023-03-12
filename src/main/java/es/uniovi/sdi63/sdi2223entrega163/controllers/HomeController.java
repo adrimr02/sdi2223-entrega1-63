@@ -35,8 +35,10 @@ public class HomeController {
             model.addAttribute( "query", query != null ? query.strip() : null );
             model.addAttribute( "userList", usersService.getUsers() );
         } else if (user.getRole().equals( rolesService.getRoles()[1] )) {
-            model.addAttribute( "query", query != null ? query.strip() : null );
-            model.addAttribute( "offerList", offerService.getAllOffers( pageable, query ) );
+            var offers = offerService.getAllOffers( pageable, query );
+            model.addAttribute( "searchText", query != null ? query.strip() : null );
+            model.addAttribute("page", offers);
+            model.addAttribute( "offerList", offers.getContent());
         }
         return "home";
     }

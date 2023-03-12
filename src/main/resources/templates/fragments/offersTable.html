@@ -4,7 +4,7 @@
     <form class="form-inline" action="/">
         <div class="form-group">
             <input name="search" type="text" class="form-control" size="50"
-                   th:placeholder="#{home.user.search.placeholder}" th:value="${query != null ? query : ''}">
+                   th:placeholder="#{home.user.search.placeholder}" th:value="${searchText != null ? searchText : ''}">
         </div>
         <button type="submit" class="btn btn-primary" th:text="#{home.user.search.btn}"></button>
     </form>
@@ -34,7 +34,8 @@
             </div>
         </div>
     </div>
-    <div th:if="${offerList == null || #lists.isEmpty(offerList)}">
+    <div th:if="${#lists.isEmpty(offerList)}">
         <span>Ahora mismo no hay ofertas</span>
     </div>
+    <div th:replace="fragments/pagination"/>
 </div>

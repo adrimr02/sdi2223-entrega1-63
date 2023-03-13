@@ -38,7 +38,11 @@ public class OfferController {
         return "offers/createOffer";
     }
     @RequestMapping(value = "/offer/new", method = RequestMethod.POST)
-    public String createOfferForm(@RequestParam(name="image", required = false) MultipartFile image, @Validated @ModelAttribute Offer offer, Principal principal, Model model, BindingResult result ) throws IOException {
+    public String createOfferForm(@RequestParam(name="image", required = false)
+                                      MultipartFile image,
+                                  @Validated @ModelAttribute Offer offer,
+                                  Principal principal, Model model,
+                                  BindingResult result ) throws IOException {
         String email = principal.getName();
         var user = usersService.getUserByEmail( email );
         offer.setSeller( user );
@@ -46,28 +50,10 @@ public class OfferController {
         offerFormValidator.validate( offer, result );
         if (result.hasErrors()) {
             model.addAttribute( "offer", offer );
-            System.out.println(offer);
             return "offers/createOffer";
         }
 
-        if (image != null && !image.isEmpty()) {
-            String imgPath = "user-photos/" + offer.getSeller().getId();
-            String originalName = image.getOriginalFilename();
-            String imgName;
-
-            if (originalName != null)
-                imgName = UUID.randomUUID() + originalName.substring( originalName.lastIndexOf( '.' ) );
-            else
-                imgName = UUID.randomUUID().toString();
-
-            System.out.println(imgName);
-            FileUploadUtil.saveFile( imgPath, imgName, image );
-            offer.setImgPath( imgPath + "/" + imgName );
-        } else {
-            offer.setImgPath( "images/defaultImg.jpg" );
-        }
-
-        offerService.addOffer( offer );
+        offerService.addOffer( offer, image );
         return "redirect:/offer/my-offers";
     }
 
@@ -75,22 +61,44 @@ public class OfferController {
     public String userOffersView(Model model, Principal principal) {
         String email = principal.getName();
         var user = usersService.getUserByEmail( email );
-        model.addAttribute( "offerList", offerService.getAllOffersFrom( user ) );
+        model.addAttribute( "offerList",
+                offerService.getAllOffersFrom( user ) );
         return "offers/ownList";
     }
 
     @RequestMapping("/offer/delete/{id}")
-    public String deleteOffer(@PathVariable String id, Principal principal) throws IOException {
+    public String deleteOffer(@PathVariable String id, Principal principal)
+            throws IOException {
         String email = principal.getName();
         var user = usersService.getUserByEmail( email );
         offerService.deleteOffer(id, user);
         return "redirect:/offer/my-offers";
     }
 
-    @RequestMapping("/offers")
-    public String offerListView(Model model, Pageable pageable, @RequestParam(name = "search", required = false) String query) {
-        model.addAttribute( "offerList",    offerService.getAllOffers(pageable, query) );
-        return "offers/list";
+    @RequestMapping("/offer/buy/{id}")
+    public String offerListView(@PathVariable String id) {
+        var errors = offerService.buyOffer( id );
+
+        if (errors != null) {
+            return switch (errors) {
+                case USER_NOT_ALLOWED -> "redirect:/?error=1";
+                case OFFER_DOES_NOT_EXISTS -> "redirect:/?error=2";
+                case OFFER_NOT_AVAILABLE -> "redirect:/?error=3";
+                case OWN_OFFER -> "redirect:/?error=4";
+                case NOT_ENOUGH_MONEY -> "redirect:/?error=5";
+            };
+        }
+
+        return "redirect:/home";
+    }
+
+    @RequestMapping("/offer/bought")
+    public String boughtOffersView(Model model, Principal principal) {
+        String email = principal.getName();
+        var user = usersService.getUserByEmail( email );
+        model.addAttribute( "offerList",
+                offerService.getAllOffersBoughtBy( user ) );
+        return "offers/boughtList";
     }
 
 }

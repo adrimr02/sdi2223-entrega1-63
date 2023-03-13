@@ -26,19 +26,27 @@ public class HomeController {
     private RolesService rolesService;
 
     @RequestMapping("/")
-    public String homeView(Model model, Principal principal, Pageable pageable, @RequestParam(name = "search", required = false) String query) {
-        if (principal == null)
-            return "home";
+    public String indexView(Principal principal) {
+        if (principal != null) return "redirect:/home";
 
+        return "index";
+    }
+
+    @RequestMapping("/home")
+    public String homeView(Model model, Principal principal, Pageable pageable,
+                           @RequestParam(name = "search", required = false)
+                           String query) {
         var user = usersService.getUserByEmail( principal.getName() );
         if (user.getRole().equals( rolesService.getRoles()[0] )) {
-            model.addAttribute( "query", query != null ? query.strip() : null );
-            model.addAttribute( "userList", usersService.getUsers() );
+            model.addAttribute( "query",
+                    query != null ? query.strip() : null );
+            model.addAttribute( "userList",
+                    usersService.getUsers() );
         } else if (user.getRole().equals( rolesService.getRoles()[1] )) {
-            var offers = offerService.getAllOffers( pageable, query );
-            model.addAttribute( "searchText", query != null ? query.strip() : null );
-            model.addAttribute("page", offers);
-            model.addAttribute( "offerList", offers.getContent());
+            model.addAttribute( "query",
+                    query != null ? query.strip() : null );
+            model.addAttribute( "offerList",
+                    offerService.getAllOffers( pageable, query ) );
         }
         return "home";
     }

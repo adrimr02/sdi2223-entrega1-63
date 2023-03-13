@@ -61,7 +61,7 @@ public class UsersController {
         return "signup";
     }
 
-
+/*
     @RequestMapping(value = { "/home" }, method = RequestMethod.GET)
     public String home(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -71,5 +71,5 @@ public class UsersController {
         model.addAttribute("usersList", usersService.getUsers());
         return "home";
     }
-
+ */
 }

@@ -105,7 +105,7 @@ public class InsertSampleDataService {
         usersService.addUser(user16);
 
         var oferta1 = new Offer("Mesa","Mesa grande",30.9, user1);
-        var oferta2 = new Offer("Television","Television 4k de 40 pulgadas",250, user1);
+        var oferta2 = new Offer("Television","Television 4k de 40 pulgadas",250, user2);
         var oferta3 = new Offer("Silla","Silla grande",15.5, user1);
         var oferta4 = new Offer("Sofá","Sofá pequeño",95, user1);
         var oferta5 = new Offer("Mueble","Mueble pequeño",75.5, user1);

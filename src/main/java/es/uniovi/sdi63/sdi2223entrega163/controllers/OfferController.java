@@ -38,7 +38,11 @@ public class OfferController {
         return "offers/createOffer";
     }
     @RequestMapping(value = "/offer/new", method = RequestMethod.POST)
-    public String createOfferForm(@RequestParam(name="image", required = false) MultipartFile image, @Validated @ModelAttribute Offer offer, Principal principal, Model model, BindingResult result ) throws IOException {
+    public String createOfferForm(@RequestParam(name="image", required = false)
+                                      MultipartFile image,
+                                  @Validated @ModelAttribute Offer offer,
+                                  Principal principal, Model model,
+                                  BindingResult result ) throws IOException {
         String email = principal.getName();
         var user = usersService.getUserByEmail( email );
         offer.setSeller( user );
@@ -46,28 +50,10 @@ public class OfferController {
         offerFormValidator.validate( offer, result );
         if (result.hasErrors()) {
             model.addAttribute( "offer", offer );
-            System.out.println(offer);
             return "offers/createOffer";
         }
 
-        if (image != null && !image.isEmpty()) {
-            String imgPath = "user-photos/" + offer.getSeller().getId();
-            String originalName = image.getOriginalFilename();
-            String imgName;
-
-            if (originalName != null)
-                imgName = UUID.randomUUID() + originalName.substring( originalName.lastIndexOf( '.' ) );
-            else
-                imgName = UUID.randomUUID().toString();
-
-            System.out.println(imgName);
-            FileUploadUtil.saveFile( imgPath, imgName, image );
-            offer.setImgPath( imgPath + "/" + imgName );
-        } else {
-            offer.setImgPath( "images/defaultImg.jpg" );
-        }
-
-        offerService.addOffer( offer );
+        offerService.addOffer( offer, image );
         return "redirect:/offer/my-offers";
     }
 
@@ -75,12 +61,14 @@ public class OfferController {
     public String userOffersView(Model model, Principal principal) {
         String email = principal.getName();
         var user = usersService.getUserByEmail( email );
-        model.addAttribute( "offerList", offerService.getAllOffersFrom( user ) );
+        model.addAttribute( "offerList",
+                offerService.getAllOffersFrom( user ) );
         return "offers/ownList";
     }
 
     @RequestMapping("/offer/delete/{id}")
-    public String deleteOffer(@PathVariable String id, Principal principal) throws IOException {
+    public String deleteOffer(@PathVariable String id, Principal principal)
+            throws IOException {
         String email = principal.getName();
         var user = usersService.getUserByEmail( email );
         offerService.deleteOffer(id, user);
@@ -101,7 +89,16 @@ public class OfferController {
             };
         }
 
-        return "redirect:/";
+        return "redirect:/home";
+    }
+
+    @RequestMapping("/offer/bought")
+    public String boughtOffersView(Model model, Principal principal) {
+        String email = principal.getName();
+        var user = usersService.getUserByEmail( email );
+        model.addAttribute( "offerList",
+                offerService.getAllOffersBoughtBy( user ) );
+        return "offers/boughtList";
     }
 
 }

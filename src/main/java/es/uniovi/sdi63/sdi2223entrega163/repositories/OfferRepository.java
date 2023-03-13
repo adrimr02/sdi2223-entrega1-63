@@ -20,4 +20,7 @@ public interface OfferRepository extends CrudRepository<Offer, String> {
 
     @Query( "select o from Offer o where lower(o.title) LIKE lower(?1) order by o.date desc" )
     Page<Offer> searchByTitle(Pageable pageable, String query);
+
+
+    List<Offer> findAllByBuyer( User user );
 }

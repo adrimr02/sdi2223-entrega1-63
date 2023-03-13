@@ -10,7 +10,7 @@
   </button>
   <div class="collapse navbar-collapse" id="myNavbar">
     <ul class="navbar-nav mr-auto" sec:authorize="isAuthenticated()">
-      <li class="nav-item dropdown active">
+      <li class="nav-item dropdown active" sec:authorize="hasRole('ROLE_USER')">
         <a class="nav-link dropdown-toggle" href="#" id="marksDropdown" role="button" data-toggle="dropdown"
            aria-haspopup="true" aria-expanded="false" th:text="#{nav.offers}"></a>
         <div class="dropdown-menu" aria-labelledby="marksDropdown">

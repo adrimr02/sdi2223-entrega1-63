@@ -5,8 +5,8 @@
 <nav th:replace="fragments/nav"/>
 
 <div class="container" id="main-container">
-  <h2 th:text="#{offer.list.title}"></h2>
-  <p th:text="#{offer.list.subtitle}"></p>
+  <h2 th:text="#{offer.bought.title}"></h2>
+  <p th:text="#{offer.bought.subtitle}"></p>
   <div>
     <div class="card m-2  " th:each="offer : ${offerList}">
       <div class="row no-gutters">
@@ -22,15 +22,16 @@
         </div>
         <div class="col-md-2">
           <div class="card-body">
-            <a class="card-link text-danger font-weight-bold" th:href="${'/offer/delete/' + offer.id }" th:text="#{offer.list.delete}"></a>
+            <h6 class="card-title" th:text="#{offer.bought.seller}"></h6>
+            <span th:text="${offer.seller.email}"></span>
           </div>
         </div>
       </div>
     </div>
   </div>
   <div th:if="${#lists.isEmpty(offerList)}">
-    <span th:text="#{offer.list.empty}"></span>
-    <a th:href="@{'/offer/new'}" th:text="#{offer.list.link_to_new}"></a>
+    <span th:text="#{offer.bought.empty}"></span>
+    <a th:href="@{'/home'}" th:text="#{offer.bought.link_to_home}"></a>
   </div>
 </div>
 

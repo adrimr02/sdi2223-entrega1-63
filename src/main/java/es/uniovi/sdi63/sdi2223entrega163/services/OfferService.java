@@ -12,13 +12,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException.MethodNotAllowed;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,6 +37,27 @@ public class OfferService {
     @Autowired
     private UsersService usersService;
 
+    public void addOffer(Offer offer, MultipartFile image) throws IOException {
+        if (image != null && !image.isEmpty()) {
+            String imgPath = "user-photos/" + offer.getSeller().getId();
+            String originalName = image.getOriginalFilename();
+            String imgName;
+
+            if (originalName != null)
+                imgName = UUID.randomUUID() + originalName.substring( originalName.lastIndexOf( '.' ) );
+            else
+                imgName = UUID.randomUUID().toString();
+
+            System.out.println(imgName);
+            FileUploadUtil.saveFile( imgPath, imgName, image );
+            offer.setImgPath( imgPath + "/" + imgName );
+        } else {
+            offer.setImgPath( "images/defaultImg.jpg" );
+        }
+
+        addOffer( offer );
+    }
+
     public void addOffer(Offer offer) {
         offer.setState( OfferState.AVAILABLE );
         offer.setDate( LocalDateTime.now() );
@@ -51,13 +70,16 @@ public class OfferService {
             query = "%" + query + "%";
             return offerRepository.searchByTitle( pageable, query );
         } else {
-            offerRepository.findAll(pageable).getContent().forEach( System.out::println );
             return offerRepository.findAll(pageable);
         }
     }
 
     public List<Offer> getAllOffersFrom( User user ) {
         return offerRepository.findAllFor( user );
+    }
+
+    public List<Offer> getAllOffersBoughtBy( User user ) {
+        return offerRepository.findAllByBuyer( user );
     }
 
     public void deleteOffer(String id, User user) throws IOException {

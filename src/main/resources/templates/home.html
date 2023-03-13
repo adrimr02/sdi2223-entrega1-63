@@ -14,10 +14,6 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="container" sec:authorize="!isAuthenticated()">
-      <h2 th:text="#{home.common.welcome}"></h2>
-      <p th:text="#{home.common.subtitle}"></p>
-  </div>
   <div sec:authorize="hasRole('ROLE_USER')" th:replace="fragments/offersTable" />
   <div sec:authorize="hasRole('ROLE_ADMIN')" th:replace="fragments/usersTable" />
   <footer th:replace="fragments/footer"/>

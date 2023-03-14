@@ -6,6 +6,7 @@ import es.uniovi.sdi63.sdi2223entrega163.entities.User;
 import es.uniovi.sdi63.sdi2223entrega163.repositories.OfferRepository;
 import es.uniovi.sdi63.sdi2223entrega163.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,6 +38,9 @@ public class OfferService {
     @Autowired
     private UsersService usersService;
 
+    @Autowired
+    private RolesService rolesService;
+
     public void addOffer(Offer offer, MultipartFile image) throws IOException {
         if (image != null && !image.isEmpty()) {
             String imgPath = "user-photos/" + offer.getSeller().getId();
@@ -44,7 +48,7 @@ public class OfferService {
             String imgName;
 
             if (originalName != null)
-                imgName = UUID.randomUUID() + originalName.substring( originalName.lastIndexOf( '.' ) );
+                imgName = image.getName() + UUID.randomUUID() + originalName.substring( originalName.lastIndexOf( '.' ) );
             else
                 imgName = UUID.randomUUID().toString();
 
@@ -82,10 +86,13 @@ public class OfferService {
         return offerRepository.findAllByBuyer( user );
     }
 
-    public void deleteOffer(String id, User user) throws IOException {
+    public void deleteOffer(String id) throws IOException {
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        var user = usersService.getUserByEmail( email );
         var offer = offerRepository.findById( id );
         if (offer.isPresent()) {
-            if (user.equals( offer.get().getSeller() )) {
+            if (user.equals( offer.get().getSeller() ) || user.getRole().equals( rolesService.getRoles()[0] )) {
                 if (offer.get().getImgPath().contains( "user-photos" ))
                     FileUploadUtil.deleteFile( offer.get().getImgPath() );
 

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.List;
 
@@ -67,11 +68,13 @@ public class UsersController {
     }
 
     @RequestMapping("/login-success")
-    public String indexView(Principal principal) {
+    public String indexView(Principal principal, HttpSession session) {
         var user = usersService.getUserByEmail( principal.getName() );
+        session.setAttribute( "email", user.getEmail() );
         if (user.getRole().equals( rolesService.getRoles()[0] )) {
             return "redirect:/home";
         } else {
+            session.setAttribute( "wallet", user.getWallet() );
             return "redirect:/offer/my-offers";
         }
     }

@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.security.Principal;
@@ -43,6 +44,7 @@ public class OfferController {
                                   @Validated @ModelAttribute Offer offer,
                                   Principal principal, Model model,
                                   BindingResult result ) throws IOException {
+        System.out.println(offer.getPrice());
         String email = principal.getName();
         var user = usersService.getUserByEmail( email );
         offer.setSeller( user );
@@ -67,16 +69,14 @@ public class OfferController {
     }
 
     @RequestMapping("/offer/delete/{id}")
-    public String deleteOffer(@PathVariable String id, Principal principal)
+    public String deleteOffer(@PathVariable String id)
             throws IOException {
-        String email = principal.getName();
-        var user = usersService.getUserByEmail( email );
-        offerService.deleteOffer(id, user);
+        offerService.deleteOffer( id );
         return "redirect:/offer/my-offers";
     }
 
     @RequestMapping("/offer/buy/{id}")
-    public String offerListView(@PathVariable String id) {
+    public String offerListView(@PathVariable String id, HttpSession session, Principal principal) {
         var errors = offerService.buyOffer( id );
 
         if (errors != null) {
@@ -88,7 +88,8 @@ public class OfferController {
                 case NOT_ENOUGH_MONEY -> "redirect:/?error=5";
             };
         }
-
+        var user = usersService.getUserByEmail( principal.getName() );
+        session.setAttribute( "wallet", user.getWallet() );
         return "redirect:/home";
     }
 

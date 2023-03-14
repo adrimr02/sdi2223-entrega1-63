@@ -24,11 +24,14 @@ public class OfferFormValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         Offer offer = (Offer) target;
-        ValidationUtils.rejectIfEmptyOrWhitespace( errors, "title", "error.offer.title.missing" );
-        if ( offerService.getAllOffersFrom( offer.getSeller() ).stream().anyMatch( o -> o.getTitle().equals( offer.getTitle() ) ) ) {
+
+        if ( offerService.getAllOffersFrom( offer.getSeller() ).stream().anyMatch(
+                o -> o.getTitle().equals( offer.getTitle() ) ) ) {
             errors.rejectValue( "title", "error.offer.title.duplicate" );
         }
-        if (offer.getTitle().length() < 4) {
+        if (offer.getTitle().isBlank()) {
+            errors.rejectValue( "title", "error.offer.title.missing" );
+        } else if (offer.getTitle().length() < 4) {
             errors.rejectValue( "title", "error.offer.title.short" );
         }
         if (offer.getPrice() <= 0) {

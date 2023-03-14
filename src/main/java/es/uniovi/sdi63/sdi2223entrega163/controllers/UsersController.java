@@ -43,14 +43,14 @@ public class UsersController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model) {
-        model.addAttribute("user",new User());
+        model.addAttribute("user", new User());
         return "login";
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public String signup(@Validated User user, BindingResult result){
-        signUpFormValidator.validate(user,result);
-        if(result.hasErrors()) {
+    public String signup(@Validated User user, BindingResult result) {
+        signUpFormValidator.validate(user, result);
+        if (result.hasErrors()) {
             return "signup";
         }
         user.setRole(rolesService.getRoles()[1]);
@@ -64,7 +64,7 @@ public class UsersController {
         model.addAttribute("user", new User());
         return "signup";
     }
-
+}
 /*
     @RequestMapping(value = { "/home" }, method = RequestMethod.GET)
     public String home(Model model) {
@@ -85,7 +85,7 @@ public class UsersController {
             }
         }
         return "user/list";
-    }
+    }*/
 
 
-}
+

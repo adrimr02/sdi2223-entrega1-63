@@ -5,12 +5,11 @@
 <body>
   <nav th:replace="fragments/nav"/>
   <div class="container">
-    <h1>Página principal</h1>
-
+    <h1 sec:authorize="!isAuthenticated()">Página principal</h1>
     <nav sec:authorize="hasRole('ROLE_USER')" th:replace="fragments/offersTable"/>
     <nav sec:authorize="hasRole('ROLE_ADMIN')" th:replace="fragments/usersTable"/>
-
   </div>
+
   <footer th:replace="fragments/footer"/>
 </body>
 </html>

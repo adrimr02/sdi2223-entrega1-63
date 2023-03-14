@@ -12,6 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 public class UsersController {
@@ -30,10 +33,21 @@ public class UsersController {
         model.addAttribute("usersList", usersService.getUsers());
         return "user/list";
     }
-
+/*
+    @RequestMapping(value={"/user/list"}, method = RequestMethod.POST )
+    public String deleteSelectedUsers(@RequestParam(value = "selectedUsers", required = false) List<Long> selectedUsersIds) {
+        if(selectedUsersIds != null && !selectedUsersIds.isEmpty()){
+            for (long id : selectedUsersIds){
+                usersService.deleteUser(id);
+            }
+        }
+        return "user/list";
+    }
+*/
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login() {
+    public String login(Model model) {
+        model.addAttribute("user",new User());
         return "login";
     }
 
@@ -46,5 +60,17 @@ public class UsersController {
         model.addAttribute("usersList", usersService.getUsers());
         return "home";
     }
+
+    @RequestMapping(value = { "/home" }, method = RequestMethod.POST)
+    public String deleteUsers(@RequestParam(value = "selectedUsers",
+            required = false) List<Long> selectedUsersIds) {
+        if(selectedUsersIds != null && !selectedUsersIds.isEmpty()){
+            for (long id : selectedUsersIds){
+                usersService.deleteUser(id);
+            }
+        }
+        return "user/list";
+    }
+
 
 }

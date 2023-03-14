@@ -4,6 +4,8 @@
 <body>
 <!-- Barra de Navegación superior -->
 <nav th:replace="fragments/nav"/>
+
+
 <div class="container">
     <h2>Usuarios</h2>
     <p>Los usuarios que actualmente figuran en el sistema son los
@@ -21,10 +23,7 @@
                 <th scope="col">Email</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Apellidos</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
+                <th scope="col">Seleccionar</th>
                 <th scope="col"></th>
             </tr>
             </thead>
@@ -33,15 +32,20 @@
                 <td scope="row" th:text="${user.email}">email</td>
                 <td scope="row" th:text="${user.name}">Nombre</td>
                 <td scope="row" th:text="${user.lastname}">Apellidos</td>
-                <!--<td scope="row"><a th:href="${'/user/details/' + user.id}">detalles</a></td>
-                <td scope="row"><a th:href="${'/user/edit/' + user.id}">modificar</a></td>
-                <td scope="row" ><a th:href="${'/user/delete/' + user.id}">eliminar</a></td>-->
+                <td th:if="${user.email != 'admin@email.com'}">
+                    <input type="checkbox" name="selectedUsers" th:value="${user.id}">
+                </td>
+                <td th:unless="${user.email != 'admin@email.com'}"></td>
             </tr>
             </tbody>
         </table>
     </div>
     <div th:if="${#lists.isEmpty(usersList)}"> No users </div>
+    <div class="text-center">
+        <button type="submit" id="deleteButton" class="btn btn-primary">Eliminar seleccionados</button>
+    </div>
 </div>
+
 <footer th:replace="fragments/footer"/>
 </body>
 </html>

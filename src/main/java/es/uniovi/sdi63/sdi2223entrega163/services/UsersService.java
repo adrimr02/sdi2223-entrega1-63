@@ -42,8 +42,21 @@ public class UsersService {
             usersRepository.deleteById(id);
         }
 
+        public void deleteUsers(List<Long> users){
+            for (Long id: users){
+                deleteUser(id);
+            }
+        }
         public User getUserByEmail(String dni) {
             return usersRepository.findByEmail(dni);
         }
+
+    public boolean authenticate(String email, String password) {
+        User user = usersRepository.findByEmail(email);
+        if (user == null) {
+            return false; // El usuario no existe
+        }
+        return bCryptPasswordEncoder.matches(password, user.getPassword());
+    }
 
 }

@@ -1,6 +1,7 @@
 package es.uniovi.sdi63.sdi2223entrega163.entities;
 
 import es.uniovi.sdi63.sdi2223entrega163.entities.base.BaseEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -41,6 +42,8 @@ public class Offer extends BaseEntity {
 
     private double price;
 
+    private String imgPath;
+
     @Enumerated(EnumType.STRING)
     private OfferState state;
 
@@ -62,14 +65,22 @@ public class Offer extends BaseEntity {
         this.details = details;
         this.price = price;
         this.state = OfferState.AVAILABLE;
+        this.imgPath = "images/defaultImg.jpg";
         Associations.CreateOffer.link( seller, this );
     }
 
     public void buy(User buyer) throws IllegalStateException {
+        if (buyer.equals( this.seller ))
+            throw new IllegalStateException("You cannot buy your own offer");
+
         if (this.state != OfferState.AVAILABLE)
             throw new IllegalStateException("Offer is no available");
 
+        if (buyer.getWallet() < this.price)
+            throw new IllegalStateException("You don't have enough money");
+
         Associations.BuyOffer.link( buyer, this );
+        buyer.setWallet( buyer.getWallet() - this.price );
         this.state = OfferState.SOLD;
     }
 
@@ -111,6 +122,14 @@ public class Offer extends BaseEntity {
 
     public void setState(OfferState state) {
         this.state = state;
+    }
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
     }
 
     public User getSeller() {

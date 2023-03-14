@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Sdi2223Entrega163ApplicationTests {
+class MyWallapopApplicationTests {
 
     @Test
     void contextLoads() {

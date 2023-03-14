@@ -1,5 +1,7 @@
 package es.uniovi.sdi63.sdi2223entrega163;
 
+import es.uniovi.sdi63.sdi2223entrega163.services.RolesService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,6 +21,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/css/**", "/images/**", "/script/**", "/", "/signup", "/login/**").permitAll()
+                .antMatchers( "/user/**" ).hasAuthority( "ROLE_ADMIN" )
+                .antMatchers( "/offer/**" ).hasAuthority( "ROLE_USER" )
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -26,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .defaultSuccessUrl("/home")
                 .and()
-                .logout()
+                .logout().logoutSuccessUrl( "/" )
                 .permitAll();
     }
 

@@ -5,7 +5,32 @@
   <nav th:replace="fragments/nav"/>
 
   <div th:if="${offer != null}" class="container" id="main-container">
-
+    <div class="row justify-content-md-center mt-2">
+      <!-- Imagenes -->
+      <div class="col">
+        <div class="card">
+          <img th:src="@{'/' + ${offer.imgPath != null ? offer.imgPath : 'images/defaultImg.jpg'}}" class="d-block w-100" alt="...">
+          <div class="card-body">
+            <pre class="card-text" th:text="${offer.details}"></pre>
+          </div>
+        </div>
+      </div>
+      <div class="col col-lg-5">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title" th:text="${offer.title}"></h4>
+          </div>
+          <div class="card-body">
+            <p class="card-text" th:text="${offer.price + ' €'}"></p>
+            <p class="card-text" th:text="#{${offer.state}}"></p>
+          </div>
+          <div class="card-body" th:if="${offer.state.name() == 'AVAILABLE'}">
+            <a class="card-link btn btn-primary" href="#" th:text="#{offer.talk_to_seller}"></a>
+            <a class="card-link btn btn-primary " href="#" th:text="#{offer.buy}"></a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div th:if="${offer == null}" class="d-flex align-items-center justify-content-center">

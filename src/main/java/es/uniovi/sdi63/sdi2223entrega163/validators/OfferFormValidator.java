@@ -31,7 +31,7 @@ public class OfferFormValidator implements Validator {
         if (offer.getTitle().length() < 4) {
             errors.rejectValue( "title", "error.offer.title.short" );
         }
-        if (offer.getPrice() < 0) {
+        if (offer.getPrice() <= 0) {
             errors.rejectValue( "price", "error.offer.price.negative" );
         }
 

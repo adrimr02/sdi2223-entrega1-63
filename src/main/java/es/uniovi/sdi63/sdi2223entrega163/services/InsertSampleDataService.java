@@ -16,6 +16,9 @@ public class InsertSampleDataService {
     private UsersService usersService;
 
     @Autowired
+    private OfferService offerService;
+
+    @Autowired
     private RolesService rolesService;
 
     @PostConstruct
@@ -83,42 +86,7 @@ public class InsertSampleDataService {
         User user16 = new User("admin@email.com", "Admin", "Admin");
         user16.setPassword("admin");
         user16.setRole(rolesService.getRoles()[0]);
-        Set user1Offers = new HashSet<Offer>() {
-            {
-                add(new Offer("Mesa","Mesa grande",30.9, user1));
-                add(new Offer("Silla","Silla grande",15.5, user1));
-                add(new Offer("Sofá","Sofá pequeño",95, user1));
-                add(new Offer("Mueble","Mueble pequeño",75.5, user1));
-            }
-        };
-        user1.setCreatedOffers(user1Offers);
-        /*
-        Set user2Offers = new HashSet<Offer>() {
-            {
-                add(new Offer("Nota B1", 5.0, user2));
-                add(new Offer("Nota B2", 4.3, user2));
-                add(new Offer("Nota B3", 8.0, user2));
-                add(new Offer("Nota B4", 3.5, user2));
-            }
-        };
-        user2.setCreatedOffers(user2Offers);
-        Set user3Offers = new HashSet<Offer>() {
-            {
-                ;
-                add(new Offer("Nota C1", 5.5, user3));
-                add(new Offer("Nota C2", 6.6, user3));
-                add(new Offer("Nota C3", 7.0, user3));
-            }
-        };
-        user3.setCreatedOffers(user3Offers);
-        Set user4Offers = new HashSet<Offer>() {
-            {
-                add(new Offer("Nota D1", 10.0, user4))
-                add(new Offer("Nota D2", 8.0, user4));
-                add(new Offer("Nota D3", 9.0, user4));
-            }
-        };
-        user4.setCreatedOffers(user4Offers);*/
+
         usersService.addUser(user1);
         usersService.addUser(user2);
         usersService.addUser(user3);
@@ -135,7 +103,19 @@ public class InsertSampleDataService {
         usersService.addUser(user14);
         usersService.addUser(user15);
         usersService.addUser(user16);
+
+        var oferta1 = new Offer("Mesa","Mesa grande",30.9, user1);
+        var oferta2 = new Offer("Television","Television 4k de 40 pulgadas",250, user2);
+        var oferta3 = new Offer("Silla","Silla grande",15.5, user1);
+        var oferta4 = new Offer("Sofá","Sofá pequeño",95, user1);
+        var oferta5 = new Offer("Mueble","Mueble pequeño",75.5, user1);
+
+        offerService.addOffer( oferta1 );
+        offerService.addOffer( oferta2 );
+        offerService.addOffer( oferta3 );
+        offerService.addOffer( oferta4 );
+        offerService.addOffer( oferta5 );
+
+        offerService.buyOffer( oferta2, user12 );
     }
-
-
 }

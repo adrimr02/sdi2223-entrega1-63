@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments/head"/>
+<body>
+  <nav th:replace="fragments/nav"/>
+
+  <div class="container" id="main-container">
+    <h2 th:text="#{offer.list.title}"></h2>
+    <p th:text="#{offer.list.subtitle}"></p>
+    <div>
+      <div class="card m-2  " th:each="offer : ${offerList}">
+        <div class="row no-gutters">
+          <div class="col-md-5">
+            <img th:src="@{'/'+${offer.imgPath}}" th:alt="${'Image of offer: ' + offer.title}" class="d-block w-100">
+          </div>
+          <div class="col-md-5">
+            <div class="card-body">
+              <h5 class="card-title text-capitalize" th:text="${offer.title}"></h5>
+              <p class="card-text description overflow-auto" th:text="${offer.details}"></p>
+              <p class="card-text" th:text="${offer.price + ' €'}"></p>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="card-body">
+              <a class="card-link text-danger font-weight-bold" th:href="${'/offer/delete/' + offer.id }" th:text="#{offer.list.delete}"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div th:if="${#lists.isEmpty(offerList)}">
+      <span th:text="#{offer.list.empty}"></span>
+      <a th:href="@{'/offer/new'}" th:text="#{offer.list.link_to_new}"></a>
+    </div>
+  </div>
+
+  <footer th:replace="fragments/footer"/>
+</body>
+</html>

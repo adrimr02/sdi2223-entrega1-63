@@ -43,10 +43,11 @@ public class HomeController {
             model.addAttribute( "userList",
                     usersService.getUsers() );
         } else if (user.getRole().equals( rolesService.getRoles()[1] )) {
+            var offers = offerService.getAllOffers( pageable, query );
             model.addAttribute( "query",
                     query != null ? query.strip() : null );
-            model.addAttribute( "offerList",
-                    offerService.getAllOffers( pageable, query ) );
+            model.addAttribute( "page", offers);
+            model.addAttribute( "offerList", offers.getContent() );
         }
         return "home";
     }

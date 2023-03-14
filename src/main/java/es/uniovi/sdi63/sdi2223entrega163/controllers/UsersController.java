@@ -15,9 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
 
 @Controller
 public class UsersController {
@@ -55,7 +52,7 @@ public class UsersController {
         }
         user.setRole(rolesService.getRoles()[1]);
         usersService.addUser(user);
-        //securityService.autoLogin(user.getEmail(),user.getPassword());
+        securityService.autoLogin(user.getEmail(),user.getPasswordConfirm());
         return "redirect:home";
     }
 
@@ -64,28 +61,13 @@ public class UsersController {
         model.addAttribute("user", new User());
         return "signup";
     }
-}
-/*
-    @RequestMapping(value = { "/home" }, method = RequestMethod.GET)
-    public String home(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-        User activeUser = usersService.getUserByEmail(email);
-        model.addAttribute("offerList", activeUser.getCreatedOffers());
-        model.addAttribute("usersList", usersService.getUsers());
-        return "home";
-    }
 
-    @RequestMapping(value = { "/home" }, method = RequestMethod.POST)
-    public String deleteUsers(@RequestParam(value = "selectedUsers",
-            required = false) List<Long> selectedUsersIds) {
-        if(selectedUsersIds != null && !selectedUsersIds.isEmpty()){
-            for (long id : selectedUsersIds){
-                usersService.deleteUser(id);
-            }
+    @RequestMapping("/login-success")
+    public String indexView(Principal principal) {
+        var user = usersService.getUserByEmail( principal.getName() );
+        if (user.getRole().equals( rolesService.getRoles()[0] )) {
+            return "redirect:/home";
+        } else {
+            return "redirect:/offer/my-offers";
         }
-        return "user/list";
-    }*/
-
-
-
+    }

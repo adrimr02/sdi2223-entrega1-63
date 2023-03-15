@@ -16,7 +16,11 @@ public class SignUpFormValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         User user = (User) target;
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "Error.empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastname", "Error.empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "Error.empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "Error.empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "passwordConfirm", "Error.empty");
         if(usersService.getUserByEmail(user.getEmail()) != null){
             errors.rejectValue("email", "Error.signup.email.alradyExist");
         }

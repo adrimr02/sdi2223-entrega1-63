@@ -1,41 +1,35 @@
-<div class="container" id="main-container">
-    <h2 th:text="#{home.user.title}">Ofertas disponibles</h2>
-    <p th:text="#{home.user.subtitle}">Busca, habla con el vendedor y compra</p>
-    <form class="form-inline" action="/">
-        <div class="form-group">
-            <input name="search" type="text" class="form-control" size="50"
-                   th:placeholder="#{home.user.search.placeholder}" th:value="${searchText != null ? searchText : ''}">
-        </div>
-        <button type="submit" class="btn btn-primary" th:text="#{home.user.search.btn}"></button>
-    </form>
 
-    <div class="card m-2  " th:each="offer : ${offerList}">
-        <div class="row no-gutters">
-            <div class="col-md-4">
-                <img th:src="@{'/'+${offer.imgPath}}" th:alt="${'Image of offer: ' + offer.title}" class="d-block w-100">
-            </div>
-            <div class="col-md-4">
-                <div class="card-body">
-                    <h5 class="card-title text-capitalize" th:text="${offer.title}"></h5>
-                    <p class="card-text description overflow-auto" th:text="${offer.details}"></p>
-                    <p class="card-text" th:text="${offer.price + ' €'}"></p>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<div class="container" id="main-container">
+    <h2 th:text="#{offer.list.title}"></h2>
+    <p th:text="#{offer.list.subtitle}"></p>
+    <div>
+        <div class="card m-2  " th:each="offer : ${offerList}">
+            <div class="row no-gutters">
+                <div class="col-md-5">
+                    <img th:src="@{'/'+${offer.imgPath}}" th:alt="${'Image of offer: ' + offer.title}" class="d-block w-100">
                 </div>
-            </div>
-            <div class="col-md-2">
-                <div class="card-body">
-                    <a class="card-link font-weight-bold" href="#" th:text="#{home.user.offer.chat}"></a>
+                <div class="col-md-5">
+                    <div class="card-body">
+                        <h5 class="card-title text-capitalize" th:text="${offer.title}"></h5>
+                        <p class="card-text description overflow-auto" th:text="${offer.details}"></p>
+                        <p class="card-text" th:text="${offer.price + ' €'}"></p>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-2">
-                <div class="card-body">
-                    <span th:if="${offer.state == T(es.uniovi.sdi63.sdi2223entrega163.entities.Offer.OfferState).SOLD}" class="card-text text-secondary" th:text="#{home.user.offer.sold}"></span>
-                    <a th:unless="${offer.state == T(es.uniovi.sdi63.sdi2223entrega163.entities.Offer.OfferState).SOLD}" class="card-link font-weight-bold" th:href="@{'/offer/buy/' + ${offer.id}}" th:text="#{home.user.offer.buy}"></a>
+                <div class="col-md-2">
+                    <div class="card-body">
+                        <a class="card-link text-danger font-weight-bold" th:href="${'/offer/delete/' + offer.id }" th:text="#{offer.list.delete}"></a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div th:if="${#lists.isEmpty(offerList)}">
-        <span>Ahora mismo no hay ofertas</span>
+        <span th:text="#{offer.list.empty}"></span>
+        <a th:href="@{'/offer/new'}" th:text="#{offer.list.link_to_new}"></a>
     </div>
+</div>
     <div th:replace="fragments/pagination"/>
 </div>
+</html>

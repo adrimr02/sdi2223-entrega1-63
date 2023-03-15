@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -37,9 +38,26 @@ public class UsersController {
     private SignUpFormValidator signUpFormValidator;
 
     @RequestMapping("/user/list")
-    public String getListado(Model model) {
-        model.addAttribute("usersList", usersService.getUsers());
-        return "user/list";
+    public String getListado(Model model, Principal principal, String query) {
+        model.addAttribute( "query",
+                query != null ? query.strip() : null );
+        model.addAttribute( "userList",
+                usersService.getUsers() );        return "user/list";
+    }
+
+    @RequestMapping(value = "user/list", method = RequestMethod.POST)
+    public String deleteUsers(@RequestParam("selectedUsers") List<String> selectedUsers) {
+        try{
+            if(!selectedUsers.isEmpty()) {
+                for(String id: selectedUsers){
+                    usersService.deleteUser(id);
+                }
+            }
+            return "redirect:/user/list";
+        }catch (Exception e){
+            return "redirect:/error";
+        }
+
     }
 
 
@@ -57,8 +75,8 @@ public class UsersController {
         }
         user.setRole(rolesService.getRoles()[1]);
         usersService.addUser(user);
-        securityService.autoLogin(user.getEmail(),user.getPasswordConfirm());
-        return "redirect:home";
+        securityService.autoLogin(user.getEmail(), user.getPasswordConfirm());
+        return "redirect:login-success";
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
@@ -68,17 +86,16 @@ public class UsersController {
     }
 
     @RequestMapping("/login-success")
+
     public String indexView(Principal principal, HttpSession session) {
         var user = usersService.getUserByEmail( principal.getName() );
         session.setAttribute( "email", user.getEmail() );
         if (user.getRole().equals( rolesService.getRoles()[0] )) {
-            return "redirect:/home";
+            return "redirect:/user/list";
+
         } else {
             session.setAttribute( "wallet", user.getWallet() );
             return "redirect:/offer/my-offers";
         }
     }
-
 }
-
-

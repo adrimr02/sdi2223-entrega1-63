@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface UsersRepository extends CrudRepository<User, Long> {
     User findByEmail(String email);
-
+    void deleteById(String Id);
 
 }

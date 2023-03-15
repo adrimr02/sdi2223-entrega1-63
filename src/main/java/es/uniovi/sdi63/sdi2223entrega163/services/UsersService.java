@@ -5,12 +5,14 @@ import es.uniovi.sdi63.sdi2223entrega163.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class UsersService {
 
     @Autowired
@@ -38,12 +40,21 @@ public class UsersService {
             usersRepository.save(user);
         }
 
-        public void deleteUser(Long id){
+        public void deleteUser(String id){
             usersRepository.deleteById(id);
         }
+
 
         public User getUserByEmail(String dni) {
             return usersRepository.findByEmail(dni);
         }
+
+    public boolean authenticate(String email, String password) {
+        User user = usersRepository.findByEmail(email);
+        if (user == null) {
+            return false; // El usuario no existe
+        }
+        return bCryptPasswordEncoder.matches(password, user.getPassword());
+    }
 
 }

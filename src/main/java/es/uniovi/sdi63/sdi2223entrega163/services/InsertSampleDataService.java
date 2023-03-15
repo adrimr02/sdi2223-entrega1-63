@@ -116,6 +116,7 @@ public class InsertSampleDataService {
         offerService.addOffer( oferta4 );
         offerService.addOffer( oferta5 );
 
+
         offerService.buyOffer( oferta2, user12 );
     }
 }

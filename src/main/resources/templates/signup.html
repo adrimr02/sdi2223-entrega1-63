@@ -5,54 +5,54 @@
 <!-- Barra de Navegación superior -->
 <nav th:replace="fragments/nav"/>
 <div class="container">
-  <h2>Regístrate como usuario</h2>
+  <h2 th:text="#{signup.title}"></h2>
   <form class="form-horizontal" method="post" action="/signup" th:object="${user}">
 
     <div class="form-group">
-      <label class="control-label col-sm-2" for="name">Nombre:</label>
+      <label class="control-label col-sm-2" for="name" th:text="#{signup.name.label}"></label>
       <div class="col-sm-10">
         <input type="text" class="form-control" id="name" name="name"
-               placeholder="Ejemplo: Juan José"/>
+               th:placeholder="#{signup.name.placeholder}"/>
         <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
       </div>
     </div>
     <div class="form-group">
-      <label class="control-label col-sm-2" for="lastname">Apellidos:</label>
+      <label class="control-label col-sm-2" for="lastname" th:text="#{signup.lastname.label}"></label>
       <div class="col-sm-10">
         <input type="text" class="form-control" id="lastname" name="lastname"
-               placeholder="Ejemplo: Peréz Almonte"/>
+               th:placeholder="#{signup.lastname.placeholder}"/>
         <span class="text-danger" th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"></span>
       </div>
     </div>
     <div class="form-group">
-      <label class="control-label col-sm-2" for="email">Correo Electronico:</label>
+      <label class="control-label col-sm-2" for="email" th:text="#{signup.email.label}"></label>
       <div class="col-sm-10">
         <input type="email" class="form-control" id="email" name="email"
-               placeholder="Ejemplo: ejemplo@email.com"/>
+               th:placeholder="#{signup.email.placeholder}"/>
         <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
       </div>
     </div>
     <div class="form-group">
-      <label class="control-label col-sm-2" for="password">Password:</label>
+      <label class="control-label col-sm-2" for="password" th:text="#{signup.password.label}"></label>
       <div class="col-sm-10">
         <input type="password" class="form-control" id="password" name="password"
-               placeholder="Entre el Password" />
+               th:placeholder="#{signup.password.placeholder}" />
         <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
       </div>
     </div>
     <div class="form-group" >
-      <label class="control-label col-sm-2" id="passwordConfirm" for="passwordConfirm">Repita
-        el Password:</label>
+      <label class="control-label col-sm-2" id="passwordConfirm" for="passwordConfirm"
+             th:text="#{signup.passwordrepeat.label}"></label>
       <div class="col-sm-10">
         <input type="password" class="form-control" name="passwordConfirm"
-               placeholder="Repita el Password" />
+               th:placeholder="#{signup.password.placeholder}" />
         <span class="text-danger" th:if="${#fields.hasErrors('passwordConfirm')}"
               th:errors="*{passwordConfirm}"></span>
       </div>
     </div>
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary">Enviar</button>
+        <button type="submit" class="btn btn-primary" th:text="#{signup.button}"></button>
       </div>
     </div>
   </form>

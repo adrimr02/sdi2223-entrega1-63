@@ -14,25 +14,20 @@
             <thead>
             <tr>
                 <th scope="col">Oferta</th>
-                <th scope="col">Usuario</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
+                <th scope="col">Interesado</th>
+
             </tr>
             </thead>
             <tbody>
-            <tr th:each="message : ${messageList}">
-                <td scope="row" th:text="${mark.id}"> 1</td>
-                <td th:text="${mark.description}"> Ejercicio 1</td>
-                <td th:text="${mark.score}">10</td>
-                <td><a th:href="${'/mark/details/' + mark.id}">detalles</a></td>
-                <td><a th:href="${'/mark/edit/' + mark.id}">modificar</a></td>
-                <td><a th:href="${'/mark/delete/' + mark.id}">eliminar</a></td>
+            <tr th:each="conversation : ${conversationList}">
+                <td th:text="${conversation.offer.title}"></td>
+                <td th:text="${conversation.buyer.email}"></td>
+
             </tr>
             </tbody>
         </table>
     </div>
-    <div th:if="${#lists.isEmpty(markList)}"> No marks </div>
+    <div th:if="${#lists.isEmpty(conversationList)}"> No hay ninguna conversacion </div>
 </div>
 <footer th:replace="fragments/footer"/>
 </body>

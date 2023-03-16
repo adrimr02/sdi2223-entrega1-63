@@ -1,14 +1,12 @@
 package es.uniovi.sdi63.sdi2223entrega163.pageobjects;
 
-import es.uniovi.sdi63.sdi2223entrega163.util.SeleniumUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
-public class PO_PrivateView extends PO_NavView {
+public class PO_UserPrivateView extends PO_NavView {
 
     static public void fillFormAddOffer(WebDriver driver, String namep, String pricep, String descriptionp)
     {
@@ -52,11 +50,21 @@ public class PO_PrivateView extends PO_NavView {
         elements.get(0).click();
     }
 
+    public static void navigateToMyOffers(WebDriver driver) {
+        // Pinchamos en la opción de menú de Notas
+        List<WebElement> elements = PO_View.checkElementBy(driver, "free", "//*[@id=\"offersDropdown\"]");
+        elements.get(0).click();
+        // Esperamos a que aparezca la opción de añadir oferta:
+        elements = PO_View.checkElementBy(driver, "free", "//a[contains(@href, 'offer/my-offers')]");
+        // Pinchamos en agregar Nota.
+        elements.get(0).click();
+    }
+
     public static void logout(WebDriver driver) {
         String loginText = PO_HomeView.getP().getString("login.title", PO_Properties.getSPANISH());
         List<WebElement> elements = PO_View.checkElementBy(driver, "free", "//*[@id=\"accountDropdown\"]");
         elements.get(0).click();
-        PO_PrivateView.clickOption(driver, "logout", "text", loginText);
+        PO_UserPrivateView.clickOption(driver, "logout", "text", loginText);
     }
 
 }

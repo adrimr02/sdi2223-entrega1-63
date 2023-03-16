@@ -1,7 +1,7 @@
 <div class="container" id="main-container">
     <h2 th:text="#{home.user.title}">Ofertas disponibles</h2>
     <p th:text="#{home.user.subtitle}">Busca, habla con el vendedor y compra</p>
-    <form class="form-inline" action="/">
+    <form class="form-inline" action="/home">
         <div class="form-group">
             <input name="search" type="text" class="form-control" size="50"
                    th:placeholder="#{home.user.search.placeholder}" th:value="${searchText != null ? searchText : ''}">

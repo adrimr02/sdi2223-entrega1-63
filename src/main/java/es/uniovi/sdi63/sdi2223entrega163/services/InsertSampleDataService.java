@@ -110,11 +110,31 @@ public class InsertSampleDataService {
         var oferta4 = new Offer("Sofá","Sofá pequeño",95, user1);
         var oferta5 = new Offer("Mueble","Mueble pequeño",75.5, user1);
 
+        var oferta6 = new Offer("Pantalon","Pantalon vaquero gris talla M",15.5, user4);
+        var oferta7 = new Offer("IPhone 11","IPhone 11 256GB",380, user4);
+        var oferta8 = new Offer("Moto","Moto de 200cc",1170, user5);
+        var oferta9 = new Offer("Microondas","Horno microondas \n1 año de antigüedad",110, user2);
+        var oferta10 = new Offer("Monitor PC","Monitor FullHD de 27 pulgadas",115, user2);
+
+        var oferta11 = new Offer("Portatil","Ordenador portatil con 8GB de ram del año 2019",300, user6);
+        var oferta12 = new Offer("Carrito de bebes","Carrito para bebes nuevo. Incluye adaptador para el coche",120, user7);
+        var oferta13 = new Offer("Silla de oficina","Silla grande de oficina. Muy comoda para estar mucho tiempo",40, user6);
+
         offerService.addOffer( oferta1 );
         offerService.addOffer( oferta2 );
         offerService.addOffer( oferta3 );
         offerService.addOffer( oferta4 );
         offerService.addOffer( oferta5 );
+
+        offerService.addOffer( oferta6 );
+        offerService.addOffer( oferta7 );
+        offerService.addOffer( oferta8 );
+        offerService.addOffer( oferta9 );
+        offerService.addOffer( oferta10 );
+
+        offerService.addOffer( oferta11 );
+        offerService.addOffer( oferta12 );
+        offerService.addOffer( oferta13 );
 
         offerService.buyOffer( oferta2, user12 );
     }

@@ -14,6 +14,7 @@
         <a class="nav-link dropdown-toggle" href="#" id="offersDropdown" role="button" data-toggle="dropdown"
            aria-haspopup="true" aria-expanded="false" th:text="#{nav.offers}"></a>
         <div class="dropdown-menu" aria-labelledby="offersDropdown">
+          <a class="dropdown-item" href="/home" th:text="#{nav.offers.search}">></a>
           <a class="dropdown-item" href="/offer/bought" th:text="#{nav.offers.bought}"></a>
           <a class="dropdown-item" href="/offer/my-offers" th:text="#{nav.offers.list}"></a>
           <a class="dropdown-item" href="/offer/new" th:text="#{nav.offers.new}">></a>
@@ -45,7 +46,7 @@
            aria-haspopup="true" aria-expanded="false" th:text="#{nav.account}"></a>
         <div class="dropdown-menu" aria-labelledby="accountDropdown">
           <span class="dropdown-header" th:text="${session.email}"></span>
-          <span class="dropdown-item disabled" sec:authorize="hasRole('ROLE_USER')" th:text="#{nav.wallet} + ${session.wallet} + ' €'"></span>
+          <span class="dropdown-item disabled" sec:authorize="hasRole('ROLE_USER')" th:text="#{nav.wallet} + ' ' + ${session.wallet} + ' €'"></span>
           <a class="dropdown-item" href="/logout">
             <i class='fas fa-sign-out-alt' style='font-size:16px'></i>
             <span th:text="#{nav.logout}"></span>

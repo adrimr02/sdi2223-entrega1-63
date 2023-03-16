@@ -5,6 +5,7 @@ import es.uniovi.sdi63.sdi2223entrega163.entities.Offer.OfferState;
 import es.uniovi.sdi63.sdi2223entrega163.services.OfferService;
 import es.uniovi.sdi63.sdi2223entrega163.services.UsersService;
 import es.uniovi.sdi63.sdi2223entrega163.util.FileUploadUtil;
+import es.uniovi.sdi63.sdi2223entrega163.util.Round;
 import es.uniovi.sdi63.sdi2223entrega163.validators.OfferFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -81,15 +82,15 @@ public class OfferController {
 
         if (errors != null) {
             return switch (errors) {
-                case USER_NOT_ALLOWED -> "redirect:/?error=1";
-                case OFFER_DOES_NOT_EXISTS -> "redirect:/?error=2";
-                case OFFER_NOT_AVAILABLE -> "redirect:/?error=3";
-                case OWN_OFFER -> "redirect:/?error=4";
-                case NOT_ENOUGH_MONEY -> "redirect:/?error=5";
+                case USER_NOT_ALLOWED -> "redirect:/home?error=1";
+                case OFFER_DOES_NOT_EXISTS -> "redirect:/home?error=2";
+                case OFFER_NOT_AVAILABLE -> "redirect:/home?error=3";
+                case OWN_OFFER -> "redirect:/home?error=4";
+                case NOT_ENOUGH_MONEY -> "redirect:/home?error=5";
             };
         }
         var user = usersService.getUserByEmail( principal.getName() );
-        session.setAttribute( "wallet", user.getWallet() );
+        session.setAttribute( "wallet", Round.twoCents( user.getWallet() ));
         return "redirect:/home";
     }
 

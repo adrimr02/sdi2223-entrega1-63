@@ -5,6 +5,7 @@ import es.uniovi.sdi63.sdi2223entrega163.entities.User;
 import es.uniovi.sdi63.sdi2223entrega163.services.RolesService;
 import es.uniovi.sdi63.sdi2223entrega163.services.SecurityService;
 import es.uniovi.sdi63.sdi2223entrega163.services.UsersService;
+import es.uniovi.sdi63.sdi2223entrega163.util.Round;
 import es.uniovi.sdi63.sdi2223entrega163.validators.SignUpFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -94,7 +95,7 @@ public class UsersController {
             return "redirect:/user/list";
 
         } else {
-            session.setAttribute( "wallet", user.getWallet() );
+            session.setAttribute( "wallet", Round.twoCents( user.getWallet() ));
             return "redirect:/offer/my-offers";
         }
     }

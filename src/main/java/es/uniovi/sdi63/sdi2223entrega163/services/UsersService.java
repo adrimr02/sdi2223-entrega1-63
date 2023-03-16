@@ -3,6 +3,7 @@ package es.uniovi.sdi63.sdi2223entrega163.services;
 import es.uniovi.sdi63.sdi2223entrega163.entities.User;
 import es.uniovi.sdi63.sdi2223entrega163.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,7 @@ public class UsersService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
+    @Lazy // Evita que salte un error por dependencias circulares
     private OfferService offerService;
 
     @PostConstruct

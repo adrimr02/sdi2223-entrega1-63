@@ -11,7 +11,7 @@
         <span th:text="#{logout.success}"></span>
       </div>
     </div>
-    <form class="form-horizontal" method="post" action="/login">
+    <form class="form-horizontal" method="post" action="/login" th:object="${user}">
       <div class="form-group">
         <label class="control-label col-sm-2" for="email" th:text="#{login.email.label}"></label>
         <div class="col-sm-10">

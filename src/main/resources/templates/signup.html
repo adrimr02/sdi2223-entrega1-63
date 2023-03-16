@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments/head"/>
+<body>
+<!-- Barra de Navegación superior -->
+<nav th:replace="fragments/nav"/>
+<div class="container">
+  <h2 th:text="#{signup.title}"></h2>
+  <form class="form-horizontal" method="post" action="/signup" th:object="${user}">
+
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="name" th:text="#{signup.name.label}"></label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="name" name="name"
+               th:placeholder="#{signup.name.placeholder}"/>
+        <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="lastname" th:text="#{signup.lastname.label}"></label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="lastname" name="lastname"
+               th:placeholder="#{signup.lastname.placeholder}"/>
+        <span class="text-danger" th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"></span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="email" th:text="#{signup.email.label}"></label>
+      <div class="col-sm-10">
+        <input type="email" class="form-control" id="email" name="email"
+               th:placeholder="#{signup.email.placeholder}"/>
+        <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="password" th:text="#{signup.password.label}"></label>
+      <div class="col-sm-10">
+        <input type="password" class="form-control" id="password" name="password"
+               th:placeholder="#{signup.password.placeholder}" />
+        <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+      </div>
+    </div>
+    <div class="form-group" >
+      <label class="control-label col-sm-2" id="passwordConfirm" for="passwordConfirm"
+             th:text="#{signup.passwordrepeat.label}"></label>
+      <div class="col-sm-10">
+        <input type="password" class="form-control" name="passwordConfirm"
+               th:placeholder="#{signup.password.placeholder}" />
+        <span class="text-danger" th:if="${#fields.hasErrors('passwordConfirm')}"
+              th:errors="*{passwordConfirm}"></span>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-primary" th:text="#{signup.button}"></button>
+      </div>
+    </div>
+  </form>
+</div>
+<footer th:replace="fragments/footer"/>
+</body>
+</html>

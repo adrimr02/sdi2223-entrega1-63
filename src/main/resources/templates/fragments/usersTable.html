@@ -1,0 +1,42 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+
+<form form class="form-horizontal" method="post" action="/user/list" th:object="${user}">
+<div class="container">
+    <h2 th:text="#{home.admin.title}"></h2>
+    <p th:text="#{home.admin.subtitle}"></p>
+
+    <div class="table-responsive">
+        <table class="table table-hover" th:fragment="tableUsers" id="tableUsers">
+            <thead>
+            <tr>
+                <th scope="col" th:text="#{home.admin.email.label}"></th>
+                <th scope="col" th:text="#{home.admin.name.label}"></th>
+                <th scope="col" th:text="#{home.admin.lastname.label}"></th>
+                <th scope="col" th:text="#{home.admin.select.label}"></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${userList}">
+                <td scope="row" th:text="${user.email}">email</td>
+                <td scope="row" th:text="${user.name}">Nombre</td>
+                <td scope="row" th:text="${user.lastname}">Apellidos</td>
+                <td th:if="${user.email != 'admin@email.com'}">
+                    <input type="checkbox" name="selectedUsers" th:value="${user.id}">
+                </td>
+                <td th:unless="${user.email != 'admin@email.com'}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${#lists.isEmpty(userList)}" th:text="#{home.admin.nousers}"></div>
+    <div class="text-center">
+        <button type="submit" id="deleteButton" class="btn btn-primary"
+                th:text="#{home.admin.button}"></button>
+
+    </div>
+</div>
+</form>
+</html>

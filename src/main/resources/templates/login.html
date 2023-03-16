@@ -1,33 +1,40 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
-<!--<head th:replace="fragments/head"/>-->
+<head th:replace="fragments/head"/>
 <body>
-<!-- <nav th:replace="fragments/nav"/> -->
-<div class="container">
-  <h2>Identifícate</h2>
-  <form class="form-horizontal" method="post" action="/login">
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="username">DNI:</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="username" name="username"
-               placeholder="Ejemplo: xxxxxx@uniovi.es" required="true" />
+  <nav th:replace="fragments/nav"/>
+  <div class="container">
+    <h2 th:text="#{login.title}"></h2>
+    <div class=container th:if="${param.logout}">
+      <div class="alert alert-success alert-dismissable">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+        <span th:text="#{logout.success}"></span>
       </div>
     </div>
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="username">Password:</label>
-      <div class="col-sm-10">
-        <input type="password" class="form-control" id="password" name="password"
-               placeholder="Entre el Password" required="true" />
+    <form class="form-horizontal" method="post" action="/login" th:object="${user}">
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="email" th:text="#{login.email.label}"></label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="email" name="username"
+                 th:placeholder="#{login.email.placeholder}" />
+          <span class="text-danger" th:if="${param.error}" th:text="#{error.login.credentials}"></span>
+        </div>
       </div>
-    </div>
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary">Login</button>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="password" th:text="#{login.password.label}"></label>
+        <div class="col-sm-10">
+          <input type="password" class="form-control" id="password" name="password"
+                 th:placeholder="#{login.password.placeholder}" />
+        </div>
       </div>
-    </div>
-
-  </form>
-</div>
-<!--<footer th:replace="fragments/footer"/> -->
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-primary" th:text="#{login.button}"></button>
+        </div>
+      </div>
+      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+    </form>
+  </div>
+  <footer th:replace="fragments/footer"/>
 </body>
 </html>

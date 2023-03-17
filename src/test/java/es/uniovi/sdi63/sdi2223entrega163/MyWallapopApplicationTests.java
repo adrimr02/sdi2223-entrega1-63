@@ -401,9 +401,9 @@ class MyWallapopApplicationTests {
     @Test
     @Order( 12 )
     void P22() {
-        // Nos logueamos con un usuario que tiene 100€ en su cartera
-        PO_UserPrivateView.loginToPrivateView( driver, "user01@email.com",
-                "user01" );
+        // Nos logueamos con un usuario que tiene 200€ en su cartera
+        PO_UserPrivateView.loginToPrivateView( driver, "user02@email.com",
+                "user02" );
 
         // Vamos a la lista de buscar ofertas
         PO_UserPrivateView.navigateToSearchOffers(driver);
@@ -510,6 +510,155 @@ class MyWallapopApplicationTests {
                 PO_Properties.getSPANISH());
         Assertions.assertEquals(checkText , result.get(0).getText());
 
+    }
+
+    /*
+     + ###################
+     * Pruebas de listado de ofertas compradas
+     * ###################
+     */
+
+    /**
+     * Inicia sesión, entra a la página de ofertas compradas, con un usuario
+     * que no haya comprado nada y comprueba que aparezca el mensaje
+     * correspondiente
+     */
+    @Test
+    @Order( 15 )
+    void P22A() {
+        // Nos logueamos con un usuario que no ha comprado nada
+        PO_UserPrivateView.loginToPrivateView( driver, "user01@email.com",
+                "user01" );
+
+        // Vamos a la lista de ofertas compradas
+        PO_UserPrivateView.navigateToBoughtOffers(driver);
+
+        // Comprobamos que no aparecen ofertas en la lista
+        List<WebElement> result = PO_UserPrivateView.checkElementByKey(driver,
+                "offer.bought.empty", PO_Properties.getSPANISH() );
+
+        //Comprobamos el mensaje de lista vacia
+        String checkText = PO_HomeView.getP().getString("offer.bought.empty",
+                PO_Properties.getSPANISH());
+        Assertions.assertEquals(checkText , result.get(0).getText());
+
+        // Ahora nos desconectamos y comprobamos que aparece el menú de
+        // iniciar sesion
+        PO_UserPrivateView.logout( driver );
+    }
+
+    /**
+     * Inicia sesión, entra a la página de ofertas compradas, con un usuario
+     * que haya comprado una oferta y comprueba que aparezca en la lista
+     */
+    @Test
+    @Order( 16 )
+    void P22B() {
+        // Nos logueamos con un usuario que ha comprado una oferta, en este
+        // caso, una television vendida por user02@email.com
+        PO_UserPrivateView.loginToPrivateView( driver, "user12@email.com",
+                "user12" );
+
+        // Vamos a la lista de ofertas compradas
+        PO_UserPrivateView.navigateToBoughtOffers(driver);
+
+        // Comprobamos que la oferta de la televisión esta en la lista
+        List<WebElement> elements = PO_UserPrivateView.checkElementBy( driver,
+                "free", "//*[text()='Television']");
+        Assertions.assertTrue( elements.size() >= 1 );
+
+        // Ahora nos desconectamos y comprobamos que aparece el menú de
+        // iniciar sesion
+        PO_UserPrivateView.logout( driver );
+
+    }
+
+    /*
+     * ###################
+     * Pruebas de crear ofertas con imagenes
+     * ###################
+     */
+
+    /**
+     * Inicia sesión, entra a la página de crear oferta, crea una oferta
+     * con una imagen y comprueba que se crea correctamente
+     */
+    @Test
+    @Order( 17 )
+    void P40() {
+        // Nos logueamos con un usuario que no ha comprado nada
+        PO_UserPrivateView.loginToPrivateView( driver, "user01@email.com",
+                "user01" );
+
+        // Vamos a la pagina de crear oferta
+        PO_UserPrivateView.navigateToNewOfferForm(driver);
+
+        String name = "coche verde";
+
+        // Añadimos la oferta con la imagen
+        PO_UserPrivateView.fillFormAddOffer(driver, name,
+                "7200", "un coche grande y bonito",
+                "src/test/resources/testImages/coche.jpg");
+
+        //Buscamos la oferta "coche verde" y comprobamos que existe
+        List<WebElement> elements = PO_UserPrivateView.checkElementBy( driver,
+                "free",
+                "//*[@id=\"main-container\"]/div/div[1]/div/div[2]/div/h5" );
+        Assertions.assertEquals( name, elements.get( 0 ).getText()
+                .toLowerCase() );
+
+        // Comprobamos que la imagen es la correcta y contiene el nombre de la
+        // imagen original en su nombre
+        elements = PO_UserPrivateView.checkElementBy( driver,
+                "free", "//*[@id=\"main-container\"]/div/div[1]/div/div[1]/img" );
+        Assertions.assertTrue( elements.get( 0 ).getAttribute( "src" )
+                .contains( "coche" ) );
+
+
+        // Ahora nos desconectamos y comprobamos que aparece el menú de
+        // iniciar sesion
+        PO_UserPrivateView.logout( driver );
+    }
+
+    /**
+     * Inicia sesión, entra a la página de crear oferta, crea una oferta
+     * sin una imagen y comprueba que se crea correctamente usando la imagen
+     * por defecto
+     */
+    @Test
+    @Order( 17 )
+    void P41() {
+        // Nos logueamos con un usuario que no ha comprado nada
+        PO_UserPrivateView.loginToPrivateView( driver, "user01@email.com",
+                "user01" );
+
+        // Vamos a la pagina de crear oferta
+        PO_UserPrivateView.navigateToNewOfferForm(driver);
+
+        String name = "coche azul";
+
+        // Añadimos la oferta con la imagen
+        PO_UserPrivateView.fillFormAddOffer(driver, name,
+                "7200", "un coche que no puedes ver");
+
+        //Buscamos la oferta "coche verde" y comprobamos que existe
+        List<WebElement> elements = PO_UserPrivateView.checkElementBy( driver,
+                "free",
+                "//*[@id=\"main-container\"]/div/div[1]/div/div[2]/div/h5" );
+        Assertions.assertEquals( name, elements.get( 0 ).getText()
+                .toLowerCase() );
+
+        // Comprobamos que la imagen es la correcta y contiene el nombre de la
+        // imagen original en su nombre
+        elements = PO_UserPrivateView.checkElementBy( driver,
+                "free", "//*[@id=\"main-container\"]/div/div[1]/div/div[1]/img" );
+        Assertions.assertEquals( URL+"/images/defaultImg.jpg",
+                elements.get( 0 ).getAttribute( "src" ));
+
+
+        // Ahora nos desconectamos y comprobamos que aparece el menú de
+        // iniciar sesion
+        PO_UserPrivateView.logout( driver );
     }
 
     @AfterEach

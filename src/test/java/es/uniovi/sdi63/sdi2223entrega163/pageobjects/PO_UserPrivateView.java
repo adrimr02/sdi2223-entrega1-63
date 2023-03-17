@@ -4,13 +4,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.io.File;
 import java.util.List;
 
 public class PO_UserPrivateView extends PO_NavView {
 
     static public void fillFormAddOffer(WebDriver driver, String namep,
-                                        String pricep, String descriptionp)
-    {
+                                        String pricep, String descriptionp) {
         //Rellenemos el campo de nombre
         WebElement title = driver.findElement( By.name("title"));
         title.click();
@@ -27,6 +27,26 @@ public class PO_UserPrivateView extends PO_NavView {
         details.sendKeys(descriptionp);
         By boton = By.cssSelector("button[type=submit]");
         driver.findElement(boton).click();
+    }
+
+    /**
+     * @param driver
+     * @param namep
+     * @param pricep
+     * @param descriptionp
+     * @param imgPath relative to project folder
+     */
+    static public void fillFormAddOffer(WebDriver driver, String namep,
+                                        String pricep, String descriptionp, String imgPath) {
+        File file = new File(imgPath);
+        String absolutePath = file.getAbsolutePath();
+
+        //Rellenemos el campo de imagen
+        WebElement title = driver.findElement( By.name("image"));
+        title.clear();
+        title.sendKeys(absolutePath);
+
+        fillFormAddOffer( driver, namep, pricep, descriptionp );
     }
 
     static public void loginToPrivateView(WebDriver driver, String email,
@@ -75,7 +95,11 @@ public class PO_UserPrivateView extends PO_NavView {
         // Pinchamos en la opción de menú de Notas
         List<WebElement> elements = PO_View.checkElementBy(driver, "free",
                 "//*[@id=\"offersDropdown\"]");
-        elements.get(0).click();
+
+        // Solo hace click en el boton del dropdown si este esta cerrado
+        if ( elements.get( 0 ).getAttribute( "aria-expanded" ).equals( "false" ) ) {
+            elements.get(0).click();
+        }
         // Esperamos a que aparezca la opción de añadir oferta:
         elements = PO_View.checkElementBy(driver, "free",
                 "//a[contains(@href, 'offer/my-offers')]");
@@ -87,6 +111,22 @@ public class PO_UserPrivateView extends PO_NavView {
         // Esperamos a que aparezca la opción de añadir oferta:
         var elements = PO_View.checkElementBy(driver, "free",
                 "//a[contains(@href, '/')]");
+        // Pinchamos en agregar Nota.
+        elements.get(0).click();
+    }
+
+    public static void navigateToBoughtOffers(WebDriver driver) {
+        // Pinchamos en la opción de menú de Notas
+        List<WebElement> elements = PO_View.checkElementBy(driver, "free",
+                "//*[@id=\"offersDropdown\"]");
+
+        // Solo hace click en el boton del dropdown si este esta cerrado
+        if ( elements.get( 0 ).getAttribute( "aria-expanded" ).equals( "false" ) ) {
+            elements.get(0).click();
+        }
+        // Esperamos a que aparezca la opción de añadir oferta:
+        elements = PO_View.checkElementBy(driver, "free",
+                "//a[contains(@href, 'offer/bought')]");
         // Pinchamos en agregar Nota.
         elements.get(0).click();
     }

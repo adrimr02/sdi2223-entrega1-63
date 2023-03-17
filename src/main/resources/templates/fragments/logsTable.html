@@ -1,0 +1,35 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+
+<form form class="form-horizontal" method="post" action="/user/logs">
+    <div class="container">
+        <h2 >Logs</h2>
+        <p >Aqui estan los logs:</p>
+
+        <div class="table-responsive">
+            <table class="table table-hover" th:fragment="tableLogs" id="tableLogs">
+                <thead>
+                <tr>
+                    <th scope="col" >Fecha</th>
+                    <th scope="col" >Tipo</th>
+                    <th scope="col" >Descripcion</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="log : ${logsList}">
+                    <td scope="row" th:text="${log.timestamp}">Fecha</td>
+                    <td scope="row" th:text="${log.type}">Tipo</td>
+                    <td scope="row" th:text="${log.description}">Descripcion</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div th:if="${#lists.isEmpty(logsList)}" >No logs</div>
+        <div class="text-center">
+            <button type="submit" id="deleteButton" class="btn btn-primary">Eliminar todos</button>
+
+        </div>
+    </div>
+</form>-
+</html>

@@ -32,7 +32,7 @@ public class HomeController {
         return "index";
     }
 
-    @RequestMapping("/home")
+    /*@RequestMapping("/home")
     public String homeView(Model model, Principal principal, Pageable pageable,
                            @RequestParam(name = "search", required = false)
                            String query) {
@@ -50,6 +50,6 @@ public class HomeController {
             model.addAttribute( "offerList", offers.getContent() );
         }
         return "home";
-    }
+    }*/
 
 }

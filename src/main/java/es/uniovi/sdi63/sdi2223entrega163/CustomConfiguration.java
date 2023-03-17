@@ -1,5 +1,6 @@
 package es.uniovi.sdi63.sdi2223entrega163;
 
+import es.uniovi.sdi63.sdi2223entrega163.interceptors.UserActivityInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -40,9 +41,13 @@ public class CustomConfiguration implements WebMvcConfigurer {
         return localeChangeInterceptor;
     }
 
+    @Autowired
+    UserActivityInterceptor userActivityInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
+        //registry.addInterceptor(userActivityInterceptor);
     }
 
     @Override

@@ -70,6 +70,7 @@ public class UsersController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model) {
         model.addAttribute("user", new User());
+        userActivityLogger.log("PET","/login", "GET", "");
         return "login";
     }
 
@@ -82,7 +83,7 @@ public class UsersController {
         user.setRole(rolesService.getRoles()[1]);
         usersService.addUser(user);
         securityService.autoLogin(user.getEmail(), user.getPasswordConfirm());
-        //userActivityLogger.log("ALTA","/signup", "POST", "");
+        userActivityLogger.log("ALTA","/signup", "POST", "");
         return "redirect:login-success";
     }
 
@@ -98,7 +99,6 @@ public class UsersController {
         var user = usersService.getUserByEmail( principal.getName() );
         session.setAttribute( "email", user.getEmail() );
         userActivityLogger.log("LOGIN-EX","/login", "POST", user.getEmail());
-        userActivityLogger.log("PET","/login-success", "GET", "");
         if (user.getRole().equals( rolesService.getRoles()[0] )) {
             return "redirect:/user/list";
 

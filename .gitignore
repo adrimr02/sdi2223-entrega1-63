@@ -33,3 +33,7 @@ build/
 .vscode/
 
 /user-photos/
+/localhost.lck
+/localhost.log
+/localhost.properties
+/localhost.script

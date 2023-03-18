@@ -1,5 +1,6 @@
 package es.uniovi.sdi63.sdi2223entrega163.controllers;
 
+import es.uniovi.sdi63.sdi2223entrega163.loggers.UserActivityLogger;
 import es.uniovi.sdi63.sdi2223entrega163.services.OfferService;
 import es.uniovi.sdi63.sdi2223entrega163.services.RolesService;
 import es.uniovi.sdi63.sdi2223entrega163.services.UsersService;
@@ -25,6 +26,9 @@ public class HomeController {
     @Autowired
     private RolesService rolesService;
 
+    @Autowired
+    private UserActivityLogger userActivityLogger;
+
     @RequestMapping("/")
     public String indexView(Principal principal) {
         if (principal != null) return "redirect:/home";
@@ -32,7 +36,7 @@ public class HomeController {
         return "index";
     }
 
-    /*@RequestMapping("/home")
+    @RequestMapping("/home")
     public String homeView(Model model, Principal principal, Pageable pageable,
                            @RequestParam(name = "search", required = false)
                            String query) {
@@ -49,7 +53,8 @@ public class HomeController {
             model.addAttribute( "page", offers);
             model.addAttribute( "offerList", offers.getContent() );
         }
+        userActivityLogger.log("PET","/home", "GET", "");
         return "home";
-    }*/
+    }
 
 }

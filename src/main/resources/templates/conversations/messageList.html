@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments/head"/>
+<body>
+<!-- Barra de Navegación superior -->
+<nav th:replace="fragments/nav"/>
+<div class="container" id="main-container">
+  <h2>Mensajes</h2>
+
+  <div class="table-responsive">
+    <table class="table table-hover" th:fragment="tableMessages" id="tableMessages">
+      <thead>
+      <tr>
+        <th scope="col">Enviado por:</th>
+        <th scope="col">Contenido:</th>
+
+
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="message : ${messageList}">
+        <td th:text="${message.sender.name}"></td>
+        <td th:text="${message.message}"></td>
+      </tr>
+      </tbody>
+    </table>
+    <button type="button" id="newMessage" class="btn btn-default">Nuevo Mensaje</button>
+  </div>
+  <div th:if="${#lists.isEmpty(messageList)}"> No hay ninguna mensaje </div>
+</div>
+<footer th:replace="fragments/footer"/>
+</body>
+</html>

@@ -15,6 +15,7 @@
             <tr>
                 <th scope="col">Oferta</th>
                 <th scope="col">Interesado</th>
+                <th scope="col"></th>
 
             </tr>
             </thead>
@@ -22,6 +23,7 @@
             <tr th:each="conversation : ${conversationList}">
                 <td th:text="${conversation.offer.title}"></td>
                 <td th:text="${conversation.buyer.email}"></td>
+                <td><a th:href="${'/conversations/' + conversation.id}">Ver Conversacion</a></td>
 
             </tr>
             </tbody>

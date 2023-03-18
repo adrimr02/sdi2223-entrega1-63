@@ -1,8 +1,11 @@
 package es.uniovi.sdi63.sdi2223entrega163.services;
 
+import antlr.debug.MessageAdapter;
 import es.uniovi.sdi63.sdi2223entrega163.entities.Conversation;
+import es.uniovi.sdi63.sdi2223entrega163.entities.Message;
 import es.uniovi.sdi63.sdi2223entrega163.entities.Offer;
 import es.uniovi.sdi63.sdi2223entrega163.entities.User;
+import es.uniovi.sdi63.sdi2223entrega163.repositories.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +27,9 @@ public class InsertSampleDataService {
 
     @Autowired
     private ConversationsService conversationService;
+
+    @Autowired
+    private MessagesService messagesService;
 
     @PostConstruct
     public void init() {
@@ -124,6 +130,7 @@ public class InsertSampleDataService {
         offerService.buyOffer( oferta2, user12 );
 
         var conversation1 = new Conversation(user2,oferta1); //Usuario 2 quiere algo del 1
+        conversation1.setMessages(new HashSet<Message>());
         var conversation2 = new Conversation(user2,oferta3); //Usuario 2 quiere algo del 1
         var conversation3 = new Conversation(user3,oferta1); //Usuario 3 quiere algo del 1
         var conversation4 = new Conversation(user1,oferta2); //Usuario 1 quiere algo del 2
@@ -133,5 +140,11 @@ public class InsertSampleDataService {
         conversationService.addConversation(conversation2);
         conversationService.addConversation(conversation3);
         conversationService.addConversation(conversation4);
+
+
+
+        var message1 = new Message(user2,conversation1,"Mensaje de ejemplo");
+        messagesService.addMessage(message1);
+
     }
 }

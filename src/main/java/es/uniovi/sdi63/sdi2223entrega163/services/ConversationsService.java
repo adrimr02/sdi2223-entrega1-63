@@ -14,8 +14,6 @@ import java.util.List;
 
 @Service
 public class ConversationsService {
-    @Autowired
-    private UsersService usersService;
 
     @Autowired
     private OfferService offerService;
@@ -29,18 +27,14 @@ public class ConversationsService {
         for(Offer offer : offers ){
             ret.addAll(conversationRepository.findAllFor(offer));
         }
+        List<Conversation> conversationsAsBuyer = new ArrayList<Conversation>(conversationRepository.findAsBuyer(user));
+        ret.addAll(conversationsAsBuyer);
         return ret;
     }
 
-    public List<Conversation> getAllConversationsFrom(Offer offer) {
-        List<Conversation> ret = new ArrayList<Conversation>();
-        List<Offer> offers = offerService.getAllOffersFrom(user);
-
-        return ret;
-    }
 
     public void addConversation(Conversation conversation) {
-        conversationRepository.save( conversation );
+        conversationRepository.save(conversation);
     }
 
 }

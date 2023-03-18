@@ -11,4 +11,8 @@ import java.util.List;
 public interface ConversationRepository extends CrudRepository<Conversation, String> {
     @Query( "select c from Conversation c where c.offer = ?1" )
     List<Conversation> findAllFor(Offer offer );
+
+    @Query( "select c from Conversation c where c.buyer = ?1" )
+    List<Conversation> findAsBuyer(User user );
+
 }

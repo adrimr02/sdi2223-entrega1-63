@@ -1,9 +1,7 @@
 package es.uniovi.sdi63.sdi2223entrega163;
 
-import es.uniovi.sdi63.sdi2223entrega163.pageobjects.PO_HomeView;
-import es.uniovi.sdi63.sdi2223entrega163.pageobjects.PO_PrivateView;
-import es.uniovi.sdi63.sdi2223entrega163.pageobjects.PO_Properties;
-import es.uniovi.sdi63.sdi2223entrega163.pageobjects.PO_View;
+import es.uniovi.sdi63.sdi2223entrega163.pageobjects.*;
+import es.uniovi.sdi63.sdi2223entrega163.util.SeleniumUtils;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -219,7 +217,7 @@ class MyWallapopApplicationTests {
         String checkText = PO_HomeView.getP().getString("offer.list.title", PO_Properties.getSPANISH());
         List<WebElement> result = PO_View.checkElementBy(driver, "text", checkText);
         //Ahora nos desconectamos comprobamas que aparece el menu de login
-        PO_PrivateView.logout(driver);
+        PO_UserPrivateView.logout(driver);
         String loginText = PO_HomeView.getP().getString("login.title", PO_Properties.getSPANISH());
         List<WebElement> resultlogin = PO_View.checkElementBy(driver, "text", loginText);
         Assertions.assertEquals(loginText, resultlogin.get(0).getText());

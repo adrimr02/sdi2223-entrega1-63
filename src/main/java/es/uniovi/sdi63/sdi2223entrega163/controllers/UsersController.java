@@ -41,9 +41,6 @@ public class UsersController {
     private SecurityService securityService;
 
     @Autowired
-    private LogService logService;
-
-    @Autowired
     private SignUpFormValidator signUpFormValidator;
 
     @Autowired
@@ -107,24 +104,4 @@ public class UsersController {
         }
     }
 
-    @RequestMapping("/user/logs")
-    public String getListadoLogs(Model model, String query,@RequestParam(name="filterType", required=false) String filterType) {
-        List<Log> logsList;
-        if (filterType != null) {
-            logsList = logService.getLogsByType(filterType);
-        } else {
-            logsList = logService.getLogs();
-        }
-        model.addAttribute( "query",
-                query != null ? query.strip() : null );
-        model.addAttribute( "logsList",
-                logsList );
-        return "user/logs";
-    }
-
-    @RequestMapping(value = "user/logs", method = RequestMethod.POST)
-    public String deleteLogs() {
-        logService.deleteUsers();
-        return "redirect:/user/logs";
-    }
 }

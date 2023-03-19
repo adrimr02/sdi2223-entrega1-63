@@ -1,6 +1,7 @@
 package es.uniovi.sdi63.sdi2223entrega163.repositories;
 
 import es.uniovi.sdi63.sdi2223entrega163.entities.Log;
+import es.uniovi.sdi63.sdi2223entrega163.entities.Log.LogTypes;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,6 @@ public interface LogRepository extends CrudRepository<Log, Long> {
     List<Log> getLogs();
 
     @Query("select l from Log l where l.type =?1 order by timestamp desc")
-    List<Log> getLogsByType(String type);
+    List<Log> getLogsByType(LogTypes type);
 
 }

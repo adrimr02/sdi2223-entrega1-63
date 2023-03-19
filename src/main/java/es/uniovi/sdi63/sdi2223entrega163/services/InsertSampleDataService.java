@@ -92,16 +92,25 @@ public class InsertSampleDataService {
             usersService.addUser(users[i]);
         }
 
-        Offer[] offers1 = new Offer[5];
-        offers1[0] = new Offer("Mesa","Mesa grande",30.9, users[1]);
-        offers1[1] = new Offer("Television","Television 4k de 40 pulgadas",250, users[2]);
-        offers1[2] = new Offer("Silla","Silla grande",15.5, users[1]);
-        offers1[3] = new Offer("Sofá","Sofá pequeño",95, users[1]);
-        offers1[4] = new Offer("Mueble","Mueble pequeño",75.5, users[1]);
+        Offer[] offers = new Offer[13];
+        offers[0] = new Offer("Mesa","Mesa grande",30.9, users[1]);
+        offers[1] = new Offer("Television","Television 4k de 40 pulgadas",250, users[2]);
+        offers[2] = new Offer("Silla","Silla grande",15.5, users[1]);
+        offers[3] = new Offer("Sofá","Sofá pequeño",95, users[1]);
+        offers[4] = new Offer("Mueble","Mueble pequeño",75.5, users[1]);
 
-        for(int i=0;i<offers1.length; i++){
-            offerService.addOffer(offers1[i]);
+        offers[5] = new Offer("Pantalon","Pantalon vaquero gris talla M",15.5, users[4]);
+        offers[6] = new Offer("IPhone 11","IPhone 11 256GB",350, users[4]);
+        offers[7] = new Offer("Moto","Moto de 200cc",1170, users[5]);
+        offers[8] = new Offer("Microondas","Horno microondas \n1 año de antigüedad",110, users[2]);
+        offers[9] = new Offer("Monitor PC","Monitor FullHD de 27 pulgadas",115, users[2]);
+        offers[10] = new Offer("Portatil","Ordenador portatil con 8GB de ram del año 2019",300, users[6]);
+        offers[11] = new Offer("Carrito de bebes","Carrito para bebes nuevo. Incluye adaptador para el coche",120, users[7]);
+        offers[12] = new Offer("Silla de oficina","Silla grande de oficina. Muy comoda para estar mucho tiempo",40, users[6]);
+
+        for(int i=0;i<offers.length; i++){
+            offerService.addOffer(offers[i]);
         }
-        offerService.buyOffer( offers1[1], users[12] );
+        offerService.buyOffer( offers[1], users[12] );
     }
 }

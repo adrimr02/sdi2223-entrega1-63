@@ -17,7 +17,7 @@ public class UserActivityInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String type = request.getContentType();
+        String type = "PET";
         String mapping = request.getRequestURI();
         String method = request.getMethod();
         String params = request.getParameterMap().toString();

@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +19,8 @@ class MyWallapopApplicationTests {
 
     static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
 
-    //static String Geckodriver = "C:\\Users\\adria\\OneDrive\\Documentos\\Uniovi\\3er Curso\\SDI\\Practicas\\Sesion 6\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
-    static String Geckodriver = "C:\\Users\\larry\\Desktop\\UNI\\SDI\\PL-SDI-Sesio╠ün5-material\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver = "C:\\Users\\adria\\OneDrive\\Documentos\\Uniovi\\3er Curso\\SDI\\Practicas\\Sesion 6\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\larry\\Desktop\\UNI\\SDI\\PL-SDI-Sesio╠ün5-material\\geckodriver-v0.30.0-win64.exe";
 
     //static String Geckodriver = "C:\\Dev\\tools\\selenium\\geckodriver-v0.30.0-win64.exe";
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
@@ -53,7 +54,7 @@ class MyWallapopApplicationTests {
      * Registro de Usuario con datos válidos
      */
     @Test
-    @Order(1)
+    @Order( 1 )
     void P1() {
         //Vamos al formulario de registro
         PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
@@ -208,7 +209,7 @@ class MyWallapopApplicationTests {
      * Hacer clic en la opción de salir de sesión y comprobar que se redirige a la página de inicio de sesión (Login)
      */
     @Test
-    @Order(9)
+    @Order( 9 )
     void P9() {
         //Vamos al formulario de logueo.
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -222,6 +223,17 @@ class MyWallapopApplicationTests {
         String loginText = PO_HomeView.getP().getString("login.title", PO_Properties.getSPANISH());
         List<WebElement> resultlogin = PO_View.checkElementBy(driver, "text", loginText);
         Assertions.assertEquals(loginText, resultlogin.get(0).getText());
+    }
+
+    /**
+     * Comprobar que el botón cerrar sesión no está visible si el usuario no está autenticado
+     */
+    @Test
+    @Order( 10 )
+    public void P10() {
+        // Comprueba que no existe el dropdown con la informacion del usuario,
+        // incluyendo el boton de logout
+        SeleniumUtils.textIsNotPresentOnPage( driver, PO_HomeView.getP().getString("home.admin.title", PO_Properties.getSPANISH()) );
     }
 
     /*
@@ -246,7 +258,13 @@ class MyWallapopApplicationTests {
         //Contamos el número de filas de notas
         List<WebElement> markList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
                 PO_View.getTimeout());
-        Assertions.assertEquals(16, markList.size());
+
+        int expectedUsers = 17;
+
+        // Si se ejecuta la prueba sola, descomentar la siguiente linea
+        //expectedUsers = 16;
+
+        Assertions.assertEquals(expectedUsers, markList.size());
     }
 
     /*
@@ -729,7 +747,7 @@ class MyWallapopApplicationTests {
      */
     @Test
     @Order( 29 )
-    void P22A() {
+    void P25A() {
         // Nos logueamos con un usuario que no ha comprado nada
         PO_UserPrivateView.loginToPrivateView( driver, "user01@email.com",
                 "user01" );
@@ -757,7 +775,7 @@ class MyWallapopApplicationTests {
      */
     @Test
     @Order( 30 )
-    void P22B() {
+    void P25B() {
         // Nos logueamos con un usuario que ha comprado una oferta, en este
         // caso, una television vendida por user02@email.com
         PO_UserPrivateView.loginToPrivateView( driver, "user12@email.com",

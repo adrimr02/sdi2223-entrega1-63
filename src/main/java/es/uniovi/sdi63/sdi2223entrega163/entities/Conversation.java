@@ -3,6 +3,7 @@ package es.uniovi.sdi63.sdi2223entrega163.entities;
 import es.uniovi.sdi63.sdi2223entrega163.entities.base.BaseEntity;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -19,7 +20,7 @@ public class Conversation extends BaseEntity {
     private Offer offer;
 
     @OneToMany(mappedBy = "conversation")
-    private Set<Message> messages;
+    private Set<Message> messages = new HashSet<>();
 
     public Conversation() {}
 

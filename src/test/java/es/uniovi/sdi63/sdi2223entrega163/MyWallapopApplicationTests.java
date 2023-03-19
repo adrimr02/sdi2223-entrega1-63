@@ -766,6 +766,27 @@ class MyWallapopApplicationTests {
     }
 
     /**
+     * Test de internalizacion
+     */
+    @Test
+    @Order( 36 )
+    void P29() {
+        PO_HomeView.checkChangeLanguage(driver,"btnSpanish","btnEnglish",PO_Properties.getSPANISH(),PO_Properties.getENGLISH());
+
+        PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+        PO_SignupView.checkChangeLanguage(driver,"btnSpanish","btnEnglish",PO_Properties.getSPANISH(),PO_Properties.getENGLISH());
+
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        PO_LoginView.checkChangeLanguage(driver,"btnSpanish","btnEnglish",PO_Properties.getSPANISH(),PO_Properties.getENGLISH());
+
+        PO_UserPrivateView.loginToPrivateView( driver, "user01@email.com","user01" );
+
+        PO_UserPrivateView.checkChangeLanguage(driver,"btnSpanish","btnEnglish",PO_Properties.getSPANISH(),PO_Properties.getENGLISH());
+
+        PO_UserPrivateView.logout( driver );
+    }
+
+    /**
      * Inicia sesión, entra a la página de ofertas compradas, con un usuario
      * que no haya comprado nada y comprueba que aparezca el mensaje
      * correspondiente

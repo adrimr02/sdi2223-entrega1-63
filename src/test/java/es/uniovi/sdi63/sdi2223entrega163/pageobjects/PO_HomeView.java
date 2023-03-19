@@ -10,13 +10,13 @@ public class PO_HomeView extends PO_NavView {
 
     static public void checkWelcomeToPage(WebDriver driver, int language) {
         //Esperamos a que se cargue el saludo de bienvenida en Español
-        SeleniumUtils.waitLoadElementsBy(driver, "text", p.getString("welcome.message", language),
+        SeleniumUtils.waitLoadElementsBy(driver, "text", p.getString("home.common.welcome", language),
                 getTimeout());
     }
 
     static public List<WebElement> getWelcomeMessageText(WebDriver driver, int language) {
         //Esperamos a que se cargue el saludo de bienvenida en Español
-        return SeleniumUtils.waitLoadElementsBy(driver, "text", p.getString("welcome.message", language),
+        return SeleniumUtils.waitLoadElementsBy(driver, "text", p.getString("home.common.welcome", language),
                 getTimeout());
     }
 

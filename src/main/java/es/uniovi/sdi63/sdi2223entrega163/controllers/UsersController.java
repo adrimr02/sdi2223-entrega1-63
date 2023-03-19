@@ -1,12 +1,14 @@
 package es.uniovi.sdi63.sdi2223entrega163.controllers;
 
 
+import es.uniovi.sdi63.sdi2223entrega163.entities.Log.LogTypes;
 import es.uniovi.sdi63.sdi2223entrega163.entities.User;
 import es.uniovi.sdi63.sdi2223entrega163.loggers.UserActivityLogger;
 import es.uniovi.sdi63.sdi2223entrega163.services.LogService;
 import es.uniovi.sdi63.sdi2223entrega163.services.RolesService;
 import es.uniovi.sdi63.sdi2223entrega163.services.SecurityService;
 import es.uniovi.sdi63.sdi2223entrega163.services.UsersService;
+import es.uniovi.sdi63.sdi2223entrega163.util.ParamFormatter;
 import es.uniovi.sdi63.sdi2223entrega163.util.Round;
 import es.uniovi.sdi63.sdi2223entrega163.validators.SignUpFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.http.HttpRequest;
 import java.security.Principal;
 import java.util.List;
 
@@ -42,15 +46,13 @@ public class UsersController {
     private SignUpFormValidator signUpFormValidator;
 
     @Autowired
-    private UserActivityLogger userActivityLogger;
-
+    private UserActivityLogger logger;
     @RequestMapping("/user/list")
     public String getListado(Model model, String query) {
         model.addAttribute( "query",
                 query != null ? query.strip() : null );
         model.addAttribute( "userList",
                 usersService.getUsers() );
-        userActivityLogger.log("PET","/user/list", "GET", "");
         return "user/list";
     }
 
@@ -61,7 +63,6 @@ public class UsersController {
                     usersService.deleteUser(id);
                 }
             }
-            userActivityLogger.log("PET","/user/list", "POST", String.valueOf(selectedUsers));
             return "redirect:/user/list";
     }
 
@@ -69,12 +70,11 @@ public class UsersController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model) {
         model.addAttribute("user", new User());
-        userActivityLogger.log("PET","/login", "GET", "");
         return "login";
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public String signup(@Validated User user, BindingResult result) {
+    public String signup(@Validated User user, BindingResult result, HttpServletRequest request) {
         signUpFormValidator.validate(user, result);
         if (result.hasErrors()) {
             return "signup";
@@ -82,14 +82,14 @@ public class UsersController {
         user.setRole(rolesService.getRoles()[1]);
         usersService.addUser(user);
         securityService.autoLogin(user.getEmail(), user.getPasswordConfirm());
-        userActivityLogger.log("ALTA","/signup", "POST", "");
+        logger.log( LogTypes.ALTA, "/signup", "POST",
+                ParamFormatter.format( request.getParameterMap() ) );
         return "redirect:login-success";
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
     public String signup(Model model) {
         model.addAttribute("user", new User());
-        userActivityLogger.log("PET","/signup", "GET", "");
         return "signup";
     }
 
@@ -97,7 +97,6 @@ public class UsersController {
     public String indexView(Principal principal, HttpSession session) {
         var user = usersService.getUserByEmail( principal.getName() );
         session.setAttribute( "email", user.getEmail() );
-        userActivityLogger.log("LOGIN-EX","/login", "POST", user.getEmail());
         if (user.getRole().equals( rolesService.getRoles()[0] )) {
             return "redirect:/user/list";
 
@@ -113,14 +112,12 @@ public class UsersController {
                 query != null ? query.strip() : null );
         model.addAttribute( "logsList",
                 logService.getLogs() );
-        userActivityLogger.log("PET","/user/logs", "GET", "");
         return "user/logs";
     }
 
     @RequestMapping(value = "user/logs", method = RequestMethod.POST)
     public String deleteLogs() {
         logService.deleteUsers();
-        userActivityLogger.log("PET","/user/logs", "POST", "");
         return "redirect:/user/logs";
     }
 }

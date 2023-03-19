@@ -48,7 +48,9 @@ public class CustomConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
-        //registry.addInterceptor(userActivityInterceptor);
+        registry.addInterceptor(userActivityInterceptor)
+                .excludePathPatterns( "/css/**", "/script/**", "/images/**", "/user-photos/**" );
+        // Ignora las peticiones a archivos estaticos para que no se loggeen
     }
 
     @Override

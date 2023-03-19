@@ -1,5 +1,6 @@
 package es.uniovi.sdi63.sdi2223entrega163.controllers;
 
+import es.uniovi.sdi63.sdi2223entrega163.entities.Log.LogTypes;
 import es.uniovi.sdi63.sdi2223entrega163.loggers.UserActivityLogger;
 import es.uniovi.sdi63.sdi2223entrega163.services.OfferService;
 import es.uniovi.sdi63.sdi2223entrega163.services.RolesService;
@@ -52,7 +53,7 @@ public class HomeController {
             model.addAttribute( "page", offers);
             model.addAttribute( "offerList", offers.getContent() );
         }
-        userActivityLogger.log("PET","/home", "GET", "");
+        //userActivityLogger.log( LogTypes.PET,"/home", "GET", "");
         return "home";
     }
 

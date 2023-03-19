@@ -1,6 +1,7 @@
 package es.uniovi.sdi63.sdi2223entrega163.loggers;
 
 import es.uniovi.sdi63.sdi2223entrega163.entities.Log;
+import es.uniovi.sdi63.sdi2223entrega163.entities.Log.LogTypes;
 import es.uniovi.sdi63.sdi2223entrega163.repositories.LogRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,21 +23,29 @@ public class UserActivityLogger {
     }
 
 
-    public void log(String type, String map, String method, String str) {
-        String logDescription = "Map: " + map + " --Method: " + method;
-        if(type=="LOGIN-EX" || type=="LOGIN-ERR" || type=="LOGIN-EX" || type=="LOGOUT"){
-            logDescription += " --User: " + str;
+    public void log(LogTypes type, String map, String method, String params) {
+        if (type == LogTypes.PET) {
+            generalLog( map, method, params );
         } else {
-            if (!str.isEmpty()) {
-                logDescription += " --Params: " + str;
-            }
+            authLog(type, map, method, params);
         }
-        Log petitionLog = new Log();
-        petitionLog.setTimestamp(Timestamp.from(Instant.now()));
-        petitionLog.setType(type);
-        petitionLog.setDescription(logDescription);
-        logRepository.save(petitionLog);
     }
 
+    private void authLog(LogTypes type, String map, String method, String params) {
+        String logDescription = "";
+        if (type == LogTypes.ALTA)
+            logDescription += "Map: " + map + " --Method: " + method;
+
+        logDescription += " --User: " + params;
+        logRepository.save(new Log(type, logDescription));
+    }
+
+    private void generalLog(String map, String method, String params) {
+        String logDescription = "Map: " + map + " --Method: " + method;
+        if (!params.isBlank()) {
+            logDescription += " --Params: " + params;
+        }
+        logRepository.save(new Log(LogTypes.PET, logDescription));
+    }
 
 }

@@ -25,18 +25,17 @@ public class UserActivityLogger {
     public void log(String type, String map, String method, String str) {
         String logDescription = "Map: " + map + " --Method: " + method;
         if(type=="LOGIN-EX" || type=="LOGIN-ERR" || type=="LOGIN-EX" || type=="LOGOUT"){
-        logDescription += " --User: " + str;
-        }else {
-        if (!str.isEmpty()) {
-            logDescription += " --Params: " + str;
-        }
+            logDescription += " --User: " + str;
+        } else {
+            if (!str.isEmpty()) {
+                logDescription += " --Params: " + str;
+            }
         }
         Log petitionLog = new Log();
         petitionLog.setTimestamp(Timestamp.from(Instant.now()));
         petitionLog.setType(type);
         petitionLog.setDescription(logDescription);
         logRepository.save(petitionLog);
-
     }
 
 

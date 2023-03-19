@@ -1,6 +1,5 @@
 package es.uniovi.sdi63.sdi2223entrega163.entities;
 
-import com.fasterxml.jackson.databind.ser.Serializers.Base;
 import es.uniovi.sdi63.sdi2223entrega163.entities.base.BaseEntity;
 
 import javax.persistence.*;

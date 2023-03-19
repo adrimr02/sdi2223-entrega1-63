@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +18,9 @@ import java.util.List;
 class MyWallapopApplicationTests {
 
     static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-    //static String Geckodriver = "C:\\Users\\adria\\OneDrive\\Documentos\\Uniovi\\3er Curso\\SDI\\Practicas\\Sesion 6\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
-    static String Geckodriver = "C:\\Users\\larry\\Desktop\\UNI\\SDI\\PL-SDI-Sesio╠ün5-material\\geckodriver-v0.30.0-win64.exe";
+
+    static String Geckodriver = "C:\\Users\\adria\\OneDrive\\Documentos\\Uniovi\\3er Curso\\SDI\\Practicas\\Sesion 6\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\larry\\Desktop\\UNI\\SDI\\PL-SDI-Sesio╠ün5-material\\geckodriver-v0.30.0-win64.exe";
 
     //static String Geckodriver = "C:\\Dev\\tools\\selenium\\geckodriver-v0.30.0-win64.exe";
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
@@ -52,7 +54,7 @@ class MyWallapopApplicationTests {
      * Registro de Usuario con datos válidos
      */
     @Test
-    @Order(1)
+    @Order( 1 )
     void P1() {
         //Vamos al formulario de registro
         PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
@@ -207,7 +209,7 @@ class MyWallapopApplicationTests {
      * Hacer clic en la opción de salir de sesión y comprobar que se redirige a la página de inicio de sesión (Login)
      */
     @Test
-    @Order(9)
+    @Order( 9 )
     void P9() {
         //Vamos al formulario de logueo.
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
@@ -221,6 +223,17 @@ class MyWallapopApplicationTests {
         String loginText = PO_HomeView.getP().getString("login.title", PO_Properties.getSPANISH());
         List<WebElement> resultlogin = PO_View.checkElementBy(driver, "text", loginText);
         Assertions.assertEquals(loginText, resultlogin.get(0).getText());
+    }
+
+    /**
+     * Comprobar que el botón cerrar sesión no está visible si el usuario no está autenticado
+     */
+    @Test
+    @Order( 10 )
+    public void P10() {
+        // Comprueba que no existe el dropdown con la informacion del usuario,
+        // incluyendo el boton de logout
+        SeleniumUtils.textIsNotPresentOnPage( driver, PO_HomeView.getP().getString("home.admin.title", PO_Properties.getSPANISH()) );
     }
 
     /*
@@ -245,7 +258,13 @@ class MyWallapopApplicationTests {
         //Contamos el número de filas de notas
         List<WebElement> markList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
                 PO_View.getTimeout());
-        Assertions.assertEquals(16, markList.size());
+
+        int expectedUsers = 17;
+
+        // Si se ejecuta la prueba sola, descomentar la siguiente linea
+        //expectedUsers = 16;
+
+        Assertions.assertEquals(expectedUsers, markList.size());
     }
 
     /*
@@ -393,7 +412,7 @@ class MyWallapopApplicationTests {
      * comprueba que están todas.
      */
     @Test
-    @Order( 6 )
+    @Order( 20 )
     void P17A() {
         // Nos logueamos
         PO_UserPrivateView.loginToPrivateView( driver, "user01@email.com", "user01" );
@@ -427,7 +446,7 @@ class MyWallapopApplicationTests {
      * comprueba que aparezca el mensaje correspondiente.
      */
     @Test
-    @Order( 7 )
+    @Order( 21 )
     void P17B() {
         // Nos logueamos
         PO_UserPrivateView.loginToPrivateView( driver, "user03@email.com", "user03" );
@@ -460,7 +479,7 @@ class MyWallapopApplicationTests {
      * comprueba que ya no aparece.
      */
     @Test
-    @Order( 8 )
+    @Order( 22 )
     void P18() {
         // Nos logueamos
         PO_UserPrivateView.loginToPrivateView( driver, "user01@email.com", "user01" );
@@ -492,7 +511,7 @@ class MyWallapopApplicationTests {
      * borra la ultima y comprueba que ya no aparece.
      */
     @Test
-    @Order( 9 )
+    @Order( 23 )
     void P19() {
         // Nos logueamos
         PO_UserPrivateView.loginToPrivateView( driver, "user01@email.com",
@@ -532,7 +551,7 @@ class MyWallapopApplicationTests {
      * aparecen las 5 ofertas por página
      */
     @Test
-    @Order( 10 )
+    @Order( 24 )
     void P20() {
         // Nos logueamos
         PO_UserPrivateView.loginToPrivateView( driver, "user01@email.com",
@@ -558,7 +577,7 @@ class MyWallapopApplicationTests {
      * que no existe y comprueba que se muestra el mensaje correcto.
      */
     @Test
-    @Order( 11 )
+    @Order( 25 )
     void P21() {
         // Nos logueamos
         PO_UserPrivateView.loginToPrivateView( driver, "user01@email.com",
@@ -602,7 +621,7 @@ class MyWallapopApplicationTests {
      * que el dinero se resta de la cartera del comprador.
      */
     @Test
-    @Order( 12 )
+    @Order( 26 )
     void P22() {
         // Nos logueamos con un usuario que tiene 200€ en su cartera
         PO_UserPrivateView.loginToPrivateView( driver, "user02@email.com",
@@ -644,7 +663,7 @@ class MyWallapopApplicationTests {
      * comprueba que el dinero se resta de la cartera del comprador.
      */
     @Test
-    @Order( 13 )
+    @Order( 27 )
     void P23() {
         // Nos logueamos con un usuario que tiene 350€ en su cartera
         PO_UserPrivateView.loginToPrivateView( driver, "user15@email.com",
@@ -686,7 +705,7 @@ class MyWallapopApplicationTests {
      * aparezca el mensaje de error correspondiente.
      */
     @Test
-    @Order( 14 )
+    @Order( 28 )
     void P24() {
         // Nos logueamos con un usuario que tiene 0€ en su cartera
         PO_UserPrivateView.loginToPrivateView( driver, "user07@email.com",
@@ -727,8 +746,8 @@ class MyWallapopApplicationTests {
      * correspondiente
      */
     @Test
-    @Order( 15 )
-    void P22A() {
+    @Order( 29 )
+    void P25A() {
         // Nos logueamos con un usuario que no ha comprado nada
         PO_UserPrivateView.loginToPrivateView( driver, "user01@email.com",
                 "user01" );
@@ -755,8 +774,8 @@ class MyWallapopApplicationTests {
      * que haya comprado una oferta y comprueba que aparezca en la lista
      */
     @Test
-    @Order( 16 )
-    void P22B() {
+    @Order( 30 )
+    void P25B() {
         // Nos logueamos con un usuario que ha comprado una oferta, en este
         // caso, una television vendida por user02@email.com
         PO_UserPrivateView.loginToPrivateView( driver, "user12@email.com",
@@ -787,7 +806,7 @@ class MyWallapopApplicationTests {
      * con una imagen y comprueba que se crea correctamente
      */
     @Test
-    @Order( 17 )
+    @Order( 31 )
     void P40() {
         // Nos logueamos con un usuario que no ha comprado nada
         PO_UserPrivateView.loginToPrivateView( driver, "user01@email.com",
@@ -829,7 +848,7 @@ class MyWallapopApplicationTests {
      * por defecto
      */
     @Test
-    @Order( 17 )
+    @Order( 32 )
     void P41() {
         // Nos logueamos con un usuario que no ha comprado nada
         PO_UserPrivateView.loginToPrivateView( driver, "user01@email.com",

@@ -6,15 +6,15 @@
 <nav th:replace="fragments/nav"/>
 <div class="container" id="main-container">
   <h2>Mensajes</h2>
-  <a th:href="${'/conversations/' + id + '/new'}">Enviar un nuevo mensaje</a>
+  <a th:href="${'/conversations/' + id + '/new'}" th:text="#{message.list.new}"></a>
   <br/>
   <div class="table-responsive">
     <table class="table table-hover" th:fragment="tableMessages" id="tableMessages">
       <thead>
       <tr>
-        <th scope="col">Hora:</th>
-        <th scope="col">Enviado por:</th>
-        <th scope="col">Contenido:</th>
+        <th scope="col" th:text="#{message.list.time}"></th>
+        <th scope="col" th:text="#{message.list.sender}"></th>
+        <th scope="col" th:text="#{message.list.content}"></th>
 
 
       </tr>
@@ -29,7 +29,7 @@
     </table>
   </div>
 
-  <div th:if="${#lists.isEmpty(messageList)}"> No hay ninguna mensaje </div>
+  <div th:if="${#lists.isEmpty(messageList)}" th:text="#{message.list.empty}"></div>
 </div>
 
 <footer th:replace="fragments/footer"/>

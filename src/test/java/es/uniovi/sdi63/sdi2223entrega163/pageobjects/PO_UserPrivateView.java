@@ -107,6 +107,22 @@ public class PO_UserPrivateView extends PO_NavView {
         elements.get(0).click();
     }
 
+    public static void navigateToMyConversations(WebDriver driver) {
+        // Pinchamos en la opción de menú de Conversaciones
+        List<WebElement> elements = PO_View.checkElementBy(driver, "free",
+                "//*[@id=\"conversationsDropdown\"]");
+
+        // Solo hace click en el boton del dropdown si este esta cerrado
+        if ( elements.get( 0 ).getAttribute( "aria-expanded" ).equals( "false" ) ) {
+            elements.get(0).click();
+        }
+        // Esperamos a que aparezca la opción de ver conversaciones:
+        elements = PO_View.checkElementBy(driver, "free",
+                "//a[contains(@href, 'conversations/list')]");
+        // Pinchamos en ver conversaciones.
+        elements.get(0).click();
+    }
+
     public static void navigateToSearchOffers(WebDriver driver) {
         // Esperamos a que aparezca la opción de añadir oferta:
         var elements = PO_View.checkElementBy(driver, "free",

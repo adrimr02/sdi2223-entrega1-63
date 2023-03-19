@@ -5,17 +5,17 @@
 <!-- Barra de Navegación superior -->
 <nav th:replace="fragments/nav"/>
 <div class="container" id="main-container">
-    <h2>Mis Conversaciones</h2>
+    <h2 th:text="#{conversations.list.title}"></h2>
 
-    <p>Las conversaciones que actualmente figuran en el sistema son las siguientes:</p>
+    <p th:text="#{conversations.list.p}"></p>
 
     <div class="table-responsive">
         <table class="table table-hover" th:fragment="tableConversations" id="tableConversations">
             <thead>
             <tr>
-                <th scope="col">Oferta</th>
-                <th scope="col">Interesado</th>
-                <th scope="col">Vendedor</th>
+                <th scope="col" th:text="#{conversations.list.offer}"></th>
+                <th scope="col" th:text="#{conversations.list.buyer}"></th>
+                <th scope="col" th:text="#{conversations.list.seller}"></th>
                 <th scope="col"></th>
 
             </tr>
@@ -25,13 +25,12 @@
                 <td th:text="${conversation.offer.title}"></td>
                 <td th:text="${conversation.buyer.email}"></td>
                 <td th:text="${conversation.offer.seller.email}"></td>
-                <td><a th:href="${'/conversations/' + conversation.id}">Ver Conversacion</a></td>
-
+                <td><a th:href="${'/conversations/' + conversation.id}" th:text="#{conversations.list.messages}"></a></td>
             </tr>
             </tbody>
         </table>
     </div>
-    <div th:if="${#lists.isEmpty(conversationList)}"> No hay ninguna conversacion </div>
+    <div th:if="${#lists.isEmpty(conversationList)}" th:text="#{conversations.list.empty}"></div>
 </div>
 <footer th:replace="fragments/footer"/>
 </body>

@@ -1,5 +1,7 @@
 package es.uniovi.sdi63.sdi2223entrega163.services;
 
+import es.uniovi.sdi63.sdi2223entrega163.entities.Conversation;
+import es.uniovi.sdi63.sdi2223entrega163.entities.Message;
 import es.uniovi.sdi63.sdi2223entrega163.entities.Offer;
 import es.uniovi.sdi63.sdi2223entrega163.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,20 +119,15 @@ public class InsertSampleDataService {
         }
 
 
-        /*var conversation1 = new Conversation(users[2],offers1[0]); //Usuario 2 quiere algo del 1
-        var conversation2 = new Conversation(users[3],offers1[0]); //Usuario 3 quiere algo del 1
-        var conversation3 = new Conversation(users[1],offers1[1]); //Usuario 1 quiere algo del 2
-
-
-        conversationService.addConversation(conversation1);
-        conversationService.addConversation(conversation2);
-        conversationService.addConversation(conversation3);
+        conversationService.createConversationWithMessage(users[2],offers[0],"Mensaje de ejemplo");
+        conversationService.createConversationWithMessage(users[3],offers[0],"Mensaje de ejemplo 2222");
+        conversationService.createConversationWithMessage(users[1],offers[1],"Mensaje de ejemplo 3333");
+        conversationService.createConversationWithMessage(users[3],offers[10],"Mensaje de ejemplo 101010101");
 
 
 
 
-        var message1 = new Message(users[2],conversation1,"Mensaje de ejemplo");
-        messagesService.addMessage(message1);*/
+
 
         offerService.buyOffer( offers[1], users[12] );
     }

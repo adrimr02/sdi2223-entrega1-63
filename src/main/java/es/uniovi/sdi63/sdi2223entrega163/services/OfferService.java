@@ -48,7 +48,7 @@ public class OfferService {
             String imgName;
 
             if (originalName != null)
-                imgName = image.getName() + UUID.randomUUID() + originalName.substring( originalName.lastIndexOf( '.' ) );
+                imgName = originalName.substring( 0, originalName.lastIndexOf( '.' ) ) + UUID.randomUUID() + originalName.substring( originalName.lastIndexOf( '.' ) );
             else
                 imgName = UUID.randomUUID().toString();
 

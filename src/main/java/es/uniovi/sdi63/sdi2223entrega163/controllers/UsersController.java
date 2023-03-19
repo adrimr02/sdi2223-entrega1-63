@@ -7,6 +7,7 @@ import es.uniovi.sdi63.sdi2223entrega163.services.LogService;
 import es.uniovi.sdi63.sdi2223entrega163.services.RolesService;
 import es.uniovi.sdi63.sdi2223entrega163.services.SecurityService;
 import es.uniovi.sdi63.sdi2223entrega163.services.UsersService;
+import es.uniovi.sdi63.sdi2223entrega163.util.Round;
 import es.uniovi.sdi63.sdi2223entrega163.validators.SignUpFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
@@ -56,7 +58,7 @@ public class UsersController {
     }
 
     @RequestMapping(value = "user/list", method = RequestMethod.POST)
-    public String deleteUsers(@RequestParam("selectedUsers") List<String> selectedUsers) {
+    public String deleteUsers(@RequestParam("selectedUsers") List<String> selectedUsers) throws IOException {
             if(!selectedUsers.isEmpty()) {
                 for(String id: selectedUsers){
                     usersService.deleteUser(id);
@@ -103,7 +105,7 @@ public class UsersController {
             return "redirect:/user/list";
 
         } else {
-            session.setAttribute( "wallet", user.getWallet() );
+            session.setAttribute( "wallet", Round.twoCents( user.getWallet() ));
             return "redirect:/offer/my-offers";
         }
     }

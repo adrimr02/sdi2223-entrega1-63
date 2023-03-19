@@ -17,8 +17,9 @@ import java.util.List;
 class MyWallapopApplicationTests {
 
     static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-    static String Geckodriver= "C:\\Users\\Daniel Alonso\\Desktop\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
-    //static String Geckodriver = "C:\\Users\\adria\\OneDrive\\Documentos\\Uniovi\\3er Curso\\SDI\\Practicas\\Sesion 6\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    
+    //static String Geckodriver= "C:\\Users\\Daniel Alonso\\Desktop\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver = "C:\\Users\\adria\\OneDrive\\Documentos\\Uniovi\\3er Curso\\SDI\\Practicas\\Sesion 6\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
     //static String Geckodriver = "C:\\Users\\larry\\Desktop\\UNI\\SDI\\PL-SDI-Sesio╠ün5-material\\geckodriver-v0.30.0-win64.exe";
 
     //static String Geckodriver = "C:\\Dev\\tools\\selenium\\geckodriver-v0.30.0-win64.exe";
@@ -771,7 +772,7 @@ class MyWallapopApplicationTests {
      * correspondiente
      */
     @Test
-    @Order( 29 )
+    @Order( 31 )
     void P43() {
         // Nos logueamos con un usuario que no ha comprado nada
         PO_UserPrivateView.loginToPrivateView( driver, "user01@email.com",
@@ -796,6 +797,187 @@ class MyWallapopApplicationTests {
 
     /*
      * ###################
+     * Pruebas de conversaciones
+     * ###################
+     */
+
+    /**
+     * [Prueba26] Sobre una búsqueda determinada de ofertas (a elección de desarrollador), enviar un mensaje
+     * a una oferta concreta. Se abriría dicha conversación por primera vez. Comprobar que el mensaje aparece
+     * en la conversación
+     */
+    @Test
+    @Order( 32 )
+    void P26() {
+        // Nos logueamos con un usuario que no ha comprado nada
+        PO_UserPrivateView.loginToPrivateView( driver, "user04@email.com", "user04" );
+
+        // Vamos a la pagina de todas las ofertas.
+        PO_UserPrivateView.navigateToSearchOffers(driver);
+
+        //accedemos a una conversación.
+        List<WebElement> elements = driver.findElements(By.xpath("/html/body/div/div[1]/div[2]/div/div[3]/div/a"));
+        elements.get(0).click();
+
+        //mandamos el mensaje.
+        PO_Messages.sendMessage(driver, "Hola buenas estoy interesado en la oferta.");
+
+        //Comprobamos que solo tenemos un mensaje.
+        elements = driver.findElements(By.xpath("//div/div/table/tbody/tr"));
+        int numeroMensajes = elements.size();
+        Assertions.assertEquals(1, numeroMensajes);
+
+        // Ahora nos desconectamos y comprobamos que aparece el menú de
+        // iniciar sesion
+        PO_UserPrivateView.logout( driver );
+    }
+
+    /**
+     * [Prueba27] Enviar un mensaje a una conversación ya existente accediendo desde el botón/enlace
+     * “Conversación”. Comprobar que el mensaje aparece en la conversación.
+     */
+    @Test
+    @Order( 33 )
+    void P27() {
+        // Nos logueamos con un usuario que no ha comprado nada
+        PO_UserPrivateView.loginToPrivateView( driver, "user03@email.com", "user03" );
+
+        // Vamos a la pagina de todas las ofertas.
+        PO_UserPrivateView.navigateToSearchOffers(driver);
+
+        //
+        List<WebElement> elements = driver.findElements(By.xpath("//*[@id=\"list\"]/div[3]/div/div[3]/div/a"));
+        elements.get(0).click();
+
+        //mandamos el mensaje.
+        PO_Messages.sendMessage(driver, "Me haría un descuento?");
+
+        //Comprobamos que tenemos ya 2 mensajes.
+        elements = driver.findElements(By.xpath("//div/div/table/tbody/tr"));
+        int numeroMensajes = elements.size();
+        Assertions.assertEquals(2, numeroMensajes);
+
+        // Ahora nos desconectamos y comprobamos que aparece el menú de
+        // iniciar sesion
+        PO_UserPrivateView.logout( driver );
+    }
+
+    /**
+     * [Prueba28] Mostrar el listado de conversaciones ya abiertas. Comprobar que el listado contiene la
+     * cantidad correcta de conversaciones.
+     */
+    @Test
+    @Order( 34 )
+    void P28() {
+        // Nos logueamos con un usuario que no ha comprado nada
+        PO_UserPrivateView.loginToPrivateView( driver, "user01@email.com", "user01" );
+
+        // Vamos a la pagina de todas las ofertas.
+        PO_UserPrivateView.navigateToMyConversations(driver);
+
+        //Comprobamos que solo tenemos una conversacion creada en los tests anteriores.
+        List<WebElement> elements = driver.findElements(By.xpath("//div/div/table/tbody/tr"));
+        int numeroMensajes = elements.size();
+        Assertions.assertEquals(3, numeroMensajes);
+
+        // Ahora nos desconectamos y comprobamos que aparece el menú de
+        // iniciar sesion
+        PO_UserPrivateView.logout( driver );
+    }
+
+    /*
+     * ###################
+     * Pruebas de seguridad
+     * ###################
+     */
+
+    /**
+     * Intentar acceder sin estar autenticado a la opción de listado de usuarios.
+     * Se deberá volver al formulario de login.
+     */
+    @Test
+    @Order( 35 )
+    void P30() {
+        //Navegamos al listado de usuarios sin logearnos
+        driver.get("http://localhost:8080/user/list");
+        String checkText = PO_HomeView.getP().getString("login.title",PO_Properties.getSPANISH());
+        List<WebElement> result = PO_View.checkElementBy(driver, "text", checkText);
+        Assertions.assertEquals(checkText, result.get(0).getText());
+    }
+
+    /**
+     * Intentar acceder sin estar autenticado a la opción de listado de conversaciones de un usuario estándar.
+     * Se deberá volver al formulario de login.
+     *
+     */
+    @Test
+    @Order( 36 )
+    void P31() {
+        //Navegamos al listado de usuarios sin logearnos
+        driver.get("http://localhost:8080/conversations/list");
+        String checkText = PO_HomeView.getP().getString("login.title",PO_Properties.getSPANISH());
+        List<WebElement> result = PO_View.checkElementBy(driver, "text", checkText);
+        Assertions.assertEquals(checkText, result.get(0).getText());
+    }
+
+    /**
+     *
+     * Estando autenticado como usuario estándar intentar acceder a una opción disponible solo para usuarios administradores.
+     * Se deberá indicar un mensaje de acción prohibida.
+     *
+     */
+    @Test
+    @Order( 37 )
+    void P32() {
+        //Vamos al formulario de logueo.
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Rellenamos el formulario
+        PO_LoginView.fillLoginForm(driver, "user01@email.com", "user01");
+        //Navegamos al listado de logs siendo usuario estandar
+        driver.get("http://localhost:8080/user/logs");
+        String checkText = PO_HomeView.getP().getString("error.notallowed.subtitle",PO_Properties.getSPANISH());
+        List<WebElement> result = PO_View.checkElementBy(driver, "text", checkText);
+        Assertions.assertEquals(checkText, result.get(0).getText());
+    }
+
+    /**
+     *
+     * Estando autenticado como usuario administrador, ir a visualización de logs,
+     * pulsar el botón/enlace borrar logs y comprobar que se eliminan los logs de la base de datos.
+     *
+     */
+    @Test
+    @Order( 39 )
+    void P34() {
+        //Vamos al formulario de logueo.
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Rellenamos el formulario
+        PO_LoginView.fillLoginForm(driver, "admin@email.com", "admin");
+
+        List<WebElement> elements = PO_View.checkElementBy(driver,
+                "free", "//*[@id=\"managementDropdown\"]");
+
+        // Solo hace click en el boton del dropdown si este esta cerrado
+        if ( elements.get( 0 ).getAttribute( "aria-expanded" ).equals( "false" ) ) {
+            elements.get(0).click();
+        }
+
+        elements = PO_View.checkElementBy(driver, "free",
+                "//a[contains(@href, '/logs/list')]");
+        // Pinchamos en agregar Nota.
+        elements.get(0).click();
+
+        By boton = By.className("btn");
+        driver.findElement(boton).click();
+        //Contamos el número de filas
+        List<WebElement> logList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//*[@id=\"tableLogs\"]/tbody/tr",
+                PO_View.getTimeout());
+        int expectedLogs = 1;
+        Assertions.assertEquals(expectedLogs, logList.size());
+    }
+
+    /*
+     * ###################
      * Pruebas de crear ofertas con imagenes
      * ###################
      */
@@ -805,7 +987,7 @@ class MyWallapopApplicationTests {
      * con una imagen y comprueba que se crea correctamente
      */
     @Test
-    @Order( 35 )
+    @Order( 40 )
     void P40() {
         // Nos logueamos con un usuario que no ha comprado nada
         PO_UserPrivateView.loginToPrivateView( driver, "user01@email.com",
@@ -847,7 +1029,7 @@ class MyWallapopApplicationTests {
      * por defecto
      */
     @Test
-    @Order( 36 )
+    @Order( 41 )
     void P41() {
         // Nos logueamos con un usuario que no ha comprado nada
         PO_UserPrivateView.loginToPrivateView( driver, "user01@email.com",
@@ -881,91 +1063,6 @@ class MyWallapopApplicationTests {
         // iniciar sesion
         PO_UserPrivateView.logout( driver );
     }
-
-    /**
-     * [Prueba26] Sobre una búsqueda determinada de ofertas (a elección de desarrollador), enviar un mensaje
-     * a una oferta concreta. Se abriría dicha conversación por primera vez. Comprobar que el mensaje aparece
-     * en la conversación
-     */
-    @Test
-    @Order( 33 )
-    void P26() {
-        // Nos logueamos con un usuario que no ha comprado nada
-        PO_UserPrivateView.loginToPrivateView( driver, "user04@email.com", "user04" );
-
-        // Vamos a la pagina de todas las ofertas.
-        PO_UserPrivateView.navigateToSearchOffers(driver);
-
-        //accedemos a una conversación.
-        List<WebElement> elements = driver.findElements(By.xpath("/html/body/div/div[1]/div[2]/div/div[3]/div/a"));
-        elements.get(0).click();
-
-        //mandamos el mensaje.
-        PO_Messages.sendMessage(driver, "Hola buenas estoy interesado en la oferta.");
-
-        //Comprobamos que solo tenemos un mensaje.
-        elements = driver.findElements(By.xpath("//div/div/table/tbody/tr"));
-        int numeroMensajes = elements.size();
-        Assertions.assertEquals(1, numeroMensajes);
-
-        // Ahora nos desconectamos y comprobamos que aparece el menú de
-        // iniciar sesion
-        PO_UserPrivateView.logout( driver );
-    }
-
-    /**
-     * [Prueba27] Enviar un mensaje a una conversación ya existente accediendo desde el botón/enlace
-     * “Conversación”. Comprobar que el mensaje aparece en la conversación.
-     */
-    @Test
-    @Order( 34 )
-    void P27() {
-        // Nos logueamos con un usuario que no ha comprado nada
-        PO_UserPrivateView.loginToPrivateView( driver, "user03@email.com", "user03" );
-
-        // Vamos a la pagina de todas las ofertas.
-        PO_UserPrivateView.navigateToSearchOffers(driver);
-
-        //
-        List<WebElement> elements = driver.findElements(By.xpath("//*[@id=\"list\"]/div[3]/div/div[3]/div/a"));
-        elements.get(0).click();
-
-        //mandamos el mensaje.
-        PO_Messages.sendMessage(driver, "Me haría un descuento?");
-
-        //Comprobamos que tenemos ya 2 mensajes.
-        elements = driver.findElements(By.xpath("//div/div/table/tbody/tr"));
-        int numeroMensajes = elements.size();
-        Assertions.assertEquals(2, numeroMensajes);
-
-        // Ahora nos desconectamos y comprobamos que aparece el menú de
-        // iniciar sesion
-        PO_UserPrivateView.logout( driver );
-    }
-
-    /**
-     * [Prueba28] Mostrar el listado de conversaciones ya abiertas. Comprobar que el listado contiene la
-     * cantidad correcta de conversaciones.
-     */
-    @Test
-    @Order( 35 )
-    void P28() {
-        // Nos logueamos con un usuario que no ha comprado nada
-        PO_UserPrivateView.loginToPrivateView( driver, "user01@email.com", "user01" );
-
-        // Vamos a la pagina de todas las ofertas.
-        PO_UserPrivateView.navigateToMyConversations(driver);
-
-        //Comprobamos que solo tenemos una conversacion creada en los tests anteriores.
-        List<WebElement> elements = driver.findElements(By.xpath("//div/div/table/tbody/tr"));
-        int numeroMensajes = elements.size();
-        Assertions.assertEquals(3, numeroMensajes);
-
-        // Ahora nos desconectamos y comprobamos que aparece el menú de
-        // iniciar sesion
-        PO_UserPrivateView.logout( driver );
-    }
-
 
     @AfterEach
     public void tearDown(){

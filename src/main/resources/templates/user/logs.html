@@ -6,8 +6,39 @@
 <!-- Barra de Navegación superior -->
 <nav th:replace="fragments/nav"/>
 
-<div sec:authorize="hasRole('ROLE_ADMIN')" th:replace="fragments/logsTable" />
+<div class="container">
+  <h2 th:text="#{home.admin.logs.title}"></h2>
+  <p th:text="#{home.admin.logs.subtitle}"></p>
 
+  <div class="container">
+    <p>Filtrar por tipo:</p>
+    <select class="form-control" id="filterType" name="filterType">
+      <option value="">Todos</option>
+      <option value="PET">PET</option>
+      <option value="ALTA">ALTA</option>
+      <option value="LOGIN_EX">LOGIN-EX</option>
+      <option value="LOGIN_ERR">LOGIN-ERR</option>
+      <option value="LOGOUT">LOGOUT</option>
+    </select>
+  </div>
+  <script>$(function() {
+      $('#filterType').change(function(e) {
+          let filter = e.target.value;
+          if (filter)
+              $("#tableLogs").load(`/logs/list/update?type=${filter}`);
+          else
+              $("#tableLogs").load(`/logs/list/update`);
+      });
+  });</script>
+  <div class="table-responsive" >
+    <table th:replace="fragments/logsTable" id="tableLogs"/>
+  </div>
+  <div th:if="${#lists.isEmpty(logsList)}" th:text="#{home.admin.logs.nologs}"></div>
+  <div class="text-center">
+    <a href="/logs/delete" class="btn btn-danger" th:text="#{home.admin.logs.button}">
+    </a>
+  </div>
+</div>
 <footer th:replace="fragments/footer"/>
 </body>
 </html>

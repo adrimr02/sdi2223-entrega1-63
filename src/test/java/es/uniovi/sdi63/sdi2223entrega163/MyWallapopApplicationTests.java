@@ -18,8 +18,8 @@ class MyWallapopApplicationTests {
 
     static String PathFirefox = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
 
-    static String Geckodriver = "C:\\Users\\adria\\OneDrive\\Documentos\\Uniovi\\3er Curso\\SDI\\Practicas\\Sesion 6\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
-    //static String Geckodriver = "C:\\Users\\larry\\Desktop\\UNI\\SDI\\PL-SDI-Sesio╠ün5-material\\geckodriver-v0.30.0-win64.exe";
+    //static String Geckodriver = "C:\\Users\\adria\\OneDrive\\Documentos\\Uniovi\\3er Curso\\SDI\\Practicas\\Sesion 6\\PL-SDI-Sesión5-material\\geckodriver-v0.30.0-win64.exe";
+    static String Geckodriver = "C:\\Users\\larry\\Desktop\\UNI\\SDI\\PL-SDI-Sesio╠ün5-material\\geckodriver-v0.30.0-win64.exe";
 
     //static String Geckodriver = "C:\\Dev\\tools\\selenium\\geckodriver-v0.30.0-win64.exe";
     //static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
@@ -251,10 +251,10 @@ class MyWallapopApplicationTests {
         PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
         //Rellenamos el formulario
         PO_LoginView.fillLoginForm(driver, "admin@email.com", "admin");
-        //Cpmprobamos que entramos en la pagina privada del administrador
+        //Comprobamos que entramos en la pagina privada del administrador
         String checkText = PO_HomeView.getP().getString("home.admin.title", PO_Properties.getSPANISH());
         List<WebElement> result = PO_View.checkElementBy(driver, "text", checkText);
-        //Contamos el número de filas de notas
+        //Contamos el número de filas
         List<WebElement> markList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
                 PO_View.getTimeout());
 
@@ -796,6 +796,88 @@ class MyWallapopApplicationTests {
 
     /*
      * ###################
+     * Pruebas de seguridad
+     * ###################
+     */
+
+    /**
+     * Intentar acceder sin estar autenticado a la opción de listado de usuarios.
+     * Se deberá volver al formulario de login.
+     */
+    @Test
+    @Order( 31 )
+    void P30() {
+        //Navegamos al listado de usuarios sin logearnos
+        driver.get("http://localhost:8080/user/list");
+        String checkText = PO_HomeView.getP().getString("login.title",PO_Properties.getSPANISH());
+        List<WebElement> result = PO_View.checkElementBy(driver, "text", checkText);
+        Assertions.assertEquals(checkText, result.get(0).getText());
+    }
+
+    /**
+     * Intentar acceder sin estar autenticado a la opción de listado de conversaciones de un usuario estándar.
+     * Se deberá volver al formulario de login.
+     *
+     */
+    @Test
+    @Order( 32 )
+    void P31() {
+        //Navegamos al listado de usuarios sin logearnos
+        driver.get("http://localhost:8080/conversations/list");
+        String checkText = PO_HomeView.getP().getString("login.title",PO_Properties.getSPANISH());
+        List<WebElement> result = PO_View.checkElementBy(driver, "text", checkText);
+        Assertions.assertEquals(checkText, result.get(0).getText());
+    }
+
+    /**
+     *
+     * Estando autenticado como usuario estándar intentar acceder a una opción disponible solo para usuarios administradores.
+     * Se deberá indicar un mensaje de acción prohibida.
+     *
+     */
+    @Test
+    @Order( 33 )
+    void P32() {
+        //Vamos al formulario de logueo.
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Rellenamos el formulario
+        PO_LoginView.fillLoginForm(driver, "user01@email.com", "user01");
+        //Navegamos al listado de logs siendo usuario estandar
+        driver.get("http://localhost:8080/user/logs");
+        String checkText = PO_HomeView.getP().getString("error.notallowed.subtitle",PO_Properties.getSPANISH());
+        List<WebElement> result = PO_View.checkElementBy(driver, "text", checkText);
+        Assertions.assertEquals(checkText, result.get(0).getText());
+    }
+
+    /**
+     *
+     * Estando autenticado como usuario administrador, ir a visualización de logs,
+     * pulsar el botón/enlace borrar logs y comprobar que se eliminan los logs de la base de datos.
+     *
+     */
+    @Test
+    @Order( 34 )
+    void P34() {
+        //Vamos al formulario de logueo.
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Rellenamos el formulario
+        PO_LoginView.fillLoginForm(driver, "admin@email.com", "admin");
+        By boton = By.className("btn");
+        driver.findElement(boton).click();
+        //Contamos el número de filas
+        List<WebElement> markList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
+                PO_View.getTimeout());
+
+        int expectedUsers = 1;
+
+        // Si se ejecuta la prueba sola, descomentar la siguiente linea
+        //expectedUsers = 16;
+
+        Assertions.assertEquals(expectedUsers, markList.size());
+    }
+
+    /*
+     * ###################
      * Pruebas de crear ofertas con imagenes
      * ###################
      */
@@ -805,7 +887,7 @@ class MyWallapopApplicationTests {
      * con una imagen y comprueba que se crea correctamente
      */
     @Test
-    @Order( 31 )
+    @Order( 35 )
     void P40() {
         // Nos logueamos con un usuario que no ha comprado nada
         PO_UserPrivateView.loginToPrivateView( driver, "user01@email.com",
@@ -847,7 +929,7 @@ class MyWallapopApplicationTests {
      * por defecto
      */
     @Test
-    @Order( 32 )
+    @Order( 36 )
     void P41() {
         // Nos logueamos con un usuario que no ha comprado nada
         PO_UserPrivateView.loginToPrivateView( driver, "user01@email.com",

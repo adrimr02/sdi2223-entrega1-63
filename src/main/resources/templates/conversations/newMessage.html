@@ -6,12 +6,11 @@
 <nav th:replace="fragments/nav"/>
 <div class="container">
   <h2 th:text="#{message.new.title}"></h2>
-  <form class="form-horizontal" method="post" th:action="${newConversation ? '/'+{id} +'/message/new' : '/conversations/'+{id}+'/new'}" th:object="${message}">
+  <form class="form-horizontal" method="post" th:action="${newConversation ? '/'+{id} +'/message/new' : '/conversations/'+{id}+'/new'}" >
     <div class="form-group">
       <label class="control-label col-sm-2" for="message" th:text="#{message.new.label}"></label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="message" name="message" th:value="${message.message}" th:placeholder="#{message.new.example}"/>
-        <span class="text-danger" th:if="${#fields.hasErrors('message')}" th:errors="*{message}"></span>
+        <input type="text" class="form-control" id="message" name="message" th:placeholder="#{message.new.example}"/>
       </div>
     </div>
     <div class="form-group">

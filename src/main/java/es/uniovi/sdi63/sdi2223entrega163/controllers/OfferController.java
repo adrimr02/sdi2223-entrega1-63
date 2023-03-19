@@ -70,14 +70,14 @@ public class OfferController {
     }
 
     @RequestMapping("/offer/delete/{id}")
-    public String deleteOffer(@PathVariable String id)
+    public String deleteOffer(@PathVariable long id)
             throws IOException {
         offerService.deleteOffer( id );
         return "redirect:/offer/my-offers";
     }
 
     @RequestMapping("/offer/buy/{id}")
-    public String offerListView(@PathVariable String id, HttpSession session, Principal principal) {
+    public String offerListView(@PathVariable long id, HttpSession session, Principal principal) {
         var errors = offerService.buyOffer( id );
 
         if (errors != null) {

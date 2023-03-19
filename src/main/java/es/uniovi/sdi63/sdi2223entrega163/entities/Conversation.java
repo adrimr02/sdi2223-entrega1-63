@@ -1,5 +1,6 @@
 package es.uniovi.sdi63.sdi2223entrega163.entities;
 
+import com.fasterxml.jackson.databind.ser.Serializers.Base;
 import es.uniovi.sdi63.sdi2223entrega163.entities.base.BaseEntity;
 
 import javax.persistence.*;
@@ -19,7 +20,7 @@ public class Conversation extends BaseEntity {
     @JoinColumn(name = "offer_id")
     private Offer offer;
 
-    @OneToMany(mappedBy = "conversation")
+    @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL)
     private Set<Message> messages = new HashSet<>();
 
     public Conversation() {}

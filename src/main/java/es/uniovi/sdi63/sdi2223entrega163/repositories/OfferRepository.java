@@ -10,7 +10,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface OfferRepository extends CrudRepository<Offer, String> {
+public interface OfferRepository extends CrudRepository<Offer, Long> {
 
     @Query( "select o from Offer o where o.seller = ?1 order by o.date desc" )
     List<Offer> findAllFor( User user );

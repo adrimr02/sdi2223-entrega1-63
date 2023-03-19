@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface ConversationRepository extends CrudRepository<Conversation, String> {
+public interface ConversationRepository extends CrudRepository<Conversation, Long> {
     @Query( "select c from Conversation c where c.offer = ?1" )
     List<Conversation> findAllFor(Offer offer );
 
@@ -16,7 +16,7 @@ public interface ConversationRepository extends CrudRepository<Conversation, Str
     List<Conversation> findAsBuyer(User user );
 
     @Query( "select c from Conversation c where c.id = ?1" )
-    Conversation getConversationById(String id);
+    Conversation getConversationById(Long id);
 
     @Query( "select c from Conversation c where c.buyer = ?1 and c.offer = ?2")
     Conversation getConversationByPrincipalAndOffer(User user, Offer offer);

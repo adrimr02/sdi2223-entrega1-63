@@ -1,26 +1,23 @@
 package es.uniovi.sdi63.sdi2223entrega163.entities.base;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Version;
+import javax.persistence.*;
+import java.util.Objects;
 import java.util.UUID;
 
 @MappedSuperclass
 public abstract class BaseEntity {
 
     @Id
-    @Column(length = 36)
-    private String id = UUID.randomUUID().toString();
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     @Version
     private long version;
 
     public BaseEntity() {
-        super();
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
@@ -29,28 +26,15 @@ public abstract class BaseEntity {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BaseEntity that = (BaseEntity) o;
+        return id == that.id && version == that.version;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        BaseEntity other = (BaseEntity) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
+    public int hashCode() {
+        return Objects.hash( id, version );
     }
-
 }

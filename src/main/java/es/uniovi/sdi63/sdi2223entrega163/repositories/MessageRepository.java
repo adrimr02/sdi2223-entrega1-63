@@ -8,8 +8,8 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface MessageRepository extends CrudRepository<Message, String> {
+public interface MessageRepository extends CrudRepository<Message, Long> {
 
     @Query( "select m from Message m where m.conversation.id = ?1" )
-    List<Message> findByConversationId(String id);
+    List<Message> findByConversationId(Long id);
 }

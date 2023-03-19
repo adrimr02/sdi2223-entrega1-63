@@ -86,7 +86,7 @@ public class OfferService {
         return offerRepository.findAllByBuyer( user );
     }
 
-    public void deleteOffer(String id) throws IOException {
+    public void deleteOffer(long id) throws IOException {
         var auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         var user = usersService.getUserByEmail( email );
@@ -101,11 +101,11 @@ public class OfferService {
         }
     }
 
-    public Offer getOfferById(String id) {
+    public Offer getOfferById(long id) {
         return offerRepository.findById( id ).orElse( null );
     }
 
-    public OfferServiceErrors buyOffer(String id) {
+    public OfferServiceErrors buyOffer(long id) {
         var auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         var user = usersService.getUserByEmail( email );

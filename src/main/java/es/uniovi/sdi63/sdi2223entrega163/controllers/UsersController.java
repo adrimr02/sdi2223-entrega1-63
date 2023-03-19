@@ -58,9 +58,9 @@ public class UsersController {
     }
 
     @RequestMapping(value = "user/list", method = RequestMethod.POST)
-    public String deleteUsers(@RequestParam("selectedUsers") List<String> selectedUsers) throws IOException {
+    public String deleteUsers(@RequestParam("selectedUsers") List<Long> selectedUsers) throws IOException {
             if(!selectedUsers.isEmpty()) {
-                for(String id: selectedUsers){
+                for(long id: selectedUsers){
                     usersService.deleteUser(id);
                 }
             }

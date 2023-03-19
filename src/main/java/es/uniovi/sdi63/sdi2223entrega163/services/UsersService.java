@@ -37,7 +37,7 @@ public class UsersService {
             return users;
         }
 
-        public User getUser(String id){
+        public User getUser(long id){
             return usersRepository.findById(id).get();
         }
 
@@ -46,7 +46,7 @@ public class UsersService {
             usersRepository.save(user);
         }
 
-        public void deleteUser(String id) throws IOException {
+        public void deleteUser(long id) throws IOException {
             var user = usersRepository.findById( id );
             if (user.isPresent()) {
                 for (var offer : user.get().getCreatedOffers())

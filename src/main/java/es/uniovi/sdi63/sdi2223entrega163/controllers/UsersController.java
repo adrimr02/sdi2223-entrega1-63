@@ -10,8 +10,6 @@ import es.uniovi.sdi63.sdi2223entrega163.services.UsersService;
 import es.uniovi.sdi63.sdi2223entrega163.util.Round;
 import es.uniovi.sdi63.sdi2223entrega163.validators.SignUpFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller

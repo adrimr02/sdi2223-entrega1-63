@@ -1,11 +1,6 @@
 package es.uniovi.sdi63.sdi2223entrega163.pageobjects;
 
-import es.uniovi.sdi63.sdi2223entrega163.util.SeleniumUtils;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 

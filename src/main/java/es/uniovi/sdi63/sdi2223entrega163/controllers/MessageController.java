@@ -1,31 +1,17 @@
 package es.uniovi.sdi63.sdi2223entrega163.controllers;
 
-import es.uniovi.sdi63.sdi2223entrega163.entities.Conversation;
 import es.uniovi.sdi63.sdi2223entrega163.entities.Message;
-import es.uniovi.sdi63.sdi2223entrega163.entities.Offer;
-import es.uniovi.sdi63.sdi2223entrega163.entities.User;
 import es.uniovi.sdi63.sdi2223entrega163.services.ConversationsService;
 import es.uniovi.sdi63.sdi2223entrega163.services.MessagesService;
 import es.uniovi.sdi63.sdi2223entrega163.services.OfferService;
 import es.uniovi.sdi63.sdi2223entrega163.services.UsersService;
-import es.uniovi.sdi63.sdi2223entrega163.validators.OfferFormValidator;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.EnumMap;
-import java.util.HashSet;
 
 @Controller
 public class MessageController {

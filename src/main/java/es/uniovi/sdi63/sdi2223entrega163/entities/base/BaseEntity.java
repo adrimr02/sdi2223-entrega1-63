@@ -2,7 +2,6 @@ package es.uniovi.sdi63.sdi2223entrega163.entities.base;
 
 import javax.persistence.*;
 import java.util.Objects;
-import java.util.UUID;
 
 @MappedSuperclass
 public abstract class BaseEntity {

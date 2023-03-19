@@ -1,14 +1,11 @@
 package es.uniovi.sdi63.sdi2223entrega163.validators;
 
 import es.uniovi.sdi63.sdi2223entrega163.entities.Offer;
-import es.uniovi.sdi63.sdi2223entrega163.entities.Offer.OfferState;
 import es.uniovi.sdi63.sdi2223entrega163.services.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import org.yaml.snakeyaml.error.Mark;
 
 @Component
 public class OfferFormValidator implements Validator {

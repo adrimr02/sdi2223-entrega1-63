@@ -1,7 +1,6 @@
 package es.uniovi.sdi63.sdi2223entrega163.entities;
 
 import es.uniovi.sdi63.sdi2223entrega163.entities.base.BaseEntity;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

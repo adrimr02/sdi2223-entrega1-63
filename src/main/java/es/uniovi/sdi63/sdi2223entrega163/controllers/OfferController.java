@@ -1,14 +1,11 @@
 package es.uniovi.sdi63.sdi2223entrega163.controllers;
 
 import es.uniovi.sdi63.sdi2223entrega163.entities.Offer;
-import es.uniovi.sdi63.sdi2223entrega163.entities.Offer.OfferState;
 import es.uniovi.sdi63.sdi2223entrega163.services.OfferService;
 import es.uniovi.sdi63.sdi2223entrega163.services.UsersService;
-import es.uniovi.sdi63.sdi2223entrega163.util.FileUploadUtil;
 import es.uniovi.sdi63.sdi2223entrega163.util.Round;
 import es.uniovi.sdi63.sdi2223entrega163.validators.OfferFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,11 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.security.Principal;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Controller
 public class OfferController {

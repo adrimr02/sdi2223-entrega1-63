@@ -1,7 +1,6 @@
 package es.uniovi.sdi63.sdi2223entrega163.repositories;
 
 import es.uniovi.sdi63.sdi2223entrega163.entities.Offer;
-import es.uniovi.sdi63.sdi2223entrega163.entities.Offer.OfferState;
 import es.uniovi.sdi63.sdi2223entrega163.entities.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

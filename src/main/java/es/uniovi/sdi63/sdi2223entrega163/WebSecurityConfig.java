@@ -1,7 +1,5 @@
 package es.uniovi.sdi63.sdi2223entrega163;
 
-import es.uniovi.sdi63.sdi2223entrega163.services.RolesService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

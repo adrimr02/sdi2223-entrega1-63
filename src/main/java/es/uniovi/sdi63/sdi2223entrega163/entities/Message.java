@@ -4,6 +4,7 @@ import es.uniovi.sdi63.sdi2223entrega163.entities.base.BaseEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @Entity
@@ -56,6 +57,10 @@ public class Message extends BaseEntity {
 
     public LocalDateTime getTime() {
         return time;
+    }
+
+    public String getFormattedTime() {
+        return this.time.format( DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss") );
     }
 
     public void setTime(LocalDateTime time) {

@@ -21,7 +21,7 @@
       </thead>
       <tbody>
       <tr th:each="message : ${messageList}">
-        <td th:text="${message.time}"></td>
+        <td th:text="${message.formattedTime}"></td>
         <td th:text="${message.sender.name}"></td>
         <td th:text="${message.message}"></td>
       </tr>

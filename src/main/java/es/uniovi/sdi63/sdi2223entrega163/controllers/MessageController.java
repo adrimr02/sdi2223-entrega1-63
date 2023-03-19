@@ -45,23 +45,23 @@ public class MessageController {
     }
 
     @RequestMapping(value = "/conversations/{id}/new", method = RequestMethod.POST)
-    public String newMessageForm(@ModelAttribute Message message,Principal principal, Model model,
+    public String newMessageForm(@RequestParam String message,Principal principal, Model model,
                                  @PathVariable long id) {
         String email = principal.getName();
         var user = usersService.getUserByEmail(email);
         var conversation = conversationsService.getConversationById(id);
-        message.setSender(user);
-        message.setConversation(conversation);
-        message.setTime(LocalDateTime.now());
-        model.addAttribute( "message", message);
-        model.addAttribute( "id",id);
-        messagesService.addMessage(message);
+        if (message.isBlank()) {
+            model.addAttribute( "id",id);
+            model.addAttribute( "newConversation",false);
+            return "/conversations/newMessage";
+        }
+        messagesService.addMessage(new Message( user, conversation, message ));
         return "redirect:/conversations/" + id;
     }
 
 
     @RequestMapping("/{id}/message/new")
-    public String newMessageWithoutConversationForm(Model model, @PathVariable String id) {
+    public String newMessageWithoutConversationForm(Model model, @PathVariable long id) {
         model.addAttribute( "id",id);
         model.addAttribute( "newConversation",true);
         return "/conversations/newMessage";

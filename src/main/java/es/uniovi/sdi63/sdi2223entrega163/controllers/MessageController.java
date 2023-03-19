@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 
 @Controller
 public class MessageController {
@@ -31,6 +32,9 @@ public class MessageController {
 
     @Autowired
     private ConversationsService conversationsService;
+
+    @Autowired
+    private OfferService offerService;
 
     @RequestMapping("/conversations/{id}")
     public String userMessageView(Model model, @PathVariable String id) {
@@ -44,26 +48,63 @@ public class MessageController {
     public String newMessageView(Model model, @PathVariable String id) {
         model.addAttribute("message", new Message());
         model.addAttribute( "id",id);
+        model.addAttribute( "newConversation",false);
         return "/conversations/newMessage";
     }
 
     @RequestMapping(value = "/conversations/{id}/new", method = RequestMethod.POST)
-    public String newMessageForm(@ModelAttribute Message message, Principal principal, Model model,  @PathVariable String id, Offer offer) {
+    public String newMessageForm(@ModelAttribute Message message,Principal principal, Model model,
+                                 @PathVariable String id) {
         String email = principal.getName();
         var user = usersService.getUserByEmail(email);
         var conversation = conversationsService.getConversationById(id);
-
         message.setSender(user);
-        if(conversation != null) {
-            message.setConversation(conversation);
-        }else{
-            //message.setConversation(new Conversation(user,)); Oferta en la que se clickea
-        }
+        message.setConversation(conversation);
         message.setTime(LocalDateTime.now());
         model.addAttribute( "message", message);
         model.addAttribute( "id",id);
         messagesService.addMessage(message);
         return "redirect:/conversations/" + id;
     }
+
+
+    @RequestMapping("/{id}/message/new")
+    public String newMessageWithoutConversationForm(Model model, @PathVariable String id) {
+        model.addAttribute("message", new Message());
+        model.addAttribute( "id",id);
+        model.addAttribute( "newConversation",true);
+        System.out.println("abbbbbbbbbbsla");
+        return "/conversations/newMessage";
+    }
+
+    @RequestMapping(value = "/{id}/message/new", method = RequestMethod.POST)
+    public String newMessageWithoutConversationForm(@ModelAttribute Message message, Principal principal, Model model,
+                                 @PathVariable String id) {
+        String email = principal.getName();
+        var user = usersService.getUserByEmail(email);
+        var offer = offerService.getOfferById(id);
+        var conversation = conversationsService.getConversationByPrincipalandOffer(user,offer);
+        if(offer.getSeller().equals(user))
+            return "/home";
+        System.out.println("aaaasasla");
+        message.setSender(user);
+        if(conversation != null) {
+            System.out.println("Gola");
+            return "redirect:/conversations/"+ conversation.getId() +"/new";
+            //message.setConversation(conversation);
+        }
+
+        Conversation conversationAux = new Conversation(user,offer);
+        message.setSender(user);
+        message.setConversation(conversationAux);
+        message.setTime(LocalDateTime.now());
+        conversationsService.addConversation(conversationAux);
+        model.addAttribute( "message", message);
+
+        messagesService.addMessage(message);
+        return "redirect:/conversations/" + conversationAux.getId();
+    }
+
+
 
 }

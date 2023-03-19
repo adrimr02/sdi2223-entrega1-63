@@ -114,8 +114,7 @@ public class InsertSampleDataService {
         }
 
 
-        var conversation1 = new Conversation(users[2],offers1[0]); //Usuario 2 quiere algo del 1
-        conversation1.setMessages(new HashSet<Message>());
+        /*var conversation1 = new Conversation(users[2],offers1[0]); //Usuario 2 quiere algo del 1
         var conversation2 = new Conversation(users[3],offers1[0]); //Usuario 3 quiere algo del 1
         var conversation3 = new Conversation(users[1],offers1[1]); //Usuario 1 quiere algo del 2
 
@@ -128,7 +127,7 @@ public class InsertSampleDataService {
 
 
         var message1 = new Message(users[2],conversation1,"Mensaje de ejemplo");
-        messagesService.addMessage(message1);
+        messagesService.addMessage(message1);*/
 
     }
 }

@@ -23,7 +23,7 @@
                 </div>
                 <div class="col-md-2">
                     <div class="card-body">
-                        <a class="card-link font-weight-bold" href="#" th:text="#{home.user.offer.chat}"></a>
+                        <a class="card-link font-weight-bold" th:href="@{'/' +${offer.id} +'/message/new'}" th:text="#{home.user.offer.chat}"></a>
                     </div>
                 </div>
                 <div class="col-md-2">

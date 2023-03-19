@@ -4,11 +4,9 @@ import es.uniovi.sdi63.sdi2223entrega163.entities.Conversation;
 import es.uniovi.sdi63.sdi2223entrega163.entities.Offer;
 import es.uniovi.sdi63.sdi2223entrega163.entities.User;
 import es.uniovi.sdi63.sdi2223entrega163.repositories.ConversationRepository;
-import es.uniovi.sdi63.sdi2223entrega163.repositories.OfferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +28,10 @@ public class ConversationsService {
         List<Conversation> conversationsAsBuyer = new ArrayList<Conversation>(conversationRepository.findAsBuyer(user));
         ret.addAll(conversationsAsBuyer);
         return ret;
+    }
+
+    public Conversation getConversationByPrincipalandOffer(User user, Offer offer){
+        return conversationRepository.getConversationByPrincipalAndOffer(user,offer);
     }
 
     public Conversation getConversationById(String id){

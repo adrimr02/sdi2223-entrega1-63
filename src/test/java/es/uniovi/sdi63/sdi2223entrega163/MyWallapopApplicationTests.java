@@ -412,7 +412,7 @@ class MyWallapopApplicationTests {
      */
     @Test
     @Order( 20 )
-    void P17A() {
+    void P17() {
         // Nos logueamos
         PO_UserPrivateView.loginToPrivateView( driver, "user01@email.com", "user01" );
 
@@ -446,7 +446,7 @@ class MyWallapopApplicationTests {
      */
     @Test
     @Order( 21 )
-    void P17B() {
+    void P42() {
         // Nos logueamos
         PO_UserPrivateView.loginToPrivateView( driver, "user03@email.com", "user03" );
 
@@ -741,35 +741,6 @@ class MyWallapopApplicationTests {
 
     /**
      * Inicia sesión, entra a la página de ofertas compradas, con un usuario
-     * que no haya comprado nada y comprueba que aparezca el mensaje
-     * correspondiente
-     */
-    @Test
-    @Order( 29 )
-    void P25A() {
-        // Nos logueamos con un usuario que no ha comprado nada
-        PO_UserPrivateView.loginToPrivateView( driver, "user01@email.com",
-                "user01" );
-
-        // Vamos a la lista de ofertas compradas
-        PO_UserPrivateView.navigateToBoughtOffers(driver);
-
-        // Comprobamos que no aparecen ofertas en la lista
-        List<WebElement> result = PO_UserPrivateView.checkElementByKey(driver,
-                "offer.bought.empty", PO_Properties.getSPANISH() );
-
-        //Comprobamos el mensaje de lista vacia
-        String checkText = PO_HomeView.getP().getString("offer.bought.empty",
-                PO_Properties.getSPANISH());
-        Assertions.assertEquals(checkText , result.get(0).getText());
-
-        // Ahora nos desconectamos y comprobamos que aparece el menú de
-        // iniciar sesion
-        PO_UserPrivateView.logout( driver );
-    }
-
-    /**
-     * Inicia sesión, entra a la página de ofertas compradas, con un usuario
      * que haya comprado una oferta y comprueba que aparezca en la lista
      */
     @Test
@@ -792,6 +763,35 @@ class MyWallapopApplicationTests {
         // iniciar sesion
         PO_UserPrivateView.logout( driver );
 
+    }
+
+    /**
+     * Inicia sesión, entra a la página de ofertas compradas, con un usuario
+     * que no haya comprado nada y comprueba que aparezca el mensaje
+     * correspondiente
+     */
+    @Test
+    @Order( 29 )
+    void P43() {
+        // Nos logueamos con un usuario que no ha comprado nada
+        PO_UserPrivateView.loginToPrivateView( driver, "user01@email.com",
+                "user01" );
+
+        // Vamos a la lista de ofertas compradas
+        PO_UserPrivateView.navigateToBoughtOffers(driver);
+
+        // Comprobamos que no aparecen ofertas en la lista
+        List<WebElement> result = PO_UserPrivateView.checkElementByKey(driver,
+                "offer.bought.empty", PO_Properties.getSPANISH() );
+
+        //Comprobamos el mensaje de lista vacia
+        String checkText = PO_HomeView.getP().getString("offer.bought.empty",
+                PO_Properties.getSPANISH());
+        Assertions.assertEquals(checkText , result.get(0).getText());
+
+        // Ahora nos desconectamos y comprobamos que aparece el menú de
+        // iniciar sesion
+        PO_UserPrivateView.logout( driver );
     }
 
     /*

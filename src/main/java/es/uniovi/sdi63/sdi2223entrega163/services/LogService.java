@@ -23,7 +23,7 @@ public class LogService {
         return logRepository.getLogs();
     }
 
-    public List<Log> getLogsByType(Log.LogTypes type){
+    public List<Log> getLogsByType(String type){
         return logRepository.getLogsByType(type);
     }
 

@@ -13,7 +13,7 @@ public interface LogRepository extends CrudRepository<Log, Long> {
     @Query("select l from Log l order by timestamp desc")
     List<Log> getLogs();
 
-    @Query("select l from Log l where type =?1 order by timestamp desc")
-    List<Log> getLogsByType(Log.LogTypes type);
+    @Query("select l from Log l where l.type =?1 order by timestamp desc")
+    List<Log> getLogsByType(String type);
 
 }

@@ -108,7 +108,7 @@ public class UsersController {
     }
 
     @RequestMapping("/user/logs")
-    public String getListadoLogs(Model model, String query,@RequestParam(name="filterType", required=false) LogTypes filterType) {
+    public String getListadoLogs(Model model, String query,@RequestParam(name="filterType", required=false) String filterType) {
         List<Log> logsList;
         if (filterType != null) {
             logsList = logService.getLogsByType(filterType);

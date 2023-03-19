@@ -20,9 +20,7 @@ public class LogService {
     }
 
     public List<Log> getLogs(){
-        List<Log> logs = new ArrayList<Log>();
-        logRepository.findAll().forEach(logs::add);
-        return logs;
+        return logRepository.getLogs();
     }
 
     public void deleteUsers(){

@@ -23,6 +23,10 @@ public class LogService {
         return logRepository.getLogs();
     }
 
+    public List<Log> getLogsByType(Log.LogTypes type){
+        return logRepository.getLogsByType(type);
+    }
+
     public void deleteUsers(){
         logRepository.deleteAll();
     }

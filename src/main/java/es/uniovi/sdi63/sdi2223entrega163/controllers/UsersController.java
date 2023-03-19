@@ -1,6 +1,7 @@
 package es.uniovi.sdi63.sdi2223entrega163.controllers;
 
 
+import es.uniovi.sdi63.sdi2223entrega163.entities.Log;
 import es.uniovi.sdi63.sdi2223entrega163.entities.Log.LogTypes;
 import es.uniovi.sdi63.sdi2223entrega163.entities.User;
 import es.uniovi.sdi63.sdi2223entrega163.loggers.UserActivityLogger;
@@ -38,9 +39,6 @@ public class UsersController {
 
     @Autowired
     private SecurityService securityService;
-
-    @Autowired
-    private LogService logService;
 
     @Autowired
     private SignUpFormValidator signUpFormValidator;
@@ -106,18 +104,4 @@ public class UsersController {
         }
     }
 
-    @RequestMapping("/user/logs")
-    public String getListadoLogs(Model model, String query) {
-        model.addAttribute( "query",
-                query != null ? query.strip() : null );
-        model.addAttribute( "logsList",
-                logService.getLogs() );
-        return "user/logs";
-    }
-
-    @RequestMapping(value = "user/logs", method = RequestMethod.POST)
-    public String deleteLogs() {
-        logService.deleteUsers();
-        return "redirect:/user/logs";
-    }
 }

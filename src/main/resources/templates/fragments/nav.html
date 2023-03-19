@@ -28,9 +28,9 @@
         </div>
       </li>
       <li class="nav-item dropdown active" sec:authorize="hasRole('ROLE_ADMIN')">
-        <a class="nav-link dropdown-toggle" href="#" id="usersDropdown" role="button" data-toggle="dropdown"
+        <a class="nav-link dropdown-toggle" href="#" id="managementDropdown" role="button" data-toggle="dropdown"
            aria-haspopup="true" aria-expanded="false" th:text="#{nav.users}"></a>
-        <div class="dropdown-menu" aria-labelledby="usersDropdown">
+        <div class="dropdown-menu" aria-labelledby="managementDropdown">
           <a class="dropdown-item" href="/user/list" th:text="#{nav.users.list}"></a>
           <a class="dropdown-item" href="/logs/list" th:text="#{nav.users.logs}"></a>
         </div>

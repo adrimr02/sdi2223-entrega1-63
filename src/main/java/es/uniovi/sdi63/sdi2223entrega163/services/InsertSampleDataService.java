@@ -112,31 +112,22 @@ public class InsertSampleDataService {
         for(int i=0;i<offers1.length; i++){
             offerService.addOffer(offers1[i]);
         }
-        offerService.buyOffer( offers1[1], users[12] );
-        offerService.addOffer( oferta1 );
-        offerService.addOffer( oferta2 );
-        offerService.addOffer( oferta3 );
-        offerService.addOffer( oferta4 );
-        offerService.addOffer( oferta5 );
 
 
-        offerService.buyOffer( oferta2, user12 );
-
-        var conversation1 = new Conversation(user2,oferta1); //Usuario 2 quiere algo del 1
+        var conversation1 = new Conversation(users[2],offers1[0]); //Usuario 2 quiere algo del 1
         conversation1.setMessages(new HashSet<Message>());
-        var conversation2 = new Conversation(user2,oferta3); //Usuario 2 quiere algo del 1
-        var conversation3 = new Conversation(user3,oferta1); //Usuario 3 quiere algo del 1
-        var conversation4 = new Conversation(user1,oferta2); //Usuario 1 quiere algo del 2
+        var conversation2 = new Conversation(users[3],offers1[0]); //Usuario 3 quiere algo del 1
+        var conversation3 = new Conversation(users[1],offers1[1]); //Usuario 1 quiere algo del 2
 
 
         conversationService.addConversation(conversation1);
         conversationService.addConversation(conversation2);
         conversationService.addConversation(conversation3);
-        conversationService.addConversation(conversation4);
 
 
 
-        var message1 = new Message(user2,conversation1,"Mensaje de ejemplo");
+
+        var message1 = new Message(users[2],conversation1,"Mensaje de ejemplo");
         messagesService.addMessage(message1);
 
     }

@@ -32,6 +32,11 @@ public class ConversationsService {
         return ret;
     }
 
+    public Conversation getConversationById(String id){
+        return conversationRepository.getConversationById(id);
+    }
+
+
 
     public void addConversation(Conversation conversation) {
         conversationRepository.save(conversation);

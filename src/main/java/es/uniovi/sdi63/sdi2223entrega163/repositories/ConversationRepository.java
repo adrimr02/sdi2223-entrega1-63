@@ -15,4 +15,8 @@ public interface ConversationRepository extends CrudRepository<Conversation, Str
     @Query( "select c from Conversation c where c.buyer = ?1" )
     List<Conversation> findAsBuyer(User user );
 
+    @Query( "select c from Conversation c where c.id = ?1" )
+    Conversation getConversationById(String id);
+
+
 }
